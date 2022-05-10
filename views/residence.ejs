@@ -1,0 +1,70 @@
+<%- include('./frame/header.ejs') %>
+<%- include('./frame/menu.ejs') %>
+
+<style>
+		form {
+				display: grid;
+				place-items: center;
+				padding-bottom: 30px;
+		}
+		
+		.form-group {
+				margin: 15px;
+		}
+</style>
+<div id="main">
+	<h2 class="text-center">Residence Update</h2>
+	<form id="residenceForm">
+		<div class="form-group col-12">
+				<label for="country">Country</label>
+				<input class="form-control" type="text" placeholder="country" name="country" id="country" required>
+		</div>
+		<div class="form-group col-12">
+			<label for="region">Province/Region</label>
+			<input class="form-control" type="text" placeholder="Region" name="region" id="region" required>
+		</div>
+		<div class="form-group col-12">
+			<label for="address">Address</label>
+			<textarea class="form-control" type="text" placeholder="Address" name="address" id="address" required></textarea>
+		</div>
+		<input type="hidden" name="id" value="">
+		<button class="btn btn-primary" type="submit">Save</button>
+	</form>
+</div>
+
+<script>
+	$('#residenceForm').submit((e) => {
+		e.preventDefault();
+		$.ajax({
+			url: 'http://localhost:3000/users/',
+			type: 'POST',
+			data: $('#residenceForm').serialize(),
+			success: (result) => {
+				console.log('result ', result);
+				const showMessage = $('#showMessage');
+				if (result.success) {
+					$(location).attr('href', '/');
+					showMessage.html(`
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<div>Welcome...</div>
+						</div>`);
+				} else {
+					let msg = '';
+					result.msg ? msg = msg = result.msg : msg = 'Invalid credentials';
+					showMessage.html(`
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<div">${msg}</div>
+						</div>`);
+				}
+				showMessage.show( 2000 );
+				setTimeout(() => {
+					showMessage.hide(2000);
+				}, 5000);
+			},
+			error: (e) => {
+				console.log('Error(48): ', e);
+			}
+		});
+	});
+</script>
+<%- include('./frame/footer.ejs') %>

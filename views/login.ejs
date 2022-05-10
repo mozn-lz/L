@@ -1,0 +1,70 @@
+<%- include('./frame/header.ejs') %>
+<%- include('./frame/menu.ejs') %>
+
+<style>
+    form {
+        display: grid;
+        place-items: center;
+        padding-bottom: 30px;
+    }
+    
+    .form-group {
+        margin: 15px;
+    }
+</style>
+<div id="main">
+    <h2 class="text-center">Login</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="Email/PhoneNumber">Email or Cel Number</label>
+            <input class="form-control" type="text" placeholder="Email/Phone Number" name="cell" id="cell" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" placeholder="Password" name="password" id="password" required>
+        </div>
+        <input type="hidden" name="login" value="login">
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+
+    <p class="m-3">
+        Not registered? <a class="text-primary" href="/register">Click here to register.</a>
+    </p>
+</div>
+
+<script>
+    $('#loginForm').submit((e) => {
+        e.preventDefault();
+        $.ajax({
+            url: 'http://localhost:3000/users/',
+            type: 'POST',
+            data: $('#loginForm').serialize(),
+            success: (result) => {
+                console.log('result ', result);
+                const showMessage = $('#showMessage');
+                if (result.success) {
+                    $(location).attr('href', '/');
+                    showMessage.html(`
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <div>Welcome...</div>
+                        </div>`);
+                } else {
+                    let msg = '';
+                    result.msg ? msg = msg = result.msg : msg = 'Invalid credentials';
+                    showMessage.html(`
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div">${msg}</div>
+                        </div>`);
+                }
+                showMessage.show( 2000 );
+                setTimeout(() => {
+                    showMessage.hide(2000);
+                }, 5000);
+            },
+            error: (e) => {
+                console.log('Error(48): ', e);
+            }
+        });
+    });
+</script>
+<%- include('./frame/footer.ejs') %>

@@ -1,0 +1,30 @@
+<%- include('./frame/header.ejs') %>
+<%- include('./frame/menu.ejs') %>
+<div id="main">
+	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+		<li class="nav-item" role="presentation">
+			<button class="nav-link active" id="pills-personal-tab" data-bs-toggle="pill" data-bs-target="#pills-personal" type="button" role="tab" aria-controls="pills-personal" aria-selected="true">Personal</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="pills-residence-tab" data-bs-toggle="pill" data-bs-target="#pills-residence" type="button" role="tab" aria-controls="pills-residence" aria-selected="false">Residence</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="pills-work-tab" data-bs-toggle="pill" data-bs-target="#pills-work" type="button" role="tab" aria-controls="pills-work" aria-selected="false">Work</button>
+		</li>
+	</ul>
+	<div class="tab-content" id="pills-tabContent">
+		<div class="tab-pane fade show active" id="pills-personal" role="tabpanel" aria-labelledby="pills-personal-tab">
+			<h2>Personal</h2>
+			<a href="/contact"><button class="btn btn-primary">Update</button></a>
+		</div>
+		<div class="tab-pane fade" id="pills-residence" role="tabpanel" aria-labelledby="pills-residence-tab">
+			<h2>Residence</h2>
+			<a href="/residence"><button class="btn btn-primary">Update</button></a>
+		</div>
+		<div class="tab-pane fade" id="pills-work" role="tabpanel" aria-labelledby="pills-work-tab">
+			<h2>Work</h2>
+			<a href="/job"><button class="btn btn-primary">Update</button></a>
+		</div>
+	</div>
+</div>
+<%- include('./frame/footer.ejs') %>

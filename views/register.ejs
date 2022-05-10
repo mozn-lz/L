@@ -1,0 +1,136 @@
+<%- include('./frame/header.ejs') %>
+<%- include('./frame/menu.ejs') %>
+
+<style>
+		form {
+				display: grid;
+				place-items: center;
+				padding-bottom: 30px;
+		}
+		
+		.form-group {
+				margin-bottom: 15px;
+		}
+		
+		fieldset {
+				padding-bottom: 20px;
+		}
+</style>
+<div id="main">
+		<h2 class="text-center">Register</h2>
+		<form id="registerForm">
+				<div class="row p-3">
+						<fieldset class="col-sm-6 row">
+							<div class="form-group col-sm-12">
+									<label for="name">Name</label>
+									<input class="form-control" type="text" name="name" id="name" placeholder="Name" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom">
+							</div>
+							<div class="form-group col-sm-12">
+								<label for="surname">Surname</label>
+								<input class="form-control" type="text" name="surname" id="surname" placeholder="surname" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom">
+							</div>
+							<div class="form-group col-sm-12">
+								<!-- <input type="text"> -->
+							</div>
+						</fieldset>
+						<fieldset class="col-sm-6 row">
+								<div class="form-group col-sm-12">
+										<label for="email">Email</label>
+										<input class="form-control" type="email" name="email" id="email" placeholder="Email">
+								</div>
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1">+266&nbsp;</span>
+									<input type="text" class="form-control" placeholder="5876 5432" id="cell1" name="cell1" aria-label="les">
+								</div>
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1">+27(0)</span>
+									<input type="text" class="form-control" id="cell2" name="cell2" placeholder="987 654 32" aria-label="cell2">
+								</div>
+						</fieldset>
+						<div class="form-group">
+								<label for="password">Password</label>
+								<input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+						</div>
+						<div class="form-group">
+								<label for="Confirm-Password">Confirm Password</label>
+								<input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+						</div>
+				</div>
+				<input type="hidden" name="register" value="true">
+				<button class="btn btn-primary " type="submit">Register</button>
+		</form>
+		<p class="m-3">
+				Already registered? <a class="text-primary" href="/login">Login here.</a>
+		</p>
+</div>
+
+<script>
+		let name = () => /^[a-zA-Z]{3,14}\w$/.test($('#name').val().trim());
+		let surname = () => /^[a-zA-Z]{3,14}\w$/.test($('#surname').val().trim());
+		let email = () => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test($('#email').val().trim());
+		let cell2 = () => /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test($('#cell2').val().trim());
+		let cell1 = () => /^[0-9]{4}[-\s\.]?[0-9]{4}$/im.test($('#cell1').val().trim());
+		let password = () => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test($('#password').val());
+		let password2 = () => ($('#confirmPassword').val() == $('#password').val());
+		$('#registerForm').submit((e) => {
+				e.preventDefault();
+
+				console.log('necpp', name(), email(), cell2(), password(), password2());
+
+				$.ajax({
+						url: 'http://localhost:3000/users/',
+						type: 'POST',
+						data: $('#registerForm').serialize(),
+						success: (result) => {
+								console.log('successfully registered');
+								const showMessage = $('#showMessage');
+								if (result.success) {
+										showMessage.html(`
+											<div class="alert alert-success alert-dismissible fade show" role="alert">
+												<div>Welcome...</div>
+											</div>`);
+											setTimeout(() => {
+												$(location).attr('href', '/login');
+											}, 2300);
+								} else {
+										let msg = '';
+										result.msg ? msg = msg = result.msg : msg = 'Invalid credentials';
+										showMessage.html(`
+											<div class="alert alert-danger alert-dismissible fade show" role="alert">
+												<div">${msg}</div>
+											</div>`);
+								}
+								showMessage.show(2000);
+								setTimeout(() => {
+										showMessage.hide(2000);
+								}, 5000);
+						},
+						error: (e) => {
+								console.log('Error: ', e);
+						}
+				});
+		});
+
+		$('#name').keyup(() => {
+				name() ? ($('#name').css('border', '#198754 solid 2px')) : ($('#name').css('border', '#dc3545 solid 2px'));
+		});
+		$('#surname').keyup(() => {
+			surname() ? ($('#surname').css('border', '#198754 solid 2px')) : ($('#surname').css('border', '#dc3545 solid 2px'));
+		});
+		$('#password').keyup(() => {
+				password() ? ($('#password').css('border', '#198754 solid 2px')) : ($('#password').css('border', '#dc3545 solid 2px'));
+		});
+		$('#confirmPassword').keyup(() => {
+				password2() ? ($('#confirmPassword').css('border', '#198754 solid 2px')) : ($('#confirmPassword').css('border', '#dc3545 solid 2px'));
+		});
+		$('#email').keyup(() => {
+				email() ? ($('#email').css('border', '#198754 solid 2px')) : ($('#email').css('border', '#dc3545 solid 2px'));
+		});
+		$('#cell1').keyup(() => {
+				cell1() ? ($('#cell1').css('border', '#198754 solid 2px')) : ($('#cell1').css('border', '#dc3545 solid 2px'));
+		});
+		$('#cell2').keyup(() => {
+				cell2() ? ($('#cell2').css('border', '#198754 solid 2px')) : ($('#cell2').css('border', '#dc3545 solid 2px'));
+		});
+</script>
+<%- include('./frame/footer.ejs') %>

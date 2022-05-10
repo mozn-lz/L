@@ -1,0 +1,97 @@
+<%- include('./frame/header.ejs') %>
+<!-- SHOW ALL PRODUCTS -->
+<%- include('./frame/menu.ejs') %>
+<div id="main">
+	<h1 class="text-center">_Lesotho Diaspora_</h1>
+
+	<div>
+		<%- include('./frame/search.ejs') %>
+		<%- include('./frame/filter.ejs') %>
+		<%- // include('./frame/categories.ejs') %>
+	</div>
+	<div id="results" class=" row"></div>
+</div>
+
+<script>
+	let category = '';
+	let scrollCounter = 0;
+	let retrive = false;
+
+	let fetch_data = (cat) => {
+		let sort, order;
+
+		if (cat) {
+			// console.log('cat');
+			category = cat;
+		} else {
+			// console.log('!cat');
+			category= category;
+		}
+
+		$('#sort').val() ? sort = $('#sort').val(): 0; 
+		$('#order').val() ? order = $('#order').val(): 0; 
+		console.log('  ', {category, sort, order})
+		retrive = false;
+		$.ajax({
+			url: 'http://localhost:3000/filter-users/',
+			type: 'GET',
+			data: { category, sort, order, scrollCounter },
+			success: (result) => {
+				console.log('success', result, result.products.length);
+
+				let result_arr = [];
+				if (result.products.length) {
+					scrollCounter == 0 ? $('#results').html(''):0;
+					scrollCounter += 20;
+					for (let i = 0; i < result.products.length; i++) {
+						result_arr.push(`
+							<div class="product col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+								<div class="card">
+									<div class="card-header">
+										<a href="view-supplier/${ result.products[i].supplier_id }">${ result.products[i].supplier_name }</a>
+									</div>
+									<a href="view-product/${ result.products[i].id }">
+										<img class="card-img-top border border-1" alt="product image" src=${ result.products[i].product_image }>
+										<div class="card-body">
+											<div class="card-title">${ result.products[i].product_name }</div>
+											<p class="card-text">M ${ result.products[i].product_price }</p>
+										</div>
+									</a>
+								</div>
+							</div>`);
+					}
+					retrive = true;
+					$('#results').append(result_arr);
+				}
+				// selecting categories
+				if (result.products.length == 0 && scrollCounter == 0) {
+					retrive = false;
+					$('#results').html(`<h3 class="text-center">No results :(</h3>`);
+				}
+			},
+			error: (e) => {
+				console.log('Error: ', e);
+					$('#results').html(`<h2 class="text-center">Error reaching server :,(</h2>`, e);
+				retrive = false;
+			}
+		});
+	}
+	
+	let cat_hendle = (cat) => {
+		scrollCounter = 0;
+		fetch_data(cat);
+	};
+	$('#order, #sort').change((e) => {
+		scrollCounter = 0;
+		fetch_data('');
+	});
+
+	$(document).ready(() => fetch_data(''));
+
+	$(document).scroll(() => {
+		if ($(document).height() - $(document).scrollTop() < 2000 & retrive) {
+			fetch_data('');
+		}
+	});
+</script>
+<%- include('./frame/footer.ejs') %>
