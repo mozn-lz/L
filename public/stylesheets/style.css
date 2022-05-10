@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+/* Make links plain */
+a {
+  color: #000000;
+  text-decoration: none;
+  color: black;
+}
+a:hover{
+  color: black;
+}
+a:active{
+  color: #0d6efd;
+}
+
+/* padding for divs in forms */
+form div {
+  padding: 3px;
+}
+
+#results .product {
+  padding-bottom: 20px;
+}
+/* button to get to the start of a page */
+#toTop {
+  position: fixed;
+  z-index: 30000;
+}
