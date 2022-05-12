@@ -37,11 +37,11 @@
 					</div>
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon1">+266&nbsp;</span>
-						<input type="text" class="form-control" placeholder="5876 5432" id="lesotho_cell" aria-label="les">
+						<input type="text" class="form-control" placeholder="5876 5432" name="cell1" id="cell1" aria-label="les">
 					</div>
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon1">+27(0)</span>
-						<input type="text" class="form-control" id="cell" placeholder="987 654 32" aria-label="cell">
+						<input type="text" class="form-control" id="cell2" placeholder="098 765 4321" name="cell2" aria-label="cell2">
 					</div>
 					<!-- todo add confirmation code [email or sms] -->
 				</fieldset>
@@ -76,14 +76,14 @@
 		let name = () => /^[a-zA-Z]{3,14}\w$/.test($('#name').val().trim());
 		let surname = () => /^[a-zA-Z]{3,14}\w$/.test($('#surname').val().trim());
 		let email = () => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test($('#email').val().trim());
-		let cell = () => /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test($('#cell').val().trim());
-		let lesotho_cell = () => /^[0-9]{4}[-\s\.]?[0-9]{4}$/im.test($('#lesotho_cell').val().trim());
+		let cell2 = () => /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test($('#cell2').val().trim());
+		let cell1 = () => /^[0-9]{4}[-\s\.]?[0-9]{4}$/im.test($('#cell1').val().trim());
 		let password = () => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test($('#password').val());
 		let password2 = () => ($('#confirmPassword').val() == $('#password').val());
 		$('#registerForm').submit((e) => {
 				e.preventDefault();
 
-				console.log('necpp', name(), email(), cell(), password(), password2());
+				console.log('necpp', name(), email(), cell2(), password(), password2());
 
 				$.ajax({
 						url: 'http://localhost:3000/users/',
@@ -117,7 +117,6 @@
 				});
 		});
 
-		// (email || cell) ?
 		$('#name').keyup(() => {
 				name() ? ($('#name').css('border', '#198754 solid 2px')) : ($('#name').css('border', '#dc3545 solid 2px'));
 		});
@@ -133,11 +132,11 @@
 		$('#email').keyup(() => {
 				email() ? ($('#email').css('border', '#198754 solid 2px')) : ($('#email').css('border', '#dc3545 solid 2px'));
 		});
-		$('#lesotho_cell').keyup(() => {
-				lesotho_cell() ? ($('#lesotho_cell').css('border', '#198754 solid 2px')) : ($('#lesotho_cell').css('border', '#dc3545 solid 2px'));
+		$('#cell1').keyup(() => {
+				cell1() ? ($('#cell1').css('border', '#198754 solid 2px')) : ($('#cell1').css('border', '#dc3545 solid 2px'));
 		});
-		$('#cell').keyup(() => {
-				cell() ? ($('#cell').css('border', '#198754 solid 2px')) : ($('#cell').css('border', '#dc3545 solid 2px'));
+		$('#cell2').keyup(() => {
+				cell2() ? ($('#cell2').css('border', '#198754 solid 2px')) : ($('#cell2').css('border', '#dc3545 solid 2px'));
 		});
 </script>
 <%- include('./frame/footer.ejs') %>
