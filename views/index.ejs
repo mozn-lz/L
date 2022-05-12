@@ -1,5 +1,5 @@
 <%- include('./frame/header.ejs') %>
-<!-- SHOW ALL PRODUCTS -->
+<!-- SHOW ALL userS -->
 <%- include('./frame/menu.ejs') %>
 <div id="main">
 	<h1 class="text-center">_Lesotho Diaspora_</h1>
@@ -37,24 +37,24 @@
 			type: 'GET',
 			data: { category, sort, order, scrollCounter },
 			success: (result) => {
-				console.log('success', result, result.products.length);
+				console.log('success', result, result.users.length);
 
 				let result_arr = [];
-				if (result.products.length) {
+				if (result.users.length) {
 					scrollCounter == 0 ? $('#results').html(''):0;
 					scrollCounter += 20;
-					for (let i = 0; i < result.products.length; i++) {
+					for (let i = 0; i < result.users.length; i++) {
 						result_arr.push(`
-							<div class="product col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
 								<div class="card">
 									<div class="card-header">
-										<a href="view-supplier/${ result.products[i].supplier_id }">${ result.products[i].supplier_name }</a>
+										<a href="profile/${ result.users[i].id }">${ result.users[i].name } &nbsp ${ result.users[i].surname }</a>
 									</div>
-									<a href="view-product/${ result.products[i].id }">
-										<img class="card-img-top border border-1" alt="product image" src=${ result.products[i].product_image }>
+									<a href="view-user/${ result.users[i].id }">
+										<img class="card-img-top border border-1" alt="user image" src=${ result.users[i].user_image }>
 										<div class="card-body">
-											<div class="card-title">${ result.products[i].product_name }</div>
-											<p class="card-text">M ${ result.products[i].product_price }</p>
+											<div class="card-title">${ result.users[i].cell1 }</div>
+											<p class="card-text">M ${ result.users[i].cell2 }</p>
 										</div>
 									</a>
 								</div>
@@ -64,7 +64,7 @@
 					$('#results').append(result_arr);
 				}
 				// selecting categories
-				if (result.products.length == 0 && scrollCounter == 0) {
+				if (result.users.length == 0 && scrollCounter == 0) {
 					retrive = false;
 					$('#results').html(`<h3 class="text-center">No results :(</h3>`);
 				}
