@@ -124,9 +124,11 @@ router.post('/users', (req, res, next) => {
 										req.session.user.email = db_user[0].email;
 										req.session.user.cell = db_user[0].cell;
 										req.session.user.name = db_user[0].name;
+										req.session.user = db_user[0];
+
 										db_user[0].role == 'admin' ? req.session.user.role = 'admin' : req.session.role = false;
 										// re-fucken-spond
-										res.send({ success: true, msg: 'logged in successfully' });
+										res.send({ success: true, msg: 'logged in successfully', id: db_user[0].id });
 								}
 						});
 				}).catch((e) => {
