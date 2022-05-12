@@ -5,7 +5,7 @@ const { db_read, db_read_products, db_read_promos, db_update, db_advanced_read, 
 const { } = require('./gen_helper');
 
 
-// PRODUCTS ROUTE
+// ROUTE
 router.get('/', (req, res, next) => {
 	console.log('		/');
 	let users = [];
@@ -53,12 +53,13 @@ router.get('/filter-users', (req, res, next) => {
 });
 // PUBLIC
 router.get('/profile/:id', (req, res, next) => {
-		console.log('		/:view-prod/:id');
-		db_read_products('products', { id: req.params.id }, products => {
-				if (products.length > 0) {
-						const product = products[0];
+		console.log('		/:view-prod/:id ', req.params.id);
+		db_read('users', { id: req.params.id }, users => {
+			console.log(users);
+				if (users.length > 0) {
+						const user = users[0];
 						// registerHit('products', product, );
-						res.render('view-product', { user: req.session.user, title: product.productName, product });
+						res.render('profile', { user: req.session.user, title: user.name, user });
 				} else {
 						res.redirect('/index');
 				}
