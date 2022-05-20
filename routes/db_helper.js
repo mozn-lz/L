@@ -69,7 +69,7 @@ let db_delete = (table, find_data, cb) => {
 		});
 	}
 
-let db_gen_advanced_read = (table, find_data, orderBy, sort , start, limit) => {
+let db_advanced_read = (table, find_data, orderBy, sort , start, limit) => {
 	// console.log(`\n\n\n___ - db_advanced_read ${table} - ___\n`, find_data);
 	const data = [find_data, Number(start), limit]; 
 	let sql = '';
@@ -90,5 +90,5 @@ module.exports = {
 	db_search, 
 	db_update, 
 	db_delete, 
-	db_gen_advanced_read
+	db_advanced_read
 };
