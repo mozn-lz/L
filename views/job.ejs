@@ -12,9 +12,10 @@
 		margin-bottom: 15px;
 	}
 </style>
+
 <div id="main">
 	<h2 class="text-center">Update Work</h2>
-	<form id="workForm row">
+	<form id="workForm">
 		<div class="form-group col-12">
 			<label for="organisation">Organisation</label>
 			<input class="form-control" type="text" placeholder="Organisation" name="organisation" id="organisation" required>
@@ -36,7 +37,7 @@
 		$('#workForm').submit((e) => {
 				e.preventDefault();
 				$.ajax({
-						url: 'http://localhost:3000/users/',
+						url: 'http://localhost:3000/job/',
 						type: 'POST',
 						data: $('#workForm').serialize(),
 						success: (result) => {
