@@ -16,16 +16,30 @@
 		<div class="tab-pane fade show active" id="pills-personal" role="tabpanel" aria-labelledby="pills-personal-tab">
 			<h2>Personal</h2>
 			<a href="/contact"><button class="btn btn-primary">Update</button></a>
-			<%= user.name %>
-			<%= user.surname %>
+			<div>name: <%if(user.name){%> <%= user.name %><%}else{%> n/a <%}%></div>
+			<div>surname: <%if(user.surname){%> <%= user.surname %><%}else{%> n/a <%}%></div>
+			<div>national_id: <%if(user.national_id){%> <%= user.national_id %><%}else{%> n/a <%}%></div>
+			<div>passport: <%if(user.passport){%> <%= user.passport %><%}else{%> n/a <%}%></div>
+			<div>cell_1: <%if(user.cell_1){%> <%= user.cell_1 %><%}else{%> n/a <%}%></div>
+			<div>cell_2: <%if(user.cell_2){%> <%= user.cell_2 %><%}else{%> n/a <%}%></div>
+
 		</div>
 		<div class="tab-pane fade" id="pills-residence" role="tabpanel" aria-labelledby="pills-residence-tab">
 			<h2>Residence</h2>
 			<a href="/residence"><button class="btn btn-primary">Update</button></a>
+			<div class="live">
+				<div>country: <%if(user.country){%><%= user.country %> <%} else {%> n/a <%}%></div>
+				<div>region: <%if(user.region){%><%= user.region %> <%} else {%> n/a <%}%></div>
+				<div>address: <%if(user.address){%><%= user.address %> <%} else {%> n/a <%}%></div>
+			</div>
 		</div>
 		<div class="tab-pane fade" id="pills-work" role="tabpanel" aria-labelledby="pills-work-tab">
 			<h2>Work</h2>
 			<a href="/job"><button class="btn btn-primary">Update</button></a>
+			<div>
+				<div>organisation: <%if (user.organisation) {%><%= user.organisation %><%} else {%>n/a<%}%></div>
+				<div>position: <%if (user.position) {%><%= user.position %><%} else {%>n/a<%}%></div>
+				<div>salary: <%if (user.salary) {%><%= user.salary %><%} else {%>n/a<%}%></div>
 		</div>
 	</div>
 </div>
