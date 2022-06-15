@@ -2,5 +2,12 @@
 <a id="toTop" class="bottom-0 end-0" href="#top"><button class="btn btn-info">Back to top</button></a>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="/javascripts/master.js"></script>
+<script>
+  // enable bootstrap tooltips
+  var tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+  </script>
 </body>
 </html>
