@@ -2,135 +2,428 @@
 <%- include('./frame/menu.ejs') %>
 
 <style>
-		form {
-				display: grid;
-				place-items: center;
-				padding-bottom: 30px;
-		}
+	form {
+		display: grid;
+		place-items: center;
+		padding-bottom: 30px;
+	}
 		
-		.form-group {
-				margin-bottom: 15px;
-		}
+	.form-group {
+		margin-bottom: 15px;
+	}
 		
-		fieldset {
-				padding-bottom: 20px;
-		}
+	fieldset {
+		padding-bottom: 20px;
+	}
+	label {
+		padding: 3px;
+	}
 </style>
 <div id="main">
-		<h2 class="text-center">Register</h2>
-		<form id="registerForm">
-				<div class="row p-3">
-						<fieldset class="col-sm-6 row">
-							<div class="form-group col-sm-12">
-									<label for="name">Name</label>
-									<input class="form-control" type="text" name="name" id="name" placeholder="Name" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom">
+	<h2 class="text-center">Register</h2>
+	<div id="userboard"></div>
+	<!-- <form id="registerForm"> -->
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button class="nav-link active" id="personal-details-tab" data-bs-toggle="tab" data-bs-target="#personal-details" type="button" role="tab" aria-controls="personal-details" aria-selected="true">Presonal Details</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="policy-tab" data-bs-toggle="tab" data-bs-target="#policy" type="button" role="tab" aria-controls="policy" aria-selected="false">Policy</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="persons-cover-tab" data-bs-toggle="tab" data-bs-target="#persons-cover" type="button" role="tab" aria-controls="persons-cover" aria-selected="false">Persons on Cover</button>
+			</li>
+		</ul>
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="personal-details" role="tabpanel" aria-labelledby="personal-details-tab">
+				<form id="idintityForm">
+					<div class="row p-3">
+						<fieldset class="col-sm-12 col-md-12 row">
+							<legend>Presonal Details</legend>
+							<div class="form-group col-md-2">
+								<label for="title">Title *</label>
+								<select class="form-select" name="title" id="title" aria-label="Title" required>
+									<option selected disabled value="">Select Tittle</option>
+									<option value="mr">Mr</option>
+									<option value="ms">Ms.</option>
+									<option value="mrs">Mrs</option>
+								</select>
 							</div>
-							<div class="form-group col-sm-12">
-								<label for="surname">Surname</label>
-								<input class="form-control" type="text" name="surname" id="surname" placeholder="surname" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom">
+							<div class="form-group col-md-4">
+									<label for="name">Name *</label>
+									<input class="form-control" type="text" name="name" id="name" placeholder="Name" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="First Name">
 							</div>
-							<div class="form-group col-sm-12">
-								<!-- <input type="text"> -->
+							<div class="form-group col-md-3">
+								<label for="surname">Surname *</label>
+								<input class="form-control" type="text" name="surname" id="surname" placeholder="surname" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="Surname">
+							</div>
+							<div class="form-group col-md-3">
+								<label for="alt-surname">Alternative Surname</label>
+								<input class="form-control" type="text" name="alt-surname" id="alt-surname" placeholder="Alternative Surname" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alternative Surname">
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-4">
+									<label for="id">ID/Passport Number *</label>
+									<input class="form-control" type="text" name="id" id="id" placeholder="RC7654321" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="ID or Passport Numbrt">
+								</div>
+								<div class="form-group col-sm-4">
+									<label for="birth">Date of Birth *</label>
+									<input class="form-control" type="date" name="birth" id="birth" placeholder="" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="Birthday">
+								</div>
+								<div class="form-group col-sm-4">
+									<label for="gender">Gender *</label>
+									<select class="form-select" aria-label="Select Gender" name="gender" id="gender" required>
+										<option selected disabled value="">Select Gender</option>
+										<option value="m">Male</option>
+										<option value="f">Female</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="addres">Physical Addres *</label>
+									<textarea name="address" id="address" cols="30" rows="3" placeholder="Physical Address" class="form-control" required></textarea>
+								</div>
+							</div>
+							<div class="">
+								<div><label for="status">Status *</label></div>
+								<div class="form-check form-check-inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Single">
+									<input class="form-check-input" type="radio" name="status" id="single" value="single" checked>
+									<label class="form-check-label" for="single">Single</label>
+								</div>
+								<div class="form-check form-check-inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Married">
+									<input class="form-check-input" type="radio" name="status" id="married" value="married">
+									<label class="form-check-label" for="married">Married</label>
+								</div>
+								<div class="form-check form-check-inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Widow/Widower">
+									<input class="form-check-input" type="radio" name="status" id="widow" value="widow">
+									<label class="form-check-label" for="widow">Widow / Widower</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="status" id="separated" value="separated" data-bs-toggle="tooltip" data-bs-placement="top" title="Separated">
+									<label class="form-check-label" for="separated">Separated</label>
+								</div>
+								<div class="form-check form-check-inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Civil Partner">
+									<input class="form-check-input" type="radio" name="status" id="civil" value="civil">
+									<label class="form-check-label" for="civil">Civil Partner</label>
+								</div>
 							</div>
 						</fieldset>
-						<fieldset class="col-sm-6 row">
-								<div class="form-group col-sm-12">
-										<label for="email">Email</label>
-										<input class="form-control" type="email" name="email" id="email" placeholder="Email">
+						<fieldset class=" col-md-12 row">
+							<legend>Contact</legend>
+								<div class="form-group col-md-4">
+									<label for="email">Email</label>
+									<input class="form-control" type="email" name="email" id="email" placeholder="Email">
 								</div>
-								<div class="input-group mb-3">
-									<span class="input-group-text" id="basic-addon1">+266&nbsp;</span>
+								<div class="form-group col-md-4">
+									<label for="cell1">Cell Phone No</label>
 									<input type="text" class="form-control" placeholder="5876 5432" id="cell1" name="cell1" aria-label="les">
 								</div>
-								<div class="input-group mb-3">
+								<!-- <div class="form-group col-md-4">
 									<span class="input-group-text" id="basic-addon1">+27(0)</span>
 									<input type="text" class="form-control" id="cell2" name="cell2" placeholder="987 654 32" aria-label="cell2">
-								</div>
+								</div> -->
 						</fieldset>
-						<div class="form-group">
-								<label for="password">Password</label>
-								<input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+						<div class="row">
+							<div class="col-sm-5 p-2 m-3"></div>
+							<button type="submit" class="btn btn-success col-sm-5 p-2 m-2" >Policy ></button>
 						</div>
-						<div class="form-group">
-								<label for="Confirm-Password">Confirm Password</label>
-								<input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+					</div>
+				</form>
+			</div>
+			<div class="tab-pane fade" id="policy" role="tabpanel" aria-labelledby="policy-tab">
+				<form id="policyForm">
+					<fieldset class="row p-3">
+						<legend>Policy</legend>
+						<table class="table">
+							<thead>
+								<tr>
+									<td></td>
+									<td>Option 1 <br> M10,000.00</td>
+									<td>Option 2 <br> M15,000.00</td>
+									<td>Option 3 <br> M20,000.00</td>
+									<td>Option 4 <br> M30,000.00</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><b>Individual premium p/m</b></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op1" autocomplete="off" checked><label class="btn btn-outline-success" for="op1">15.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op2" autocomplete="off"><label class="btn btn-outline-success" for="op2">25.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op3" autocomplete="off"><label class="btn btn-outline-success" for="op3">30.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op4" autocomplete="off"><label class="btn btn-outline-success" for="op4">45.00</label></td>
+								</tr>
+								<tr>
+									<td><b>Family premium p/m</b></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp1" autocomplete="off"><label class="btn btn-outline-success" for="fp1">40.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp2" autocomplete="off"><label class="btn btn-outline-success" for="fp2">56.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp3" autocomplete="off"><label class="btn btn-outline-success" for="fp3">88.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp4" autocomplete="off"><label class="btn btn-outline-success" for="fp4">136.00</label></td>
+								</tr>
+								<tr>
+									<td><b>Parent/Parent-in-law &lt 65 </b></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-1" autocomplete="off"><label class="btn btn-outline-success" for="pntU65-1">15.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-2" autocomplete="off"><label class="btn btn-outline-success" for="pntU65-2">25.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntU65-3">n/a</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntU65-4">n/a</label></td></td>
+								</tr>
+								<tr>
+									<td><b>Parent/Parent-in-law &gt; 65</b></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-1" autocomplete="off"><label class="btn btn-outline-success" for="pntO65-1">46.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-2" autocomplete="off"><label class="btn btn-outline-success" for="pntO65-2">56.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntO65-3">n/a</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntO65-4">n/a</label></td></td>
+								</tr>
+								<tr>
+									<td><b>Extended family (max 4 dependents)</b></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf1" autocomplete="off"><label class="btn btn-outline-success" for="xf1">15.00</label></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf2" autocomplete="off"><label class="btn btn-outline-success" for="xf2">20.00</label></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="xf3">n/a</label></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="xf4">n/a</label></td></td></td>
+								</tr>
+								<tr>
+									<td><b>Repatriation of remains (member only)</b></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep1" autocomplete="off"><label class="btn btn-outline-success" for="rep1">15.00</label></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep2" autocomplete="off"><label class="btn btn-outline-success" for="rep2">15.00</label></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep3" autocomplete="off"><label class="btn btn-outline-success" for="rep3">15.00</label></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep4" autocomplete="off"><label class="btn btn-outline-success" for="rep4">15.00</label></td></td></td></td>
+								</tr>
+								<tr>
+									<td><b>Repatriation of remains Member and spouse</b></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp1" autocomplete="off"><label class="btn btn-outline-success" for="repSp1">20.00</label></td></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp2" autocomplete="off"><label class="btn btn-outline-success" for="repSp2">20.00</label></td></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp3" autocomplete="off"><label class="btn btn-outline-success" for="repSp3">20.00</label></td></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp4" autocomplete="off"><label class="btn btn-outline-success" for="repSp4">20.00</label></td></td></td></td></td>
+								</tr>
+							</tbody>
+						</table>
+					</fieldset>
+					<div class="row">
+						<!-- <button class="btn btn-primary col-sm-5 p-2 active" id="personal-details-tab" data-bs-toggle="tab" data-bs-target="#personal-details" type="button" role="tab" aria-controls="personal-details" aria-selected="true">< Back</button>
+						<div class="col-sm-2"></div> -->
+						<button type="submit" class="btn btn-success col-sm-5 p-2 m-2" href="#persons-cover">persons-cover Next ></button>
+					</div>
+				</form>
+			</div>
+			<div class="tab-pane fade" id="persons-cover" role="tabpanel" aria-labelledby="persons-cover-tab">
+				<form id="personsForm">
+					<fieldset class="row p-3">
+						<legend>PERSONS ON COVER</legend>
+						<!-- Button trigger modal -->
+						<a href=""><button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#add-person">Add</button></a>
+	
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-striped table-bordered">
+									<thead class="table-dark">
+										<tr>
+											<td></td>
+											<td>TITLE</td>
+											<td>NAME</td>
+											<td>SURNAME</td>
+											<td>INITIALS</td>
+											<td>RELATIONSHIP</td>
+											<td>BIRTH DATE</td>
+											<td>PHONE NUMBER</td>
+											<td></td>
+										</tr>
+									</thead>
+									<tbody id="cover-persons-list">
+										<tr>
+											<td><button class="btn btn-sm btn-danger">X</button></td>
+											<td>Mr</td>
+											<td>John</td>
+											<td>Doe</td>
+											<td>J.D.</td>
+											<td>Cousin</td>
+											<td>01 Jan 2000</td>
+											<td>5876 5432</td>
+											<td><button class="btn btn-primary">Edit</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
-				</div>
-				<input type="hidden" name="register" value="true">
-				<button class="btn btn-primary " type="submit">Register</button>
-		</form>
-		<p class="m-3">
-				Already registered? <a class="text-primary" href="/login">Login here.</a>
-		</p>
+					</fieldset>
+					<div class="row">
+						<!-- <button class="btn btn-primary col-sm-5 p-2 m-2"  type="button">< Policy</button> -->
+						<button type="submit" class="btn btn-success col-sm-5 p-2 m-2">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- <input type="hidden" name="register" value="true"> -->
+	<!-- </form> -->
 </div>
 
+	<!-- add person Modal (hidden by default) -->
+	<div class="modal fade" id="add-person"  tabindex="-1" aria-labelledby="add-personLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="add-personLabel">Add Person</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<fieldset class="row p-3">
+							<!-- <legend>Beneficiary Nomination</legend> -->
+							<div class="row">
+									<div class="row">
+											<div class="form-group col-md-2">
+													<label for="personTitle">Title</label>
+													<input class="form-control" type="text" id="personTitle" name="personTitle" placeholder="Title">
+											</div>
+											<div class="form-group col-md-4">
+													<label for="surname">Surname</label>
+													<input class="form-control" type="text" id="surname" name="surname" placeholder="Surname">
+											</div>
+											<div class="form-group col-md-4">
+													<label for="first">First Name</label>
+													<input class="form-control" type="text" id="first" name="first" placeholder="First">
+											</div>
+											<div class="form-group col-md-2">
+													<label for="initials">Initials</label>
+													<input class="form-control" type="text" id="initials" name="initials" placeholder="Initials">
+											</div>
+									</div>
+									<div class="form-group col">
+											<label for="relationship">Relationship to Member</label>
+											<input class="form-control" type="Relationship" id="relationship" name="relationship" placeholder="Relationship">
+									</div>
+									<div class="row">
+											<div class="form-group col-12">
+													<label for="date">Date of Birth</label>
+													<input class="form-control" type="date" id="date" name="date" placeholder="Date">
+											</div>
+											<div class="form-group col-12">
+													<label for="Phone">Phone Number</label>
+													<input class="form-control" type="text" id="phone" name="phone" placeholder="Phone">
+											</div>
+									</div>
+							</div>
+					</fieldset>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
 <script>
-		let name = () => /^[a-zA-Z]{3,14}\w$/.test($('#name').val().trim());
-		let surname = () => /^[a-zA-Z]{3,14}\w$/.test($('#surname').val().trim());
-		let email = () => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test($('#email').val().trim());
-		let cell2 = () => /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test($('#cell2').val().trim());
-		let cell1 = () => /^[0-9]{4}[-\s\.]?[0-9]{4}$/im.test($('#cell1').val().trim());
-		let password = () => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test($('#password').val());
-		let password2 = () => ($('#confirmPassword').val() == $('#password').val());
-		$('#registerForm').submit((e) => {
-				e.preventDefault();
+	let user = {}
+	$('#idintityForm').submit((e) => {
+		e.preventDefault();
+		$.ajax({
+			url: 'http://localhost:3000/register/',
+			type: 'POST',
+			data: $('#idintityForm').serialize(),
+			success: data => {
+				console.log('data: ', data);
+				// save data
+				if (data.user) {
+					user = data.user;
+					$('#userboard').html(
+						`<div class="accordion accordion-flush" id="userInfo-accordionFlush">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="flush-headingOne">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+										${user.title} ${user.name} ${user.surname}
+									</button>
+								</h2>
+								<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#userInfo-accordionFlush">
+									<div class="accordion-body">
+										<div class="user">
+											<div class="title">${user.title}</div>
+											<div class="name">${user.name}</div>
+											<div class="surname">${user.surname}</div>
+											<div class="altSurname">${user.altSurname}</div>
+											<div class="nat_id">${user.nat_id}</div>
+											<div class="birth">${user.birth}</div>
+											<div class="gender">${user.gender}</div>
+											<div class="address">${user.address}</div>
+											<div class="status">${user.status}</div>
+											<div class="email">${user.email}</div>
+											<div class="cell1">${user.cell1}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>`);
+				}
+			},
+			error: e=> e
+		});
+	});
+	$('#policyForm').submit((e) => {
+		e.preventDefault();
+		$.ajax({
+			url: 'http://localhost:3000/register/',
+			type: 'POST',
+			data: $('#policyForm').serialize(),
+			success: data =>{},
+			error: e=> e
+		});
+	});
+	$('#personsForm').submit((e) => {
+		e.preventDefault();
+		$.ajax({
+			url: 'http://localhost:3000/register/',
+			type: 'POST',
+			data: $('#personsForm').serialize(),
+			success: data =>{},
+			error: e=> e
+		});
+	});
+	let name = () => /^[a-zA-Z]{2,14}\w$/.test($('#name').val().trim());
+	let surname = () => /^[a-zA-Z]{2,14}\w$/.test($('#surname').val().trim());
+	let email = () => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test($('#email').val().trim());
+	let cell1 = () => /^[0-9]{4}[-\s\.]?[0-9]{4}$/im.test($('#cell1').val().trim());
+	// let cell2 = () => /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test($('#cell2').val().trim());
 
-				console.log('necpp', name(), email(), cell2(), password(), password2());
+	$('#registerForm').submit((e) => {
+		e.preventDefault();
 
-				$.ajax({
-						url: 'http://localhost:3000/users/',
-						type: 'POST',
-						data: $('#registerForm').serialize(),
-						success: (result) => {
-								console.log('successfully registered');
-								const showMessage = $('#showMessage');
-								if (result.success) {
-										showMessage.html(`
-											<div class="alert alert-success alert-dismissible fade show" role="alert">
-												<div>Welcome...</div>
-											</div>`);
-											setTimeout(() => {
-												$(location).attr('href', '/login');
-											}, 2300);
-								} else {
-										let msg = '';
-										result.msg ? msg = msg = result.msg : msg = 'Invalid credentials';
-										showMessage.html(`
-											<div class="alert alert-danger alert-dismissible fade show" role="alert">
-												<div">${msg}</div>
-											</div>`);
-								}
-								showMessage.show(2000);
-								setTimeout(() => {
-										showMessage.hide(2000);
-								}, 5000);
-						},
-						error: (e) => {
-								console.log('Error: ', e);
-						}
-				});
-		});
+		// console.log('necpp', name(), email(), password(), password2());
 
-		$('#name').keyup(() => {
-				name() ? ($('#name').css('border', '#198754 solid 2px')) : ($('#name').css('border', '#dc3545 solid 2px'));
-		});
-		$('#surname').keyup(() => {
-			surname() ? ($('#surname').css('border', '#198754 solid 2px')) : ($('#surname').css('border', '#dc3545 solid 2px'));
-		});
-		$('#password').keyup(() => {
-				password() ? ($('#password').css('border', '#198754 solid 2px')) : ($('#password').css('border', '#dc3545 solid 2px'));
-		});
-		$('#confirmPassword').keyup(() => {
-				password2() ? ($('#confirmPassword').css('border', '#198754 solid 2px')) : ($('#confirmPassword').css('border', '#dc3545 solid 2px'));
-		});
-		$('#email').keyup(() => {
-				email() ? ($('#email').css('border', '#198754 solid 2px')) : ($('#email').css('border', '#dc3545 solid 2px'));
-		});
-		$('#cell1').keyup(() => {
-				cell1() ? ($('#cell1').css('border', '#198754 solid 2px')) : ($('#cell1').css('border', '#dc3545 solid 2px'));
-		});
-		$('#cell2').keyup(() => {
-				cell2() ? ($('#cell2').css('border', '#198754 solid 2px')) : ($('#cell2').css('border', '#dc3545 solid 2px'));
-		});
+		// $.ajax({
+		// 	url: 'http://localhost:3000/users/',
+		// 	type: 'POST',
+		// 	data: $('#registerForm').serialize(),
+		// 	success: (result) => {
+		// 			console.log('successfully registered');
+		// 			const showMessage = $('#showMessage');
+		// 			if (result.success) {
+		// 					showMessage.html(`
+		// 						<div class="alert alert-success alert-dismissible fade show" role="alert">
+		// 							<div>Welcome...</div>
+		// 						</div>`);
+		// 						setTimeout(() => {
+		// 							$(location).attr('href', '/login');
+		// 						}, 2300);
+		// 			} else {
+		// 					let msg = '';
+		// 					result.msg ? msg = msg = result.msg : msg = 'Invalid credentials';
+		// 					showMessage.html(`
+		// 						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		// 							<div">${msg}</div>
+		// 						</div>`);
+		// 			}
+		// 			showMessage.show(2000);
+		// 			setTimeout(() => {
+		// 					showMessage.hide(2000);
+		// 			}, 5000);
+		// 	},
+		// 	error: (e) => { console.log('Error: ', e); }
+		// });
+	});
+
+	$('#name').keyup(() => { name() ? ($('#name').css('border', '#198754 solid 2px')) : ($('#name').css('border', '#dc3545 solid 2px')); });
+	$('#surname').keyup(() => { surname() ? ($('#surname').css('border', '#198754 solid 2px')) : ($('#surname').css('border', '#dc3545 solid 2px')); });
+	// $('#password').keyup(() => { password() ? ($('#password').css('border', '#198754 solid 2px')) : ($('#password').css('border', '#dc3545 solid 2px')); });
+	// $('#confirmPassword').keyup(() => { password2() ? ($('#confirmPassword').css('border', '#198754 solid 2px')) : ($('#confirmPassword').css('border', '#dc3545 solid 2px')); });
+	$('#email').keyup(() => { email() ? ($('#email').css('border', '#198754 solid 2px')) : ($('#email').css('border', '#dc3545 solid 2px')); });
+	$('#cell1').keyup(() => { cell1() ? ($('#cell1').css('border', '#198754 solid 2px')) : ($('#cell1').css('border', '#dc3545 solid 2px')); });
+	// $('#cell2').keyup(() => { cell2() ? ($('#cell2').css('border', '#198754 solid 2px')) : ($('#cell2').css('border', '#dc3545 solid 2px')); });
+
+
 </script>
 <%- include('./frame/footer.ejs') %>
