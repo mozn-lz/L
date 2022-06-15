@@ -1,0 +1,54 @@
+<%- include('./frame/header.ejs') %>
+<%- include('./frame/menu.ejs') %>
+
+<div class="p-3">
+<h1 class="text-center p-4">Payment Processing</h1>
+<form action="" class="p-3">
+	<div class="row">
+		<div class="col-2">John</div>
+		<div class="col-2">Doe</div>
+		<div class="col-2">id No</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="form-group m-4 col-3">
+			<label for="amount">Payment Amount</label>
+			<input class="form-control" type="number" min="1" name="amount" id="amount" autocomplete="off">
+		</div>
+	</div>
+	
+	<hr>
+</form>
+
+<div class="history">
+	<h2>Payment History</h2>
+	<div id="payments">
+		<div id="lastpayment">
+			last payment: 
+		</div>
+		<div class="visualise">
+			<div class="year row">
+				<div id="year"></div>
+				<div class="month jan p-3 m-3 bg-info col">Jan</div>
+				<div class="month feb p-3 m-3 bg-info col">Feb</div>
+				<div class="month mar p-3 m-3 bg-info col">Mar</div>
+				<div class="month apr p-3 m-3 bg-info col">Apr</div>
+				<div class="month may p-3 m-3 bg-info col">May</div>
+				<div class="month jun p-3 m-3 bg-info col">Jun</div>
+				<div class="month jul p-3 m-3 bg-info col">Jul</div>
+				<div class="month aug p-3 m-3 bg-info col">Aug</div>
+				<div class="month sep p-3 m-3 bg-info col">Sep</div>
+				<div class="month oct p-3 m-3 bg-info col">Oct</div>
+				<div class="month nov p-3 m-3 bg-info col">Nov</div>
+				<div class="month dec p-3 m-3 bg-info col">Dec</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		
+	</div>
+</div>
+
+<script src="/javascripts/payment.js"></script>
+</div>
+<%- include('./frame/footer.ejs') %>
