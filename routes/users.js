@@ -6,8 +6,11 @@ const rounds = 10;
 const { db_read, db_create } = require('./db_helper');
 const { check_email, check_tel, check_name, check_psswd } = require('./credential_validator');
 
-const table = 'users';
+const table = 'admin';
 
+router.get('/admin', function(req, res, next) {
+		res.render('new_admin', { user: req.session.user, title: 'Register', page: 'Register', role: '' });
+});
 router.get('/login', function(req, res, next) {
 		res.render('login', { user: req.session.user, title: 'Login', page: 'Login', role: '' });
 });
@@ -62,7 +65,6 @@ router.post('/users', (req, res, next) => {
 						email: req.body.email.trim().split(' ').join(''),
 						cell_1: req.body.cell1.trim().split(' ').join(''),
 						cell_2: req.body.cell2.trim().split(' ').join(''),
-						role: false,
 						password: req.body.password
 				};
 
@@ -126,7 +128,6 @@ router.post('/users', (req, res, next) => {
 										req.session.user.name = db_user[0].name;
 										req.session.user = db_user[0];
 
-										db_user[0].role == 'admin' ? req.session.user.role = 'admin' : req.session.role = false;
 										// re-fucken-spond
 										res.send({ success: true, msg: 'logged in successfully', id: db_user[0].id });
 								}
