@@ -3,9 +3,9 @@ const { authUser, authRole, ROLE } = require('./auth');
 const router = express.Router();
 const { db_read, db_read_products, db_read_promos, db_update, db_advanced_read, db_gen_advanced_read } = require('./db_helper');
 
-const findUserById = (id) => {
+const findUserById = (_id) => {
 	return new Promise((res, rej) => {
-		db_read('users', {id}, user => {
+		db_read('admin', {_id}, user => {
 			console.log(user, '\n', user.length);
 			if (user.length == 1){
 				res(user);
@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
 		console.log('		redirect');
 		res.redirect('/login/');
 	} else {
-		findUserById(req.session.user.id)
+		findUserById(req.session.user._id)
 		.then(users => {
 			user = users[0]
 			// res.render('contact', {title: 'Contact', user});
