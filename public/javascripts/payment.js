@@ -14,13 +14,13 @@ const lastPayment = {
 let totalPayment = () => Number($('#amount').val()) + Number(lastPayment.balance);
 
 let newPayment = {
-	date: Date,
 	amount: Number,
 	balance: Number,
-	monthsPaid: Number,
-	allMontsPaid: Number,
+	payment_exp: Number,
 	lastMonthPaid: Number,
-	lastPayMonth: Number,
+	date: Date,
+	allMontsPaid: Number,
+	monthsPaid: Number,
 };
 
 let display = [];
@@ -95,7 +95,7 @@ const ft_displayPayment = (month, code) => {
 		// done
 		while (code <= 12) {
 			if (code <= new Date().getMonth() + 1 && 
-			new Date(newPayment.lastPayMonth).getFullYear() <= new Date().getFullYear() )
+			new Date(newPayment.payment_exp).getFullYear() <= new Date().getFullYear() )
 				ft_displayPayment(code, 'danger');
 			else 
 				ft_displayPayment(code, 'secondary');
@@ -175,7 +175,7 @@ let ft_calculatePayment = () => {
 			const fullDay = '/01/';
 			const fullYear = (Number(new Date(lastPayment.month).getFullYear()) + year);
 
-			newPayment.lastPayMonth = fullMonth + fullDay + fullYear;
+			newPayment.payment_exp = fullMonth + fullDay + fullYear;
 			ft_displayPayment('done', newPayment.lastMonthPaid + 1);
 		}
 	}
