@@ -7,6 +7,7 @@ const logger = require('morgan');
 var expressSession = require('express-session');
 
 const indexRouter = require('./routes/index');
+const registerRouter = require('./routes/register');
 const usersRouter = require('./routes/users');
 const searchRouter = require('./routes/search');
 
@@ -30,6 +31,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.use('/', indexRouter);
+app.use('/', registerRouter);
 app.use('/', usersRouter);
 app.use('/', searchRouter);
 
