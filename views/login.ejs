@@ -44,7 +44,7 @@
 				const showMessage = $('#showMessage');
 				if (result.success) {
 					setTimeout(() => {
-						$(location).attr('href', '/profile/' + result.id);
+						$(location).attr('href', '/');
 					}, 2500);
 					showMessage.html(`
 						<div class="alert alert-success alert-dismissible fade show" role="alert">
