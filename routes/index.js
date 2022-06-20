@@ -35,44 +35,56 @@ router.get('/', (req, res, next) => {
 	}
 });
 router.get('/filter-users', (req, res, next) => {
-		console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n		************** /:category **************');
-		console.log('/:category', req.body, req.query);
-		const limit = 20;
-		const offset = req.query.scrollCounter;
-		let sort = '';
-		let orderBy = '';
-		let query = '';
+	console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n		************** /:category **************');
+	console.log('/:category', req.body, req.query);
+	const limit = 20;
+	const offset = req.query.scrollCounter;
+	let sort = '';
+	let orderBy = '';
+	let query = '';
 
+	// ORDER
+	switch (req.query.order) {
+		case 'name': orderBy = 'name'; break;
+		case 'surname': orderBy = 'surname'; break;
+		case 'birth': orderBy = 'birth'; break;
+		default: orderBy = 'name'; break;
+	}
+	(Number(offset) == NaN) ? offset = 0: 0;
+	(req.query.sort == 'ascending') ? sort = 'ASC': sort = 'DESC';
 
-		if (req.query.order == 'polularity') {
-				orderBy = 'hits';
-		} else if (req.query.order == 'name') {
-				orderBy = 'product_name';
-		} else if (req.query.order == 'supplier') {
-				orderBy = 'supplier_name';
-		} else if (req.query.order == 'price') {
-				orderBy = 'product_price';
-		} else {
-				// default
-				orderBy = 'id';
-		}
-		(Number(offset) == NaN) ? offset = 0: 0;
-		(req.query.sort == 'ascending') ? sort = 'ASC': sort = 'DESC';
-		// (req.query.category) ? query = { industry: req.query.category }:
-		 query = 1;
+	/**
+	 * title	* status
+	 * name		* surname
+	 * gender	* birth
+	 * email	* policy
+	 */
+	// QUERY
+	switch (req.query.search) {
+		case 'title': query = 'title'; break;
+		case 'status': query = 'status'; break;
+		case 'name': query = 'name'; break;
+		case 'surname': query = 'surname'; break;
+		case 'gender': query = 'gender'; break;
+		case 'birth': query = 'birth'; break;
+		case 'email': query = 'email'; break;
+		case 'policy': query = 'policy'; break;
+		default: query = 1; break;
+	}
+	console.log('offset ', offset);
+	console.log('sort ', sort);
+	console.log('orderBy ', orderBy);
+	console.log('query ', query);
+	console.log('query ', limit);
 
-		console.log('offset ', offset);
-		console.log('sort ', sort);
-		console.log('orderBy ', orderBy);
-		console.log('query ', query);
-		console.log('query ', limit);
-		db_advanced_read('users', query, orderBy, sort, offset, limit)
-		.then(users => {
-				console.log('users: ', users.length);
-				res.send({ success: true, users });
-		}).catch(e => {
-				res.send({ success: false, msg: e });
-		});
+	db_advanced_read('users', query, orderBy, sort, offset, limit)
+	.then(users => {
+		console.log('users: ', users.length);
+		res.send({ success: true, users });
+	}).catch(e => {
+		console.log('error: ', e);
+		res.send({ success: false, msg: e });
+	});
 });
 // PUBLIC
 router.get('/profile/:id', (req, res, next) => {
