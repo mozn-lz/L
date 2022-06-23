@@ -58,13 +58,13 @@
 								<input class="form-control" type="text" name="surname" id="surname" placeholder="surname" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="Surname">
 							</div>
 							<div class="form-group col-md-3">
-								<label for="alt-surname">Alternative Surname</label>
-								<input class="form-control" type="text" name="alt-surname" id="alt-surname" placeholder="Alternative Surname" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alternative Surname">
+								<label for="altsurname">Alternative Surname</label>
+								<input class="form-control" type="text" name="altsurname" id="altsurname" placeholder="Alternative Surname" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alternative Surname">
 							</div>
 							<div class="row">
 								<div class="form-group col-sm-4">
-									<label for="id">ID/Passport Number *</label>
-									<input class="form-control" type="text" name="id" id="id" placeholder="RC7654321" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="ID or Passport Numbrt">
+									<label for="nat_id">ID/Passport Number *</label>
+									<input class="form-control" type="text" name="nat_id" id="nat_id" placeholder="RC7654321" required data-bs-toggle="tooltip" data-bs-placement="bottom" title="ID or Passport Numbrt">
 								</div>
 								<div class="form-group col-sm-4">
 									<label for="birth">Date of Birth *</label>
@@ -127,7 +127,7 @@
 							<button type="submit" class="btn btn-success col-sm-5 p-2 m-2" >Policy ></button>
 						</div>
 					</div>
-					<input type="hidden" name="idintityForm">
+					<input type="hidden" value="t" name="idintityForm">
 				</form>
 			</div>
 			<div class="tab-pane fade" id="policy" role="tabpanel" aria-labelledby="policy-tab">
@@ -147,62 +147,62 @@
 							<tbody>
 								<tr>
 									<td><b>Individual premium p/m</b></td>
-									<td><input type="radio" class="btn-check" name="policy" id="op1" autocomplete="off" checked><label class="btn btn-outline-success" for="op1">15.00</label></td>
-									<td><input type="radio" class="btn-check" name="policy" id="op2" autocomplete="off"><label class="btn btn-outline-success" for="op2">25.00</label></td>
-									<td><input type="radio" class="btn-check" name="policy" id="op3" autocomplete="off"><label class="btn btn-outline-success" for="op3">30.00</label></td>
-									<td><input type="radio" class="btn-check" name="policy" id="op4" autocomplete="off"><label class="btn btn-outline-success" for="op4">45.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op1" value="op1" autocomplete="off" checked><label class="btn btn-outline-success" for="op1">15.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op2" value="op2" autocomplete="off"><label class="btn btn-outline-success" for="op2">25.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op3" value="op3" autocomplete="off"><label class="btn btn-outline-success" for="op3">30.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="op4" value="op4" autocomplete="off"><label class="btn btn-outline-success" for="op4">45.00</label></td>
 								</tr>
 								<tr>
 									<td><b>Family premium p/m</b></td>
-									<td><input type="radio" class="btn-check" name="policy" id="fp1" autocomplete="off"><label class="btn btn-outline-success" for="fp1">40.00</label></td>
-									<td><input type="radio" class="btn-check" name="policy" id="fp2" autocomplete="off"><label class="btn btn-outline-success" for="fp2">56.00</label></td>
-									<td><input type="radio" class="btn-check" name="policy" id="fp3" autocomplete="off"><label class="btn btn-outline-success" for="fp3">88.00</label></td>
-									<td><input type="radio" class="btn-check" name="policy" id="fp4" autocomplete="off"><label class="btn btn-outline-success" for="fp4">136.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp1" value="fp1" autocomplete="off"><label class="btn btn-outline-success" for="fp1">40.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp2" value="fp2" autocomplete="off"><label class="btn btn-outline-success" for="fp2">56.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp3" value="fp3" autocomplete="off"><label class="btn btn-outline-success" for="fp3">88.00</label></td>
+									<td><input type="radio" class="btn-check" name="policy" id="fp4" value="fp4" autocomplete="off"><label class="btn btn-outline-success" for="fp4">136.00</label></td>
 								</tr>
 								<tr>
 									<td><b>Parent/Parent-in-law &lt 65 </b></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntU65-1" autocomplete="off"><label class="btn btn-outline-success" for="pntU65-1">15.00</label></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntU65-2" autocomplete="off"><label class="btn btn-outline-success" for="pntU65-2">25.00</label></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntU65-3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntU65-3">n/a</label></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntU65-4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntU65-4">n/a</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-1" value="pntU65-1" autocomplete="off"><label class="btn btn-outline-success" for="pntU65-1">15.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-2" value="pntU65-2" autocomplete="off"><label class="btn btn-outline-success" for="pntU65-2">25.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-3" value="pntU65-3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntU65-3">n/a</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntU65-4" value="pntU65-4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntU65-4">n/a</label></td></td>
 								</tr>
 								<tr>
 									<td><b>Parent/Parent-in-law &gt; 65</b></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntO65-1" autocomplete="off"><label class="btn btn-outline-success" for="pntO65-1">46.00</label></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntO65-2" autocomplete="off"><label class="btn btn-outline-success" for="pntO65-2">56.00</label></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntO65-3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntO65-3">n/a</label></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="pntO65-4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntO65-4">n/a</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-1" value="pntO65-1" autocomplete="off"><label class="btn btn-outline-success" for="pntO65-1">46.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-2" value="pntO65-2" autocomplete="off"><label class="btn btn-outline-success" for="pntO65-2">56.00</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-3" value="pntO65-3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntO65-3">n/a</label></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="pntO65-4" value="pntO65-4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="pntO65-4">n/a</label></td></td>
 								</tr>
 								<tr>
 									<td><b>Extended family (max 4 dependents)</b></td>
-									<td><input type="radio" class="btn-check" name="policy" id="xf1" autocomplete="off"><label class="btn btn-outline-success" for="xf1">15.00</label></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="xf2" autocomplete="off"><label class="btn btn-outline-success" for="xf2">20.00</label></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="xf3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="xf3">n/a</label></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="xf4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="xf4">n/a</label></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf1" value="xf1" autocomplete="off"><label class="btn btn-outline-success" for="xf1">15.00</label></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf2" value="xf2" autocomplete="off"><label class="btn btn-outline-success" for="xf2">20.00</label></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf3" value="xf3" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="xf3">n/a</label></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="xf4" value="xf4" autocomplete="off" disabled><label class="btn btn-outline-secondary" for="xf4">n/a</label></td></td></td>
 								</tr>
 								<tr>
 									<td><b>Repatriation of remains (member only)</b></td>
-									<td><input type="radio" class="btn-check" name="policy" id="rep1" autocomplete="off"><label class="btn btn-outline-success" for="rep1">15.00</label></td></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="rep2" autocomplete="off"><label class="btn btn-outline-success" for="rep2">15.00</label></td></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="rep3" autocomplete="off"><label class="btn btn-outline-success" for="rep3">15.00</label></td></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="rep4" autocomplete="off"><label class="btn btn-outline-success" for="rep4">15.00</label></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep1" value="rep1" autocomplete="off"><label class="btn btn-outline-success" for="rep1">15.00</label></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep2" value="rep2" autocomplete="off"><label class="btn btn-outline-success" for="rep2">15.00</label></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep3" value="rep3" autocomplete="off"><label class="btn btn-outline-success" for="rep3">15.00</label></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="rep4" value="rep4" autocomplete="off"><label class="btn btn-outline-success" for="rep4">15.00</label></td></td></td></td>
 								</tr>
 								<tr>
 									<td><b>Repatriation of remains Member and spouse</b></td>
-									<td><input type="radio" class="btn-check" name="policy" id="repSp1" autocomplete="off"><label class="btn btn-outline-success" for="repSp1">20.00</label></td></td></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="repSp2" autocomplete="off"><label class="btn btn-outline-success" for="repSp2">20.00</label></td></td></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="repSp3" autocomplete="off"><label class="btn btn-outline-success" for="repSp3">20.00</label></td></td></td></td></td>
-									<td><input type="radio" class="btn-check" name="policy" id="repSp4" autocomplete="off"><label class="btn btn-outline-success" for="repSp4">20.00</label></td></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp1" value="repSp1" autocomplete="off"><label class="btn btn-outline-success" for="repSp1">20.00</label></td></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp2" value="repSp2" autocomplete="off"><label class="btn btn-outline-success" for="repSp2">20.00</label></td></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp3" value="repSp3" autocomplete="off"><label class="btn btn-outline-success" for="repSp3">20.00</label></td></td></td></td></td>
+									<td><input type="radio" class="btn-check" name="policy" id="repSp4" value="repSp4" autocomplete="off"><label class="btn btn-outline-success" for="repSp4">20.00</label></td></td></td></td></td>
 								</tr>
 							</tbody>
 						</table>
 					</fieldset>
 					<div class="row">
-						<!-- <button class="btn btn-primary col-sm-5 p-2 active" id="personal-details-tab" data-bs-toggle="tab" data-bs-target="#personal-details" type="button" role="tab" aria-controls="personal-details" aria-selected="true">< Back</button>
-						<div class="col-sm-2"></div> -->
-						<button type="submit" class="btn btn-success col-sm-5 p-2 m-2" href="#persons-cover">persons-cover Next ></button>
+						<!-- <button class="btn btn-primary col-sm-5 p-2 active" id="personal-details-tab" data-bs-toggle="tab" data-bs-target="#personal-details" type="button" role="tab" aria-controls="personal-details" aria-selected="true">< Back</button> -->
+						<!-- <div class="col-sm-2"></div> -->
+						<button type="submit" class="btn btn-success col-sm-5 p-2 m-2">persons-cover Next ></button>
 					</div>
-					<input type="hidden" name="policyForm">
+					<input type="hidden" value="t" name="policyForm">
 				</form>
 			</div>
 			<div class="tab-pane fade" id="persons-cover" role="tabpanel" aria-labelledby="persons-cover-tab">
@@ -226,6 +226,7 @@
 											<td>BIRTH DATE</td>
 											<td>PHONE NUMBER</td>
 											<td></td>
+											<td></td>
 										</tr>
 									</thead>
 									<tbody id="cover-persons-list">
@@ -239,6 +240,7 @@
 											<td>01 Jan 2000</td>
 											<td>5876 5432</td>
 											<td><button class="btn btn-primary">Edit</button></td>
+											<td><button class="btn btn-warning">beneficiary</button></td>
 										</tr>
 									</tbody>
 								</table>
@@ -249,11 +251,11 @@
 						<!-- <button class="btn btn-primary col-sm-5 p-2 m-2"  type="button">< Policy</button> -->
 						<button type="submit" class="btn btn-success col-sm-5 p-2 m-2">Save</button>
 					</div>
-					<input type="hidden" name="beneficiaryForm">
+					<input type="hidden" value="t" name="beneficiaryForm">
 				</form>
 			</div>
 		</div>
-		<!-- <input type="hidden" name="register" value="true"> -->
+		<!-- <input type="hidden" value="t" name="register" value="true"> -->
 	<!-- </form> -->
 </div>
 
@@ -268,7 +270,7 @@
 				<div class="modal-body">
 					<fieldset class="row p-3">
 							<!-- <legend>Beneficiary Nomination</legend> -->
-							<form id="personsForm">
+							<form id="addPersonsForm">
 								<div class="row">
 										<div class="row">
 												<div class="form-group col-md-2">
@@ -303,7 +305,7 @@
 												</div>
 										</div>
 								</div>
-								<input type="hidden" name="personsForm" id="personsForm">
+								<input type="hidden" value="t" name="addPersonsForm" id="addPersonsForm">
 							</form>
 					</fieldset>
 				</div>
@@ -314,7 +316,7 @@
 			</div>
 		</div>
 	</div>
-<script>
+	<script>
 	let user = {}
 	$('#idintityForm').submit((e) => {
 		e.preventDefault();
@@ -324,9 +326,22 @@
 			data: $('#idintityForm').serialize(),
 			success: data => {
 				console.log('data: ', data);
+				console.log('data: ', data.data, !isNaN(data.data));
 				// save data
+				if (!isNaN(data.data)) {
+					const user_id = `<input type="text" name="tmp_reg_id" value="${data.data}">`;
+					$('#addPersonsForm').append(user_id);
+					$('#idintityForm').append(user_id);
+					$('#policyForm').append(user_id);
+					$('#beneficiaryForm').append(user_id);
+					$('#policy-tab').click();
+					alert('y ',data, user_id, !isNaN(data))
+				} else {
+					alert('n', data, user_id,!isNaN(data));
+				}
 				if (data.user) {
 					user = data.user;
+					if (data.user) {
 					$('#userboard').html(
 						`<div class="accordion accordion-flush" id="userInfo-accordionFlush">
 							<div class="accordion-item">
@@ -338,34 +353,43 @@
 								<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#userInfo-accordionFlush">
 									<div class="accordion-body">
 										<div class="user">
-											<div class="title">${user.title}</div>
-											<div class="name">${user.name}</div>
-											<div class="surname">${user.surname}</div>
-											<div class="altSurname">${user.altSurname}</div>
-											<div class="nat_id">${user.nat_id}</div>
-											<div class="birth">${user.birth}</div>
-											<div class="gender">${user.gender}</div>
-											<div class="address">${user.address}</div>
-											<div class="status">${user.status}</div>
-											<div class="email">${user.email}</div>
-											<div class="cell1">${user.cell1}</div>
+											data
+											<div class="user.title">${user.title}</div>
+											<div class="user.name">${user.name}</div>
+											<div class="user.surname">${user.surname}</div>
+											<div class="user.alt_Surname">${user.alt_Surname}</div>
+											<div class="user.gender">${user.gender}</div>
+											<div class="user.national_id">${user.national_id}</div>
+											<div class="user.birth">${user.birth}</div>
+											<div class="user.address">${user.address}</div>
+											<div class="user.email">${user.email}</div>
+											<div class="user.cell_1">${user.cell_1}</div>
+											<div class="user.cell_2">${user.cell_2}</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>`);
+					}
 				}
 			},
 			error: e=> console.log('Personal Details Error: \n', e)
 		});
 	});
-	$('#c').submit((e) => {
+	$('#policyForm').submit((e) => {
 		e.preventDefault();
 		$.ajax({
 			url: 'http://localhost:3000/register/',
 			type: 'POST',
 			data: $('#policyForm').serialize(),
-			success: data =>{},
+			success: data =>{
+				// $('#addPersonsForm').append(user_id);
+				// $('#idintityForm').append(user_id);
+				// $('#policyForm').append(user_id);
+				// $('#beneficiaryForm').append(user_id);
+				console.log('#policyForm: ', data);
+				$('#persons-cover-tab').click();
+			},
 			error: e=> console.log('Policy error: ', e)
 		});
 	});
@@ -375,19 +399,95 @@
 			url: 'http://localhost:3000/register/',
 			type: 'POST',
 			data: $('#beneficiaryForm').serialize(),
-			success: data =>{},
+			success: data => {
+				console.log(`#beneficiaryForm: `, data);
+			},
 			error: e=> console.log('Persons on Cover Error: ', e)
 		});
 	});
-	$('#personsForm').submit((e) => {
+	postData = (data, url) => {
+		return new Promise((resolve, reject) => {
+			$.ajax({
+				url, type: 'POST', data, 
+				success: data => resolve(data) , 
+				error: e => reject(e)
+			});
+		});
+	}
+	let remove = (id) => {
+		postData({action:'remove', id}.serialize(), '')
+		.then(dt => console.log('rm   dt ', dt))
+		.catch(e => console.log('Error: '+ e));
+	}
+	let edit = (id) => {
+		postData({action:'edit', id}.serialize(), '')
+		.then(dt => console.log('etit dt ', dt))
+		.catch(e => console.log('Error: '+ e));
+	}
+	let setBeneficiary = (id) => {
+		postData({action:'setBeneficiary', id}.serialize(), '')
+		.then(dt => console.log('ben  dt ', dt))
+		.catch(e => console.log('Error: '+ e));
+	}
+	$('#addPersonsForm').submit((e) => {
 		e.preventDefault();
-		$.ajax({
-			url: 'http://localhost:3000/register/',
-			type: 'POST',
-			data: $('#personsForm').serialize(),
-			success: data =>{},
-			error: e=> console.log('Persons on Cover Error: ', e)
-		});
+		
+		postData($('#addPersonsForm').serialize(), 'http://localhost:3000/register/')
+		.then(data => {
+			console.log('ben  dt ', data);
+				if (data.success) {
+					let pesrons_list = [];
+					let members = data.members;
+
+					if (members && members.length > 0) {
+						members.forEach(member => {
+							pesrons_list.push(`<tr>
+							<td><button onclick=remove(${member.id}) class="btn btn-sm btn-danger">X</button></td>
+							<td>${member.title}Mr</td>
+							<td>${member.name}John</td>
+							<td>${member.surname}Doe</td>
+							<td>${member.initials}J.D.</td>
+							<td>${member.relationship}Cousin</td>
+							<td>${member.birth}01 Jan 2000</td>
+							<td>${member.cell_1}5876 5432</td>
+							<td><button onclick=edit(${member.id}) class="btn btn-primary">Edit</button></td>
+							<td><button onclick=setBeneficiary(${member.id}) class="btn btn-primary">Edit</button></td>
+							</tr>`);
+						});
+					} else {
+						pesrons_list = 'No members added';
+					}
+					$("#cover-persons-list").html(pesrons_list);
+				}
+			
+		})
+		.catch(e => console.log('Persons on Cover Error: ', e));
+
+		// $.ajax({
+		// 	url: 'http://localhost:3000/register/',
+		// 	data: $('#addPersonsForm').serialize(),
+		// 	type: 'POST',
+		// 	success: data =>{
+		// 		console.log('#addPersonsForm: ', data);
+		// 	},
+		// 	error: e=> console.log('Persons on Cover Error: ', e)
+		// });
 	});
+		
+		let testUser = '<%= user._id %>';
+		
+		console.warn(testUser);
+		alert(testUser);
+		$(document).ready(() => {
+			if (testUser == 28) {
+					const user_id = `<input type="text" name="tmp_reg_id" value="${testUser}">`;
+				$('#addPersonsForm').append(user_id);
+				$('#idintityForm').append(user_id);
+				$('#policyForm').append(user_id);
+				$('#beneficiaryForm').append(user_id);
+			} else {
+				alert('fuck you')
+			}
+		});
 </script>
 <%- include('./frame/footer.ejs') %>
