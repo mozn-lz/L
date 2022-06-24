@@ -1,6 +1,6 @@
 
 const express = require("express");
-const { db_create, db_update } = require("./db_helper");
+const { db_create, db_update, db_read } = require("./db_helper");
 const router = express.Router();
 
 function selectPolicy(userp) {
@@ -87,27 +87,43 @@ router.post('/register', (req, res, next) => {
 					}
 				});
 			}
-		} else if (req.body.addPersonsForm) { 
-			const personTitle = req.body.personTitle;
-			const surname = req.body.surname;
-			const first = req.body.first;
-			const initials = req.body.initials;
-			const relationship = req.body.relationship;
-			const date = req.body.date;
-			const phone = req.body.phone;
-			if (personTitle && surname && first && initials && relationship && date && phone) {
-				const new_beneficiary = {
-					personTitle,
-					surname,
-					first,
-					initials,
-					relationship,
-					date,
-					phone 
-				};
-				db_create('users',new_beneficiary, data => {
-					console.log('Persons from: ', data);
-					res.send({success: true, data, msg: 'User saved'});
+		} else if (req.body.addMemberForm) {
+			console.log('\n\n** Menmber form **)\n', req.body); 
+			const new_member = {
+				title: req.body.memberTitle,
+				name: req.body.memberName,
+				surname: req.body.memberSurname,
+				initials: req.body.memberInitials,
+				birth: req.body.memberBirth,
+				relationship: req.body.relationship,
+				phone: req.body.phone,
+				policy_holder: req.body.tmp_reg_id 
+			};
+			if (new_member.title && new_member.name && new_member.surname && new_member.initials && 
+					new_member.birth && new_member.relationship && new_member.phone && new_member.policy_holder) {
+
+				// console.log('ner Member: ', new_member);
+
+				db_read('users', {_id: new_member.policy_holder}, user => {
+					if (!user) {
+						res.send({success: false, msg: 'Cannot find policy'});
+					} else {
+						user = user[0];
+						user.members = JSON.parse(user.members);
+
+						db_create('members',new_member, data => {
+							if (!data) {
+								res.send({success: false, msg: 'Cannot find policy'});
+							} else {
+								let members = JSON.stringify([...user.members, data]);
+								db_update('users', {_id: new_member.policy_holder}, {members}, doc => {
+									doc.changedRows ?
+									res.send({success: true, data, msg: 'User saved'}):
+									res.send({success: false, msg: 'could not save new policy member'});
+								});
+							}
+						});
+					}
 				});
 			} else {
 				res.send('Missing/Invalid information');
@@ -135,30 +151,33 @@ router.post('/register', (req, res, next) => {
 
 		console.log('0');
 		req.body.altsurname ? new_user.alt_Surname 	= req.body.altsurname		: new_user.alt_Surname	= '';
-		req.body.title 			? new_user.title 				= req.body.title				: new_user.title				= '';
 		req.body.name 			? new_user.name 				= req.body.name					: new_user.name					= '';
 		req.body.surname 		? new_user.surname 			= req.body.surname			: new_user.surname			= '';
 		req.body.nat_id 		? new_user.national_id 	= req.body.nat_id				: new_user.national_id	= '';
 		req.body.birth 			? new_user.birth 				= req.body.birth				: new_user.birth				= '';
-		req.body.gender 		? new_user.gender 			= req.body.gender				: new_user.gender				= '';
 		req.body.address		? new_user.address 			= req.body.address			: new_user.address			= '';
-		req.body.status			? new_user.status 			= req.body.status				: new_user.status				= '';
 		req.body.email 			? new_user.email 				= req.body.email				: new_user.email				= '';
 		req.body.cell1 			? new_user.cell_1 			= req.body.cell1				: new_user.cell_1				= '';
 		req.body.cell2 			? new_user.cell_2 			= req.body.cell2				: new_user.cell_2				= '';
+
+		new_user.policy				= '',
+		new_user.beneficiary	= '',
+		new_user.members			= '[]',
+		new_user.payments			= '[]',
+
 		console.log('1');
 		(req.body.title == 'mrs' ||
 		req.body.title == 'ms' ||
-		req.body.title == 'mr') ? new_user.title = req.body.title		: 0;
+		req.body.title == 'mr') ? new_user.title = req.body.title		: new_user.title = '';
 		console.log('2');
 		(req.body.gender == 'm' ||
-		req.body.gender == 'f') ? new_user.gender = req.body.gender: 0;
+		req.body.gender == 'f') ? new_user.gender = req.body.gender: new_user.gender = '';
 		console.log('3');
 		(req.body.status == "single" ||
 		req.body.status == "married" ||
 		req.body.status == "widow" ||
 		req.body.status == "separated" ||
-		req.body.status == "civil") ? new_user.status = req.body.status: 0;
+		req.body.status == "civil") ? new_user.status = req.body.status: new_user.status = '';
 
 		console.log('user:', new_user);
 		db_create('users', new_user, data => {

@@ -261,63 +261,123 @@
 
 	<!-- add person Modal (hidden by default) -->
 	<div class="modal fade" id="add-person"  tabindex="-1" aria-labelledby="add-personLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="add-personLabel">Add Person</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<fieldset class="row p-3">
+		<form id="addMemberForm">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="add-personLabel">Add Person</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<fieldset class="row p-3">
 							<!-- <legend>Beneficiary Nomination</legend> -->
-							<form id="addPersonsForm">
-								<div class="row">
-										<div class="row">
-												<div class="form-group col-md-2">
-														<label for="personTitle">Title</label>
-														<input class="form-control" type="text" id="personTitle" name="personTitle" placeholder="Title">
-												</div>
-												<div class="form-group col-md-4">
-														<label for="surname">Surname</label>
-														<input class="form-control" type="text" id="surname" name="surname" placeholder="Surname">
-												</div>
-												<div class="form-group col-md-4">
-														<label for="first">First Name</label>
-														<input class="form-control" type="text" id="first" name="first" placeholder="First">
-												</div>
-												<div class="form-group col-md-2">
-														<label for="initials">Initials</label>
-														<input class="form-control" type="text" id="initials" name="initials" placeholder="Initials">
-												</div>
-										</div>
-										<div class="form-group col">
-												<label for="relationship">Relationship to Member</label>
-												<input class="form-control" type="text" id="relationship" name="relationship" placeholder="Relationship">
-										</div>
-										<div class="row">
-												<div class="form-group col-12">
-														<label for="date">Date of Birth</label>
-														<input class="form-control" type="date" id="date" name="date" placeholder="Date">
-												</div>
-												<div class="form-group col-12">
-														<label for="Phone">Phone Number</label>
-														<input class="form-control" type="text" id="phone" name="phone" placeholder="Phone">
-												</div>
-										</div>
-								</div>
-								<input type="hidden" value="t" name="addPersonsForm" id="addPersonsForm">
-							</form>
-					</fieldset>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save</button>
+							<div class="row">
+									<div class="row">
+											<div class="form-group col-md-2">
+													<label for="memberTitle">Title</label>
+													<!-- <input class="form-control" type="text" id="memberTitle" name="memberTitle" placeholder="Title"> -->
+													<select class="form-select" name="memberTitle" id="memberTitle" aria-label="Title" required>
+														<option selected disabled value="">Select Tittle</option>
+														<option value="mr">Mr</option>
+														<option value="ms">Ms.</option>
+														<option value="mrs">Mrs</option>
+													</select>
+											</div>
+											<div class="form-group col-md-4">
+													<label for="memberSurname">Surname</label>
+													<input class="form-control" type="text" id="memberSurname" name="memberSurname" placeholder="Surname">
+											</div>
+											<div class="form-group col-md-4">
+													<label for="memberName">First Name</label>
+													<input class="form-control" type="text" id="memberName" name="memberName" placeholder="Name">
+											</div>
+											<div class="form-group col-md-2">
+													<label for="memberInitials">Initials</label>
+													<input class="form-control" type="text" id="memberInitials" name="memberInitials" placeholder="Initials">
+											</div>
+									</div>
+									<div class="form-group col">
+											<label for="relationship">Relationship to Member</label>
+											<input class="form-control" type="text" id="relationship" name="relationship" placeholder="Relationship">
+									</div>
+									<div class="row">
+											<div class="form-group col-12">
+													<label for="memberBirth">Date of Birth</label>
+													<input class="form-control" type="date" id="memberBirth" name="memberBirth" placeholder="Date">
+											</div>
+											<div class="form-group col-12">
+													<label for="Phone">Phone Number</label>
+													<input class="form-control" type="text" id="phone" name="phone" placeholder="Phone">
+											</div>
+									</div>
+							</div>
+							<input type="hidden" value="t" name="addMemberForm" id="addMemberForm">
+						</fieldset>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Add Member</button>
+					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 	<script>
-	let user = {}
+	let loadUser = (user) => {
+		if (user.name) {
+		$('#userboard').html(
+			`<div class="accordion accordion-flush" id="userInfo-accordionFlush">
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="flush-headingOne">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+							${user.title} ${user.name} ${user.surname} ${user.policy}
+						</button>
+					</h2>
+					<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#userInfo-accordionFlush">
+						<div class="accordion-body">
+							<div class="user">
+								data
+								<div class="user.title">${user.title}</div>
+								<div class="user.name">${user.name}</div>
+								<div class="user.surname">${user.surname}</div>
+								<div class="user.alt_Surname">${user.alt_Surname}</div>
+								<div class="user.gender">${user.gender}</div>
+								<div class="user.national_id">${user.national_id}</div>
+								<div class="user.birth">${user.birth}</div>
+								<div class="user.address">${user.address}</div>
+								<div class="user.email">${user.email}</div>
+								<div class="user.cell_1">${user.cell_1}</div>
+								<div class="user.cell_2">${user.cell_2}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>`);
+		}
+	}
+	let loadMembers = members => {
+		console.warn('members.length', members.length);
+		if (members && members.length > 0) {
+			members.forEach(member => {
+				members_list.push(`<tr>
+				<td><button onclick=remove(${member.id}) class="btn btn-sm btn-danger">X</button></td>
+				<td>${member.title}Mr</td>
+				<td>${member.name}John</td>
+				<td>${member.surname}Doe</td>
+				<td>${member.initials}J.D.</td>
+				<td>${member.relationship}Cousin</td>
+				<td>${member.birth}01 Jan 2000</td>
+				<td>${member.cell_1}5876 5432</td>
+				<td><button onclick=edit(${member.id}) class="btn btn-primary">Edit</button></td>`);
+				member.beneficiary?
+				(members_list.push(`<td><input type="radio" class="btn-check" name="beneficiary" value="${member._id}" autocomplete="off"><label class="btn btn-outline-warning" for="op2">B</label></td></tr>`)):
+				(members_list.push(`<td><input type="radio" class="btn-check" name="beneficiary" value="${member._id}" autocomplete="off" checked><label class="btn btn-outline-warning" for="op1">B</label></td></tr>`));
+			});
+		} else {
+			pesrons_list = 'No members added';
+		}
+		$("#cover-persons-list").html(pesrons_list);
+	}
 	$('#idintityForm').submit((e) => {
 		e.preventDefault();
 		$.ajax({
@@ -330,7 +390,7 @@
 				// save data
 				if (!isNaN(data.data)) {
 					const user_id = `<input type="text" name="tmp_reg_id" value="${data.data}">`;
-					$('#addPersonsForm').append(user_id);
+					$('#addMemberForm').append(user_id);
 					$('#idintityForm').append(user_id);
 					$('#policyForm').append(user_id);
 					$('#beneficiaryForm').append(user_id);
@@ -340,37 +400,7 @@
 					alert('n', data, user_id,!isNaN(data));
 				}
 				if (data.user) {
-					user = data.user;
-					if (data.user) {
-					$('#userboard').html(
-						`<div class="accordion accordion-flush" id="userInfo-accordionFlush">
-							<div class="accordion-item">
-								<h2 class="accordion-header" id="flush-headingOne">
-									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-										${user.title} ${user.name} ${user.surname}
-									</button>
-								</h2>
-								<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#userInfo-accordionFlush">
-									<div class="accordion-body">
-										<div class="user">
-											data
-											<div class="user.title">${user.title}</div>
-											<div class="user.name">${user.name}</div>
-											<div class="user.surname">${user.surname}</div>
-											<div class="user.alt_Surname">${user.alt_Surname}</div>
-											<div class="user.gender">${user.gender}</div>
-											<div class="user.national_id">${user.national_id}</div>
-											<div class="user.birth">${user.birth}</div>
-											<div class="user.address">${user.address}</div>
-											<div class="user.email">${user.email}</div>
-											<div class="user.cell_1">${user.cell_1}</div>
-											<div class="user.cell_2">${user.cell_2}</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>`);
-					}
+					loadUser(data.user);
 				}
 			},
 			error: e=> console.log('Personal Details Error: \n', e)
@@ -383,10 +413,6 @@
 			type: 'POST',
 			data: $('#policyForm').serialize(),
 			success: data =>{
-				// $('#addPersonsForm').append(user_id);
-				// $('#idintityForm').append(user_id);
-				// $('#policyForm').append(user_id);
-				// $('#beneficiaryForm').append(user_id);
 				console.log('#policyForm: ', data);
 				$('#persons-cover-tab').click();
 			},
@@ -429,64 +455,65 @@
 		.then(dt => console.log('ben  dt ', dt))
 		.catch(e => console.log('Error: '+ e));
 	}
-	$('#addPersonsForm').submit((e) => {
+	$('#addMemberForm').submit((e) => {
 		e.preventDefault();
 		
-		postData($('#addPersonsForm').serialize(), 'http://localhost:3000/register/')
+		postData($('#addMemberForm').serialize(), 'http://localhost:3000/register/')
 		.then(data => {
 			console.log('ben  dt ', data);
 				if (data.success) {
 					let pesrons_list = [];
 					let members = data.members;
-
-					if (members && members.length > 0) {
-						members.forEach(member => {
-							pesrons_list.push(`<tr>
-							<td><button onclick=remove(${member.id}) class="btn btn-sm btn-danger">X</button></td>
-							<td>${member.title}Mr</td>
-							<td>${member.name}John</td>
-							<td>${member.surname}Doe</td>
-							<td>${member.initials}J.D.</td>
-							<td>${member.relationship}Cousin</td>
-							<td>${member.birth}01 Jan 2000</td>
-							<td>${member.cell_1}5876 5432</td>
-							<td><button onclick=edit(${member.id}) class="btn btn-primary">Edit</button></td>
-							<td><button onclick=setBeneficiary(${member.id}) class="btn btn-primary">Edit</button></td>
-							</tr>`);
-						});
-					} else {
-						pesrons_list = 'No members added';
-					}
-					$("#cover-persons-list").html(pesrons_list);
+					// reset form
+					$('#memberTitle').val() = '';
+					$('#memberSurname').val() = '';
+					$('#memberName').val() = '';
+					$('#memberInitials').val() = '';
+					$('#relationship').val() = '';
+					$('#memberBirth').val() = '';
+					$('#phone').val() = '';
+					loadMembers(data.members)
 				}
 			
 		})
 		.catch(e => console.log('Persons on Cover Error: ', e));
-
-		// $.ajax({
-		// 	url: 'http://localhost:3000/register/',
-		// 	data: $('#addPersonsForm').serialize(),
-		// 	type: 'POST',
-		// 	success: data =>{
-		// 		console.log('#addPersonsForm: ', data);
-		// 	},
-		// 	error: e=> console.log('Persons on Cover Error: ', e)
-		// });
 	});
 		
-		let testUser = '<%= user._id %>';
-		
-		console.warn(testUser);
-		alert(testUser);
+	
 		$(document).ready(() => {
-			if (testUser == 28) {
-					const user_id = `<input type="text" name="tmp_reg_id" value="${testUser}">`;
-				$('#addPersonsForm').append(user_id);
+			const user = {
+				_id:          '<%= user._id %>',
+				title:        '<%= user.title %>'.toLocaleUpperCase(),
+				name:         '<%= user.name %>',
+				surname:      '<%= user.surname %>',
+				alt_Surname:  '<%= user.alt_Surname %>',
+				gender:       '<%= user.gender %>',
+				national_id:  '<%= user.national_id %>',
+				birth:        '<%= user.birth %>',
+				address:      '<%= user.address %>',
+				email:        '<%= user.email %>',
+				cell_1:       '<%= user.cell_1 %>',
+				cell_2:       '<%= user.cell_2 %>',
+				status:       '<%= user.status %>',
+				policy:       '<%= user.policy %>',
+				beneficiary:  '<%= user.beneficiary %>',
+				members:      '<%= user.members %>',
+				payments:     '<%= user.payments %>'
+			};
+
+			console.warn(user);
+			loadUser(user);
+			loadMembers(user.members);
+			let testUser = '<%= user._id %>';
+
+			if (!isNaN(testUser)) {
+				const user_id = `<input type="text" name="tmp_reg_id" value="${testUser}">`;
+				$('#addMemberForm').append(user_id);
 				$('#idintityForm').append(user_id);
 				$('#policyForm').append(user_id);
 				$('#beneficiaryForm').append(user_id);
 			} else {
-				alert('fuck you')
+				alert('fuck you');
 			}
 		});
 </script>
