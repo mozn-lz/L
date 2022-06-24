@@ -20,7 +20,7 @@ let db_create = (table, new_data, cb) => {
 		let sql = 'INSERT INTO ' + table + ' SET ?';
 		conn.query(sql, new_data, (err, result) => {
 			if (err) throw err;
-			cb(result.insertId);
+			(!err)? cb(result.insertId): cb(err);
 		});
 	}
 let db_read = (table, find_data, cb) => {
@@ -54,9 +54,9 @@ let db_update = (table, find_data, update_data, cb) => {
 		console.log( `___ - UPDATE ${table} - ___\n`);
 		let sql = 'UPDATE ' + table + ' SET ? WHERE ?';
 		conn.query(sql, quiry_data, (err, result) => {
-			// consowle.log(conn.query(sql, quiry_data));
+			// console.log(conn.query(sql, quiry_data));
 			if (err) throw err;
-			cb();
+			(!err) ? cb(result): cb(result);
 		});
 	}
 let db_delete = (table, find_data, cb) => {
