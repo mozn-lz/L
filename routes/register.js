@@ -6,34 +6,34 @@ const router = express.Router();
 function selectPolicy(userp) {
 	let policy = null;
 	switch (userp) {
-		case 'op1': policy = { members:2, code:'op1'}; break;
-		case 'op2': policy = { members:2, code:'op2'}; break;
-		case 'op3': policy = { members:2, code:'op3'}; break;
-		case 'op4': policy = { members:2, code:'op4'}; break;
-		case 'fp1': policy = { members:2, code:'fp1'}; break;
-		case 'fp2': policy = { members:2, code:'fp2'}; break;
-		case 'fp3': policy = { members:2, code:'fp3'}; break;
-		case 'fp4': policy = { members:2, code:'fp4'}; break;
-		case 'pntU65_1': policy = { members:2, code:'pntU65_1'}; break;
-		case 'pntU65_2': policy = { members:2, code:'pntU65_2'}; break;
-		case 'pntU65_3': policy = { members:2, code:'pntU65_3'}; break;
-		case 'pntU65_4': policy = { members:2, code:'pntU65_4'}; break;
-		case 'pntO65_1': policy = { members:2, code:'pntO65_1'}; break;
-		case 'pntO65_2': policy = { members:2, code:'pntO65_2'}; break;
-		case 'pntO65_3': policy = { members:2, code:'pntO65_3'}; break;
-		case 'pntO65_4': policy = { members:2, code:'pntO65_4'}; break;
-		case 'xf1': policy = { members:2, code:'xf1'}; break;
-		case 'xf2': policy = { members:2, code:'xf2'}; break;
-		case 'xf3': policy = { members:2, code:'xf3'}; break;
-		case 'xf4': policy = { members:2, code:'xf4'}; break;
-		case 'rep1': policy = { members:2, code:'rep1'}; break;
-		case 'rep2': policy = { members:2, code:'rep2'}; break;
-		case 'rep3': policy = { members:2, code:'rep3'}; break;
-		case 'rep4': policy = { members:2, code:'rep4'}; break;
-		case 'repSp1': policy = { members:2, code:'repSp1'}; break;
-		case 'repSp2': policy = { members:2, code:'repSp2'}; break;
-		case 'repSp3': policy = { members:2, code:'repSp3'}; break;
-		case 'repSp4': policy = { members:2, code:'repSp4'}; break;
+		case 'op1': policy = { name:'individual1',members:1, code:'op1'}; break;
+		case 'op2': policy = { name:'individual2',members:1, code:'op2'}; break;
+		case 'op3': policy = { name:'individual3',members:1, code:'op3'}; break;
+		case 'op4': policy = { name:'individual4',members:1, code:'op4'}; break;
+		case 'fp1': policy = { name:'family1',members:8, code:'fp1'}; break;
+		case 'fp2': policy = { name:'family2',members:8, code:'fp2'}; break;
+		case 'fp3': policy = { name:'family3',members:8, code:'fp3'}; break;
+		case 'fp4': policy = { name:'family4',members:8, code:'fp4'}; break;
+		case 'pntU65_1': policy = { name:'parent Under 65_1',members:6, code:'pntU65_1'}; break;
+		case 'pntU65_2': policy = { name:'parent Under 65_2',members:6, code:'pntU65_2'}; break;
+		case 'pntU65_3': policy = { name:'parent Under 65_3',members:6, code:'pntU65_3'}; break;
+		case 'pntU65_4': policy = { name:'parent Under 65_4',members:6, code:'pntU65_4'}; break;
+		case 'pntO65_1': policy = { name:'parent Over 65_1',members:6, code:'pntO65_1'}; break;
+		case 'pntO65_2': policy = { name:'parent Over 65_2',members:6, code:'pntO65_2'}; break;
+		case 'pntO65_3': policy = { name:'parent Over 65_3',members:6, code:'pntO65_3'}; break;
+		case 'pntO65_4': policy = { name:'parent Over 65_4',members:6, code:'pntO65_4'}; break;
+		case 'xf1': policy = { name:'extended family1',members:6, code:'xf1'}; break;
+		case 'xf2': policy = { name:'extended family2',members:6, code:'xf2'}; break;
+		case 'xf3': policy = { name:'extended family3',members:6, code:'xf3'}; break;
+		case 'xf4': policy = { name:'extended family4',members:6, code:'xf4'}; break;
+		case 'rep1': policy = { name:'repatriation members only 1',members:2, code:'rep1'}; break;
+		case 'rep2': policy = { name:'repatriation members only 2',members:2, code:'rep2'}; break;
+		case 'rep3': policy = { name:'repatriation members only 3',members:2, code:'rep3'}; break;
+		case 'rep4': policy = { name:'repatriation members only 4',members:2, code:'rep4'}; break;
+		case 'repSp1': policy = { name:'repatriation inc spouse  1',members:2, code:'repSp1'}; break;
+		case 'repSp2': policy = { name:'repatriation inc spouse  2',members:2, code:'repSp2'}; break;
+		case 'repSp3': policy = { name:'repatriation inc spouse  3',members:2, code:'repSp3'}; break;
+		case 'repSp4': policy = { name:'repatriation inc spouse  4',members:2, code:'repSp4'}; break;
 
 		default:
 			policy = null;
@@ -54,7 +54,7 @@ router.post('/register', (req, res, next) => {
 			const policy = selectPolicy(req.body.policy);
 			if (policy) {
 				console.log('policy found');
-				db_update('users', { _id }, { policy }, () => {
+				db_update('users', { _id }, { policy }, (data) => {
 					const policy_obj = {
 						name: 'Family Cover (max. 5 children)',
 						members: 5,
@@ -128,7 +128,36 @@ router.post('/register', (req, res, next) => {
 			} else {
 				res.send('Missing/Invalid information');
 			}
-		} else {
+		} 
+		else if (req.body.editMember || req.body.deleteMember) {
+			let _id = req.user.memberId;
+			db_read('members', {_id}, (user) => {
+				if (!user[0].name) {res.send({success: false})} else {
+					if (req.body.editMember) {
+						let edituser = {};
+						req.body.memberTitle ? 		edituser.title 					= req.body.memberTitle: 0;
+						req.body.memberName ? 		edituser.name 					= req.body.memberName: 0;
+						req.body.memberSurname ? 	edituser.surname 				= req.body.memberSurname: 0;
+						req.body.memberInitials ? edituser.initials 			= req.body.memberInitials: 0;
+						req.body.memberBirth ? 		edituser.birth 					= req.body.memberBirth: 0;
+						req.body.relationship ? 	edituser.relationship 	= req.body.relationship: 0;
+						req.body.phone ? 					edituser.phone 					= req.body.phone: 0;
+						req.body.tmp_reg_id ? 		edituser.policy_holder 	= req.body.tmp_reg_id: 0;
+						db_update('members', {_id, policy_holder: req.body.tmp_reg_id}, edituser, data => {
+							data ? res.send({success: true}):res.send({success: false}); 
+						});
+					} else if (req.body.deleteMember) {
+						// delete !update
+						db_update('members', {_id, policy_holder: req.body.tmp_reg_id}, edituser, data => {
+							data ? res.send({success: true}):res.send({success: false}); 
+						});
+					} else {
+						res.send({ success: false });
+					}
+				}
+			});
+		}
+		else {
 			res.status(404);
 		}
 	} else
