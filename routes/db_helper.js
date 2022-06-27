@@ -18,9 +18,9 @@ if (mysql.createConnection({host: 'localhost',user: 'root',port: 3306,password: 
 let db_create = (table, new_data, cb) => {
 		console.log( `___ - CREATE ${table} - ___\n`);
 		let sql = 'INSERT INTO ' + table + ' SET ?';
-		conn.query(sql, new_data, (err, result) => {
+		conn.query(sql, new_data, (err, res_arr) => {
 			if (err) throw err;
-			(!err)? cb(result.insertId): cb(err);
+			cb(err, res_arr);
 		});
 	}
 let db_read = (table, find_data, cb) => {
@@ -30,7 +30,7 @@ let db_read = (table, find_data, cb) => {
 		conn.query(sql, find_data, (err, res_arr) => {
 			// console.log(conn.query(sql, find_data));
 			if (err) throw err;
-			cb(res_arr);
+			cb(err, res_arr);
 		});
 	}
 let db_search = (table, col, value, cb) => {
@@ -45,7 +45,7 @@ let db_search = (table, col, value, cb) => {
 			if (err) throw err;
 			// if (res_arr)
 			// 	console.log(table, res_arr);
-			cb(res_arr);
+			cb(err, res_arr);
 		});
 }
 let db_update = (table, find_data, update_data, cb) => {
@@ -56,7 +56,7 @@ let db_update = (table, find_data, update_data, cb) => {
 		conn.query(sql, quiry_data, (err, result) => {
 			// console.log(conn.query(sql, quiry_data));
 			if (err) throw err;
-			(!err) ? cb(result): cb(result);
+			cb(err, result);
 		});
 	}
 let db_delete = (table, find_data, cb) => {
@@ -65,7 +65,7 @@ let db_delete = (table, find_data, cb) => {
 		conn.query(sql, find_data, (err, res_arr) => {
 			// console.log(conn.query(sql, find_data));
 			if (err) throw err;
-			cb();
+			cb(err, res_arr);
 		});
 	}
 

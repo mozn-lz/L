@@ -5,7 +5,7 @@ const { db_read, db_read_products, db_read_promos, db_update, db_advanced_read, 
 
 const findUserById = (_id) => {
 	return new Promise((res, rej) => {
-		db_read('admin', {_id}, user => {
+		db_read('admin', {_id}, (err, user) => {
 			console.log(user, '\n', user.length);
 			if (user.length == 1){
 				res(user);
@@ -92,7 +92,7 @@ router.get('/profile/:id', (req, res, next) => {
 		res.redirect('/login/');
 	} else {
 		console.log('		/:view-prod/:id ', req.params.id);
-		db_read('users', { id: req.params.id }, users => {
+		db_read('users', { id: req.params.id }, (err, users) => {
 			console.log(users);
 			if (users.length > 0) {
 				const user = users[0];
@@ -145,7 +145,7 @@ router.post('/password', (req, res, next) => {
 					} else {
 						bcrypt.hash(password, rounds, function(err, hash) {
 							if (hash) {
-								db_update('users', { id: req.session.user.id }, {password: hash}, (response) => {
+								db_update('users', { id: req.session.user.id }, {password: hash}, (err, response) => {
 									res.send({ success: true, msg: 'Password changed' });
 								});
 							} else{

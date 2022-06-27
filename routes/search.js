@@ -4,7 +4,7 @@ const router = express.Router();
 
 let find_users = (str) => {
 	return new Promise((resolve, reject) => {
-		db_read('users', str, users => {
+		db_read('users', str, (err, users) => {
 			console.log('1', users.length);
 			resolve(users);
 		});
