@@ -1,6 +1,6 @@
 
 const express = require("express");
-const { db_create, db_update, db_read } = require("./db_helper");
+const { db_create, db_update, db_read, db_delete } = require("./db_helper");
 const router = express.Router();
 
 function selectPolicy(userp) {
@@ -54,7 +54,7 @@ router.post('/register', (req, res, next) => {
 			const policy = selectPolicy(req.body.policy);
 			if (policy) {
 				console.log('policy found');
-				db_update('users', { _id }, { policy }, (data) => {
+				db_update('users', { _id }, { policy }, (err, data) => {
 					const policy_obj = {
 						name: 'Family Cover (max. 5 children)',
 						members: 5,
@@ -74,12 +74,12 @@ router.post('/register', (req, res, next) => {
 			if (req.body.benficiary) {
 				const beneficiary = req.body.benficiary;
 				// find user in dependents table
-				db_read(beneficiaryTb, {id: beneficiary}, benef => {
+				db_read(beneficiaryTb, {id: beneficiary}, (err, benef) => {
 					if (!benef) {
 						res.send({success: false, msg: 'Beneficiary Set'});
 					} else {
 						// set user as beneficiary
-						db_update('users', {_id: req.body.id}, {beneficiary}, data => {
+						db_update('users', {_id: req.body.id}, {beneficiary}, (err, data) => {
 							(data) ? 
 							res.send({success: true, msg: 'Beneficiary Set'}):
 							res.send({success: false, msg: 'Beneficiary Set'});
@@ -104,19 +104,19 @@ router.post('/register', (req, res, next) => {
 
 				// console.log('ner Member: ', new_member);
 
-				db_read('users', {_id: new_member.policy_holder}, user => {
+				db_read('users', {_id: new_member.policy_holder}, (err, user) => {
 					if (!user) {
 						res.send({success: false, msg: 'Cannot find policy'});
 					} else {
 						user = user[0];
 						user.members = JSON.parse(user.members);
 
-						db_create('members',new_member, data => {
+						db_create('members',new_member, (err, data) => {
 							if (!data) {
 								res.send({success: false, msg: 'Cannot find policy'});
 							} else {
 								let members = JSON.stringify([...user.members, data]);
-								db_update('users', {_id: new_member.policy_holder}, {members}, doc => {
+								db_update('users', {_id: new_member.policy_holder}, {members}, (err, doc) => {
 									doc.changedRows ?
 									res.send({success: true, data, msg: 'User saved'}):
 									res.send({success: false, msg: 'could not save new policy member'});
@@ -131,7 +131,7 @@ router.post('/register', (req, res, next) => {
 		} 
 		else if (req.body.editMember || req.body.deleteMember) {
 			let _id = req.user.memberId;
-			db_read('members', {_id}, (user) => {
+			db_read('members', {_id}, (err, user) => {
 				if (!user[0].name) {res.send({success: false})} else {
 					if (req.body.editMember) {
 						let edituser = {};
@@ -143,13 +143,13 @@ router.post('/register', (req, res, next) => {
 						req.body.relationship ? 	edituser.relationship 	= req.body.relationship: 0;
 						req.body.phone ? 					edituser.phone 					= req.body.phone: 0;
 						req.body.tmp_reg_id ? 		edituser.policy_holder 	= req.body.tmp_reg_id: 0;
-						db_update('members', {_id, policy_holder: req.body.tmp_reg_id}, edituser, data => {
+						db_update('members', {_id, policy_holder: req.body.tmp_reg_id}, edituser, (err, data) => {
 							data ? res.send({success: true}):res.send({success: false}); 
 						});
 					} else if (req.body.deleteMember) {
 						// delete !update
-						db_update('members', {_id, policy_holder: req.body.tmp_reg_id}, edituser, data => {
-							data ? res.send({success: true}):res.send({success: false}); 
+						db_delete('members', {_id, policy_holder: req.body.tmp_reg_id}, (err, doc) => {
+							res.send({success: true}); 
 						});
 					} else {
 						res.send({ success: false });
@@ -209,7 +209,7 @@ router.post('/register', (req, res, next) => {
 		req.body.status == "civil") ? new_user.status = req.body.status: new_user.status = '';
 
 		console.log('user:', new_user);
-		db_create('users', new_user, data => {
+		db_create('users', new_user, (err, data) => {
 			console.log('New User > \n\t\tdata: ', data);
 			data ?
 			res.send({success: true, data, msg: 'User regidered'}):
