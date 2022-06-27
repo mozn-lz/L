@@ -15,7 +15,9 @@ router.get('/login', function(req, res, next) {
 		res.render('login', { user: req.session.user, title: 'Login', page: 'Login', role: '' });
 });
 router.get('/register', function(req, res, next) {
-		res.render('register', { user: req.session.user, title: 'Register', page: 'Register', role: '' });
+	db_read('users', {email: 'moeketsane.sefako@gmail.com'}, (err, user) => {
+		res.render('register', { user: user[0], title: 'Register', page: 'Register', role: '' });
+	})
 });
 
 let fn_register = (user) => {
@@ -33,11 +35,11 @@ let fn_register = (user) => {
 let fn_findUser = (user) => {
 	console.log('fn_finduser ', user);
 	return new Promise((resolve, reject) => {
-		db_read(table, { cell_1: user.cell_1 }, cellUser => {
+		db_read(table, { cell_1: user.cell_1 }, (err, cellUser) => {
 			console.log('cellUser ', cellUser);
-			db_read(table, { cell_2: user.cell_2 }, cellUser1 => {
+			db_read(table, { cell_2: user.cell_2 }, (err, cellUser1) => {
 				console.log('cellUser1 ', cellUser1);
-				db_read(table, { email: user.email }, emailUser => {
+				db_read(table, { email: user.email }, (err, emailUser) => {
 					console.log('emailUser ', emailUser);
 					if (cellUser[0]) {
 						resolve(cellUser);
