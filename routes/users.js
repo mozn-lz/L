@@ -16,7 +16,9 @@ router.get('/login', function(req, res, next) {
 });
 router.get('/register', function(req, res, next) {
 	db_read('users', {email: 'moeketsane.sefako@gmail.com'}, (err, user) => {
-		res.render('register', { user: user[0], title: 'Register', page: 'Register', role: '' });
+		db_read('members', {policy_holder: user[0]._id}, (err, members) => {
+			res.render('register', { user: user[0], members, title: 'Register', page: 'Register', role: '' });
+		});
 	})
 });
 
