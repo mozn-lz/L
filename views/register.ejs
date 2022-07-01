@@ -124,7 +124,9 @@
 						</fieldset>
 						<div class="row">
 							<div class="col-sm-5 p-2 m-3"></div>
-							<button type="submit" class="btn btn-success col-sm-5 p-2 m-2" >Policy ></button>
+							<div class="col-sm-5 p-2 m-2">
+								<button type="submit" class="btn btn-success " >Policy ></button>
+							</div>
 						</div>
 					</div>
 					<input type="hidden" value="t" name="idintityForm">
@@ -200,7 +202,9 @@
 					<div class="row">
 						<!-- <button class="btn btn-primary col-sm-5 p-2 active" id="personal-details-tab" data-bs-toggle="tab" data-bs-target="#personal-details" type="button" role="tab" aria-controls="personal-details" aria-selected="true">< Back</button> -->
 						<!-- <div class="col-sm-2"></div> -->
-						<button type="submit" class="btn btn-success col-sm-5 p-2 m-2">persons-cover Next ></button>
+							<div class="col-sm-5 p-2 m-2">
+								<button type="submit" class="btn btn-success">persons-cover Next ></button>
+							</div>
 					</div>
 					<input type="hidden" value="t" name="policyForm">
 				</form>
@@ -226,11 +230,11 @@
 											<td>BIRTH DATE</td>
 											<td>PHONE NUMBER</td>
 											<td></td>
-											<td></td>
+											<td>BENEFICIARY</td>
 										</tr>
 									</thead>
 									<tbody id="cover-persons-list">
-										<tr>
+										<!-- <tr>
 											<td><button class="btn btn-sm btn-danger">X</button></td>
 											<td>Mr</td>
 											<td>John</td>
@@ -241,7 +245,38 @@
 											<td>5876 5432</td>
 											<td><button class="btn btn-primary">Edit</button></td>
 											<td><button class="btn btn-warning">beneficiary</button></td>
-										</tr>
+										</tr> -->
+
+										<% for(let i = 0; i < members.length; i++) { %>
+												<% let member = members[i] %>
+												<% if (member.beneficiary) { %>
+													<tr>
+														<td><button onclick=remove(<%= member._id %>) class="btn btn-sm btn-danger">X</button></td>
+														<td><%= member.title %></td>
+														<td><%= member.name %></td>
+														<td><%= member.surname %></td>
+														<td><%= member.initials %></td>
+														<td><%= member.relationship %></td>
+														<td><%= member.birth %></td>
+														<td><%= member.phone %></td>
+														<td><button onclick=edit(<%= member._id %>) class="btn btn-primary">Edit</button></td>
+														<td><input class="btn btn-outline-warning" type="radio" name="beneficiary" value="<%= member._id %>" checked><label class="btn btn-outline-warning">B</label></td>
+													</tr>
+												<% } else { %>
+													<tr>
+														<td><button onclick=remove(<%= member._id %>) class="btn btn-sm btn-danger">X</button></td>
+														<td><%= member.title %></td>
+														<td><%= member.name %></td>
+														<td><%= member.surname %></td>
+														<td><%= member.initials %></td>
+														<td><%= member.relationship %></td>
+														<td><%= member.birth %></td>
+														<td><%= member.phone %></td>
+														<td><button onclick=edit(<%= member._id %>) class="btn btn-primary">Edit</button></td>
+														<td><input class="btn btn-outline-warning" type="radio" name="beneficiary" value="<%= member._id %>"><label class="btn btn-outline-warning">B</label></td>
+													</tr>
+												<% } %>	
+										<% } %>
 									</tbody>
 								</table>
 							</div>
@@ -249,7 +284,9 @@
 					</fieldset>
 					<div class="row">
 						<!-- <button class="btn btn-primary col-sm-5 p-2 m-2"  type="button">< Policy</button> -->
-						<button type="submit" class="btn btn-success col-sm-5 p-2 m-2">Save</button>
+						<div class="col-sm-5 p-2 m-2">
+							<button type="submit" class="btn btn-success ">Save</button>
+						</div>
 					</div>
 					<input type="hidden" value="t" name="beneficiaryForm">
 				</form>
@@ -315,7 +352,7 @@
 						</fieldset>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="dismissModal">Close</button>
 						<button type="submit" class="btn btn-primary">Add Member</button>
 					</div>
 				</div>
@@ -362,26 +399,45 @@
 	}
 	let loadMembers = members => {
 		console.warn('members.length', members.length);
+		let members_list = [];
 		if (members && members.length > 0) {
 			members.forEach(member => {
-				members_list.push(`<tr>
-				<td><button onclick=remove(${member.id}) class="btn btn-sm btn-danger">X</button></td>
-				<td>${member.title}Mr</td>
-				<td>${member.name}John</td>
-				<td>${member.surname}Doe</td>
-				<td>${member.initials}J.D.</td>
-				<td>${member.relationship}Cousin</td>
-				<td>${member.birth}01 Jan 2000</td>
-				<td>${member.cell_1}5876 5432</td>
-				<td><button onclick=edit(${member.id}) class="btn btn-primary">Edit</button></td>`);
-				member.beneficiary?
-				(members_list.push(`<td><input type="radio" class="btn-check" name="beneficiary" value="${member._id}" autocomplete="off"><label class="btn btn-outline-warning" for="op2">B</label></td></tr>`)):
-				(members_list.push(`<td><input type="radio" class="btn-check" name="beneficiary" value="${member._id}" autocomplete="off" checked><label class="btn btn-outline-warning" for="op1">B</label></td></tr>`));
+				member.beneficiary ?
+				console.log('Y', member.beneficiary):
+				console.log('N', member.beneficiary);
+				if (member.beneficiary) {
+					members_list.push(`<tr>
+						<td><button onclick=remove(${member._id}) class="btn btn-sm btn-danger">X</button></td>
+						<td>${member.title}</td>
+						<td>${member.name}</td>
+						<td>${member.surname}</td>
+						<td>${member.initials}.</td>
+						<td>${member.relationship}</td>
+						<td>${member.birth}</td>
+						<td>${member.phone}</td>
+						<td><button onclick=edit(${member._id}) class="btn btn-primary">Edit</button></td>
+						<td><input class="btn btn-outline-warning" type="radio" name="beneficiary" value="${member._id}" checked><label class="btn btn-outline-warning">B</label></td>
+						</tr>`);
+				} else {
+					members_list.push(`<tr>
+						<td><button onclick=remove(${member._id}) class="btn btn-sm btn-danger">X</button></td>
+						<td>${member.title}</td>
+						<td>${member.name}</td>
+						<td>${member.surname}</td>
+						<td>${member.initials}.</td>
+						<td>${member.relationship}</td>
+						<td>${member.birth}</td>
+						<td>${member.phone}</td>
+						<td><button onclick=edit(${member._id}) class="btn btn-primary">Edit</button></td>
+						<td><input class="btn btn-outline-warning" type="radio" name="beneficiary" value="${member._id}"><label class="btn btn-outline-warning">B</label></td>
+						</tr>`);
+				}
 			});
 		} else {
-			pesrons_list = 'No members added';
+			members_list = 'No members added';
 		}
-		$("#cover-persons-list").html(pesrons_list);
+		console.table(members_list);
+		$("#cover-persons-list").html(members_list);
 	}
 	$('#idintityForm').submit((e) => {
 		e.preventDefault();
@@ -468,16 +524,22 @@
 			console.log('ben  dt ', data);
 				if (data.success) {
 					let pesrons_list = [];
-					let members = data.members;
+					let members = data.data;
 					// reset form
-					$('#memberTitle').val() = '';
-					$('#memberSurname').val() = '';
-					$('#memberName').val() = '';
-					$('#memberInitials').val() = '';
-					$('#relationship').val() = '';
-					$('#memberBirth').val() = '';
-					$('#phone').val() = '';
-					loadMembers(data.members)
+					console.log('success', members);
+					console.warn( data);
+					$('#dismissModal').click();
+					$('#memberTitle').val('');
+					$('#memberSurname').val('');
+					$('#memberName').val('');
+					$('#memberInitials').val('');
+					$('#relationship').val('');
+					$('#memberBirth').val('');
+					$('#phone').val('');
+					console.error(members, members.length);
+					loadMembers(members);
+				} else {
+					alert('member failed')
 				}
 			
 		})
@@ -506,9 +568,9 @@
 				payments:     '<%= user.payments %>'
 			};
 
-			console.warn(user);
+			// console.warn(user);
 			loadUser(user);
-			loadMembers(user.members);
+
 			let testUser = '<%= user._id %>';
 
 			if (!isNaN(testUser)) {
