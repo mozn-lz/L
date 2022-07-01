@@ -116,9 +116,9 @@ router.post('/register', (req, res, next) => {
 								res.send({success: false, msg: 'Cannot find policy'});
 							} else {
 								let members = JSON.stringify([...user.members, data]);
-								db_update('users', {_id: new_member.policy_holder}, {members}, (err, doc) => {
-									doc.changedRows ?
-									res.send({success: true, data, msg: 'User saved'}):
+								db_read('members', {policy_holder: new_member.policy_holder}, (err, members) => {
+									members ?
+									res.send({success: true, data: members, msg: 'User saved'}):
 									res.send({success: false, msg: 'could not save new policy member'});
 								});
 							}
