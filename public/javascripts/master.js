@@ -13,7 +13,7 @@ $('#search').keyup(() => {
 	console.log(' Search ');
 	if ($('#search').val().length > 1) {
 		$.ajax({
-			url: '/search',
+			url: 'http://localhost:3000/search/',
 			type: 'POST',
 			data: { searchString: $('#search').val() },
 			success: (result) => {

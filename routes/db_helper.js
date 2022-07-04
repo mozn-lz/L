@@ -24,50 +24,50 @@ let db_create = (table, new_data, cb) => {
 		});
 	}
 let db_read = (table, find_data, cb) => {
-		console.log( `___ - READ ${table} - ___\n`);
-		(find_data === '') ? find_data = 1: 0;
-		let sql = 'SELECT * FROM ' + table + ' WHERE ?';
-		conn.query(sql, find_data, (err, res_arr) => {
-			// console.log(conn.query(sql, find_data));
-			if (err) throw err;
-			cb(err, res_arr);
+	console.log( `___ - READ ${table} - ___\n`);
+	(find_data === '') ? find_data = 1: 0;
+	let sql = 'SELECT * FROM ' + table + ' WHERE ?';
+	conn.query(sql, find_data, (err, res_arr) => {
+		// console.log(conn.query(sql, find_data));
+		if (err) throw err;
+		cb(err, res_arr);
+	});
+}
+let db_search = (table, value) => {
+	console.log( `___ - READ ${table} - ___`);
+	console.log(`query:       \n TB${table}\n val ${value}, \n`);
+	(value === '') ? value = 1: 0;
+
+	let sql = 'SELECT * FROM ' + table + ' WHERE name LIKE LOWER(?) OR surname LIKE LOWER(?) OR email LIKE LOWER(?)  OR cell_1 LIKE LOWER(?) OR cell_2 LIKE LOWER(?)';
+	return new Promise ((res, rej) => {
+		conn.query(sql, [value,value,value,value,value], (err, res_arr) => {
+			console.log('--------------------------------------------------');
+			console.log(sql);
+			console.log('* *		db_search		* *\n\tRes: ', res_arr, '\n\tRej: ', err);
+			err ? rej(err): res(res_arr);
 		});
-	}
-let db_search = (table, col, value, cb) => {
-		console.log( `___ - READ ${table} - ___`);
-		// console.log(`query:       \n TB${table}\n col ${col}\n val ${value}, \n`);
-		(value === '') ? value = 1: 0;
-		
-		let sql = 'SELECT * FROM ' + table + ' WHERE '+ col +' LIKE LOWER(?)';
-		conn.query(sql, value, (err, res_arr) => {
-			console.log('--------------------------------------------------')
-			// console.log('\n\n', conn.query(sql, value), '\n\n' );
-			if (err) throw err;
-			// if (res_arr)
-			// 	console.log(table, res_arr);
-			cb(err, res_arr);
-		});
+	});
 }
 let db_update = (table, find_data, update_data, cb) => {
-		(find_data == '') ? find_data == 1: 0;
-		let quiry_data = [update_data, find_data];
-		console.log( `___ - UPDATE ${table} - ___\n`);
-		let sql = 'UPDATE ' + table + ' SET ? WHERE ?';
-		conn.query(sql, quiry_data, (err, result) => {
-			// console.log(conn.query(sql, quiry_data));
-			if (err) throw err;
-			cb(err, result);
-		});
-	}
+	(find_data == '') ? find_data == 1: 0;
+	let quiry_data = [update_data, find_data];
+	console.log( `___ - UPDATE ${table} - ___\n`);
+	let sql = 'UPDATE ' + table + ' SET ? WHERE ?';
+	conn.query(sql, quiry_data, (err, result) => {
+		// console.log(conn.query(sql, quiry_data));
+		if (err) throw err;
+		cb(err, result);
+	});
+}
 let db_delete = (table, find_data, cb) => {
-		console.log( `___ - DELETE ${table} - ___\n`);
-		let sql = 'DELETE FROM ' + table + ' WHERE ?';
-		conn.query(sql, find_data, (err, res_arr) => {
-			// console.log(conn.query(sql, find_data));
-			if (err) throw err;
-			cb(err, res_arr);
-		});
-	}
+	console.log( `___ - DELETE ${table} - ___\n`);
+	let sql = 'DELETE FROM ' + table + ' WHERE ?';
+	conn.query(sql, find_data, (err, res_arr) => {
+		// console.log(conn.query(sql, find_data));
+		if (err) throw err;
+		cb(err, res_arr);
+	});
+}
 
 let db_advanced_read = (table, find_data, orderBy, sort , start, limit) => {
 	// console.log(`\n\n\n___ - db_advanced_read ${table} - ___\n`, find_data);
