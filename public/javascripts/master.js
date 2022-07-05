@@ -1,30 +1,38 @@
 /* Search result proccessing START */
-let loadUsers = (users) => {
-	let display_Arr = [];
-	users.forEach(user => {
-		display_Arr.push(
-		);
-	});
-	console.log(display_Arr.length);
-	return (display_Arr);
+fn_display_results = (result) => {
+	let result_arr = [];
+	for (let i = 0; i < result.length; i++) {
+		const user = result[i];
+		result_arr.push(`
+		<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<div class="card">
+				<div class="card-header">
+					<a href="profile/${ user._id }">${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }</a>
+				</div>
+				<a href="profile/${ user._id }">
+					<div class="card-body">
+						<div class="card-title">${ user.cell_1 }</div>
+						<p class="card-text">${ user.cell_2 }</p>
+					</div>
+				</a>
+			</div>
+		</div>`);
+		// result_arr = [...result_arr, result];
+	}
+	console.log('Siaplsy ', result_arr);
+	$('#results').html(result_arr);
 }
 
 $('#search').keyup(() => {
 	console.log(' Search ');
-	if ($('#search').val().length > 1) {
+	if ($('#search').val().length > 0) {
 		$.ajax({
 			url: 'http://localhost:3000/search/',
 			type: 'POST',
 			data: { searchString: $('#search').val() },
 			success: (result) => {
-				console.log('result ', result);
-				let result_arr = [];
-				if (result.users.length) {
-					result_arr = result_arr.concat(loadUsers(result.users));
-					console.log('users ', result_arr);
-				}
-				console.log('Siaplsy ', result_arr);
-				$('#results').html(result_arr);
+				console.log('result ', result, result.length);
+				fn_display_results(result);
 			},
 			error: (e) => {
 				console.log('Error: ', e)
@@ -34,6 +42,89 @@ $('#search').keyup(() => {
 });
 /* END	Search result proccessing  */
 
-let categoryFilter = (cat) => {
-	console.log(cat);
+
+let category = '';
+let scrollCounter = 0;
+let retrive = false;
+
+let fetch_data = (cat) => {
+	let sort, order;
+
+	if (cat) {
+		// console.log('cat');
+		category = cat;
+	} else {
+		// console.log('!cat');
+		category= category;
+	}
+
+	$('#sort').val() ? sort = $('#sort').val(): 0; 
+	$('#order').val() ? order = $('#order').val(): 0; 
+	console.log('  ', {category, sort, order})
+	retrive = false;
+	$.ajax({
+		url: 'http://localhost:3000/filter-users/',
+		type: 'GET',
+		data: { category, sort, order, scrollCounter },
+		success: (result) => {
+			console.log('success', result, result.users.length);
+
+			let result_arr = [];
+			if (result.users.length) {
+				scrollCounter == 0 ? $('#results').html(''):0;
+				scrollCounter += 20;
+				for (let i = 0; i < result.users.length; i++) {
+					const user = result.users[i];
+					result_arr.push(`
+						<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<div class="card">
+								<div class="card-header">
+									<a href="profile/${ user._id }">${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }</a>
+								</div>
+								<a href="profile/${ user._id }">
+									<div class="card-body">
+										<div class="card-title">${ user.cell_1 }</div>
+										<p class="card-text">${ user.cell_2 }<br/>${ user.email }</p>
+									</div>
+								</a>
+							</div>
+						</div>`);
+				}
+				retrive = true;
+				$('#results').append(result_arr);
+			}
+			// selecting categories
+			if (result.users.length == 0 && scrollCounter == 0) {
+				retrive = false;
+				$('#results').html(`<h3 class="text-center">No results :(</h3>`);
+			}
+		},
+		error: (e) => {
+			console.log('Error: ', e);
+				$('#results').html(`<h2 class="text-center">Error reaching server :,(</h2>`, e);
+			retrive = false;
+		}
+	});
 }
+
+$('#search').keyup(() => {
+	scrollCounter = 0;
+($('#search').val().length == 0) ? fetch_data(''): 0;
+});
+
+let cat_hendle = (cat) => {
+	scrollCounter = 0;
+	fetch_data(cat);
+};
+$('#order, #sort').change((e) => {
+	scrollCounter = 0;
+	fetch_data('');
+});
+
+$(document).ready(() => fetch_data(''));
+
+$(document).scroll(() => {
+	if ($(document).height() - $(document).scrollTop() < 2000 & retrive) {
+		fetch_data('');
+	}
+});
