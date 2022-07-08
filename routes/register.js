@@ -89,16 +89,16 @@ router.post('/register', (req, res, next) => {
 			}
 		} else if (req.body.addMemberForm) {
 			console.log('\n\n** Menmber form **)\n', req.body); 
-			const new_member = {
-				title: req.body.memberTitle,
-				name: req.body.memberName,
-				surname: req.body.memberSurname,
-				initials: req.body.memberInitials,
-				birth: req.body.memberBirth,
-				relationship: req.body.relationship,
-				phone: req.body.phone,
-				policy_holder: req.body.tmp_reg_id 
-			};
+			const new_member = {};
+			req.body.memberTitle		? new_member.title					= req.body.memberTitle.toUpperCase()		:new_member.title = null;
+			req.body.memberName			? new_member.name						= req.body.memberName.toUpperCase()			:new_member.name = null;
+			req.body.memberSurname	? new_member.surname				= req.body.memberSurname.toUpperCase()	:new_member.surname = null;
+			req.body.memberInitials	? new_member.initials				= req.body.memberInitials.toUpperCase()	:new_member.initials = null;
+			req.body.memberBirth		? new_member.birth					= req.body.memberBirth		:new_member.birth = null;
+			req.body.relationship		? new_member.relationship		= req.body.relationship		:new_member.relationship = null;
+			req.body.phone					? new_member.phone					= req.body.phone					:new_member.phone = null;
+			req.body.tmp_reg_id			? new_member.policy_holder	= req.body.tmp_reg_id 		:new_member.policy_holder = null;
+
 			if (new_member.title && new_member.name && new_member.surname && new_member.initials && 
 					new_member.birth && new_member.relationship && new_member.phone && new_member.policy_holder) {
 
@@ -135,14 +135,14 @@ router.post('/register', (req, res, next) => {
 				if (!user[0].name) {res.send({success: false})} else {
 					if (req.body.editMember) {
 						let edituser = {};
-						req.body.memberTitle ? 		edituser.title 					= req.body.memberTitle: 0;
-						req.body.memberName ? 		edituser.name 					= req.body.memberName: 0;
-						req.body.memberSurname ? 	edituser.surname 				= req.body.memberSurname: 0;
-						req.body.memberInitials ? edituser.initials 			= req.body.memberInitials: 0;
-						req.body.memberBirth ? 		edituser.birth 					= req.body.memberBirth: 0;
-						req.body.relationship ? 	edituser.relationship 	= req.body.relationship: 0;
-						req.body.phone ? 					edituser.phone 					= req.body.phone: 0;
-						req.body.tmp_reg_id ? 		edituser.policy_holder 	= req.body.tmp_reg_id: 0;
+						req.body.memberTitle ? 		edituser.title 					= req.body.memberTitle.toUpperCase()		: edituser.title = null;
+						req.body.memberName ? 		edituser.name 					= req.body.memberName.toUpperCase()			: edituser.name = null;
+						req.body.memberSurname ? 	edituser.surname 				= req.body.memberSurname.toUpperCase()	: edituser.surname = null;
+						req.body.memberInitials ? edituser.initials 			= req.body.memberInitials.toUpperCase()	: edituser.initials = null;
+						req.body.memberBirth ? 		edituser.birth 					= req.body.memberBirth	: edituser.birth = null;
+						req.body.relationship ? 	edituser.relationship 	= req.body.relationship	: edituser.relationship = null;
+						req.body.phone ? 					edituser.phone 					= req.body.phone				: edituser.phone = null;
+						req.body.tmp_reg_id ? 		edituser.policy_holder 	= req.body.tmp_reg_id		: edituser.policy_holder = null;
 						db_update('members', {_id, policy_holder: req.body.tmp_reg_id}, edituser, (err, data) => {
 							data ? res.send({success: true}):res.send({success: false}); 
 						});
@@ -179,15 +179,15 @@ router.post('/register', (req, res, next) => {
 		let new_user = {};
 
 		console.log('0');
-		req.body.altsurname ? new_user.alt_Surname 	= req.body.altsurname		: new_user.alt_Surname	= '';
-		req.body.name 			? new_user.name 				= req.body.name					: new_user.name					= '';
-		req.body.surname 		? new_user.surname 			= req.body.surname			: new_user.surname			= '';
-		req.body.nat_id 		? new_user.national_id 	= req.body.nat_id				: new_user.national_id	= '';
-		req.body.birth 			? new_user.birth 				= req.body.birth				: new_user.birth				= '';
-		req.body.address		? new_user.address 			= req.body.address			: new_user.address			= '';
-		req.body.email 			? new_user.email 				= req.body.email				: new_user.email				= '';
-		req.body.cell1 			? new_user.cell_1 			= req.body.cell1				: new_user.cell_1				= '';
-		req.body.cell2 			? new_user.cell_2 			= req.body.cell2				: new_user.cell_2				= '';
+		req.body.altsurname ? new_user.alt_Surname 	= req.body.altsurname.toUpperCase()		: new_user.alt_Surname	= null;
+		req.body.name 			? new_user.name 				= req.body.name.toUpperCase()					: new_user.name					= null;
+		req.body.surname 		? new_user.surname 			= req.body.surname.toUpperCase()			: new_user.surname			= null;
+		req.body.address		? new_user.address 			= req.body.address.toUpperCase()			: new_user.address			= null;
+		req.body.nat_id 		? new_user.national_id 	= req.body.nat_id				: new_user.national_id	= null;
+		req.body.birth 			? new_user.birth 				= req.body.birth				: new_user.birth				= null;
+		req.body.email 			? new_user.email 				= req.body.email				: new_user.email				= null;
+		req.body.cell1 			? new_user.cell_1 			= req.body.cell1				: new_user.cell_1				= null;
+		req.body.cell2 			? new_user.cell_2 			= req.body.cell2				: new_user.cell_2				= null;
 
 		new_user.policy				= '',
 		new_user.beneficiary	= '',
@@ -197,24 +197,30 @@ router.post('/register', (req, res, next) => {
 		console.log('1');
 		(req.body.title == 'mrs' ||
 		req.body.title == 'ms' ||
-		req.body.title == 'mr') ? new_user.title = req.body.title		: new_user.title = '';
+		req.body.title == 'mr') ? new_user.title = req.body.title.toUpperCase()		: new_user.title = null;
 		console.log('2');
 		(req.body.gender == 'm' ||
-		req.body.gender == 'f') ? new_user.gender = req.body.gender: new_user.gender = '';
+		req.body.gender == 'f') ? new_user.gender = req.body.gender.toUpperCase(): new_user.gender = null;
 		console.log('3');
 		(req.body.status == "single" ||
 		req.body.status == "married" ||
 		req.body.status == "widow" ||
 		req.body.status == "separated" ||
-		req.body.status == "civil") ? new_user.status = req.body.status: new_user.status = '';
+		req.body.status == "civil") ? new_user.status = req.body.status: new_user.status = null;
 
-		console.log('user:', new_user);
-		db_create('users', new_user, (err, data) => {
-			console.log('New User > \n\t\tdata: ', data);
-			data ?
-			res.send({success: true, data, msg: 'User regidered'}):
-			res.send({success: false, msg: 'Error registering user'});
-		});
+		if (!new_user.title || !new_user.name || !new_user.surname || 
+			!new_user.nat_id || !new_user.birth || !new_user.gender || !new_user.address || 
+			!new_user.status || !new_user.email || !new_user.cell_1 || !new_user.cell_2) {
+			res.status(404);
+		} else {
+			console.log('user:', new_user);
+			db_create('users', new_user, (err, data) => {
+				console.log('New User > \n\t\tdata: ', data);
+				data ?
+				res.send({success: true, data, msg: 'User regidered'}):
+				res.send({success: false, msg: 'Error registering user'});
+			});
+		}
 	}
 	else {
 		console.log('no err');
