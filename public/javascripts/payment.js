@@ -50,40 +50,40 @@ const ft_displayPayment = (month, code) => {
 		// push month
 		switch (month) {
 				case 1:
-					display.push(`<div class="month jan p-3 m-3 ${indicae} col">Jan</div>`);
+					display.push(`<div class="rounded month jan p-3 m-3 ${indicae} col">Jan</div>`);
 					break;
 				case 2:
-					display.push(`<div class="month feb p-3 m-3 ${indicae} col">Feb</div>`);
+					display.push(`<div class="rounded month feb p-3 m-3 ${indicae} col">Feb</div>`);
 					break;
 				case 3:
-					display.push(`<div class="month mar p-3 m-3 ${indicae} col">Mar</div>`);
+					display.push(`<div class="rounded month mar p-3 m-3 ${indicae} col">Mar</div>`);
 					break;
 				case 4:
-					display.push(`<div class="month apr p-3 m-3 ${indicae} col">Apr</div>`);
+					display.push(`<div class="rounded month apr p-3 m-3 ${indicae} col">Apr</div>`);
 					break;
 				case 5:
-					display.push(`<div class="month may p-3 m-3 ${indicae} col">May</div>`);
+					display.push(`<div class="rounded month may p-3 m-3 ${indicae} col">May</div>`);
 					break;
 				case 6:
-					display.push(`<div class="month jun p-3 m-3 ${indicae} col">Jun</div>`);
+					display.push(`<div class="rounded month jun p-3 m-3 ${indicae} col">Jun</div>`);
 					break;
 				case 7:
-					display.push(`<div class="month jul p-3 m-3 ${indicae} col">Jul</div>`);
+					display.push(`<div class="rounded month jul p-3 m-3 ${indicae} col">Jul</div>`);
 					break;
 				case 8:
-					display.push(`<div class="month aug p-3 m-3 ${indicae} col">Aug</div>`);
+					display.push(`<div class="rounded month aug p-3 m-3 ${indicae} col">Aug</div>`);
 					break;
 				case 9:
-					display.push(`<div class="month sep p-3 m-3 ${indicae} col">Sep</div>`);
+					display.push(`<div class="rounded month sep p-3 m-3 ${indicae} col">Sep</div>`);
 					break;
 				case 10:
-					display.push(`<div class="month oct p-3 m-3 ${indicae} col">Oct</div>`);
+					display.push(`<div class="rounded month oct p-3 m-3 ${indicae} col">Oct</div>`);
 					break;
 				case 11:
-					display.push(`<div class="month nov p-3 m-3 ${indicae} col">Nov</div>`);
+					display.push(`<div class="rounded month nov p-3 m-3 ${indicae} col">Nov</div>`);
 					break;
 				case 12:
-					display.push(`<div class="month dec p-3 m-3 ${indicae} col">Dec</div>`);
+					display.push(`<div class="rounded month dec p-3 m-3 ${indicae} col">Dec</div>`);
 					break;
 			default:
 				break;
