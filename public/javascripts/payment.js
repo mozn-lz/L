@@ -1,14 +1,14 @@
 // from server
-const policy = 2;
-const lastMonthbalance = 0;
-const latPayDate = 'Mar 01 2022';
-const lastPayAmount = Number(30);
+// const policy = 45;
+// const lastMonthbalance = 0;
+// const lastPayDate = 'Mar 01 2022';
+// const lastPayAmount = Number(30);
 
 let paid = $('#amount').val();
 $('#amount').keyup(() => paid = $('#amount').val());
 
 const lastPayment = {
-	month: latPayDate,
+	month: lastPayDate,
 	balance: lastMonthbalance
 };
 let totalPayment = () => Number($('#amount').val()) + Number(lastPayment.balance);
@@ -124,11 +124,11 @@ let ft_calculatePayment = () => {
 	// getMonth() is 0 based
 	const lastPayMonth = new Date(lastPayment.month).getMonth();
 	
-	newPayment.date = new Date();
-	newPayment.balance = !isNaN(lastPayment.balance) ? Number(lastPayment.balance): 0;
-
+	newPayment.date = new Date();	//	set payment date/timestamp
+	let ifbalance = !isNaN(lastPayment.balance) ? Number(lastPayment.balance): 0;
+	
 	// set balance
-	if (newPayment.balance > 0) {
+	if (ifbalance > 0) {
 		// set lastMonthpaid to lastMonthpaid -1			 * Because last payment was insuficient 
 		// * add balance to current-payment and pay lastMonthpaid first 
 		newPayment.lastMonthPaid = lastPayMonth;
@@ -138,6 +138,7 @@ let ft_calculatePayment = () => {
 		// pay next month after last-Paid-Month first
 		newPayment.lastMonthPaid = lastPayMonth + 1;
 	}
+	newPayment.monthsPaid = (newPayment.amount - newPayment.amount%policy) / policy; // calculate # of all months paid
 
 	let pay = newPayment.amount;
 	let balance = 0;
@@ -164,10 +165,11 @@ let ft_calculatePayment = () => {
 			ft_displayPayment(newPayment.lastMonthPaid, 'success');
 		} else {
 			// balance
-			balance = policy - pay;
-			pay -= balance;
+			balance = pay;	// set balance
+			pay -= balance; // set pay to 0
 			ft_displayPayment(newPayment.lastMonthPaid, 'info');
 		}
+		newPayment.balance = balance;	// set overall payment amount
 
 		// Display results
 		if (pay == 0) {
@@ -190,9 +192,7 @@ $('#amount').keyup(() => {
 	if (valid_pay() && paid > 0) {
 		newPayment.amount = Number(paid);
 		$('#amount').css('border', '#198754 solid 2px');
-
 		ft_calculatePayment();
-		// ft_displayPayment()
 	} else {
 		($('#amount').css('border', '#dc3545 solid 2px'));
 	}
