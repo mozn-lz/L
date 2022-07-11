@@ -1,9 +1,9 @@
 <%- include('./frame/header.ejs') %>
 <%- include('./frame/menu.ejs') %>
 
-<div class="p-3">
-<h1 class="text-center p-4">Payment Processing</h1>
-<form action="" class="p-3">
+<div id="main" class="p-2">
+<h1 class="text-center">Payment Processing</h1>
+<form action="" class="p-1">
 	<div class="row">
 		<div class="col"><%=user.name%></div>
 		<div class="col"><%=user.surname%></div>
@@ -12,7 +12,7 @@
 	</div>
 	<hr>
 	<div class="row">
-		<div class="form-group m-4  col-xs-12 col-sm-12 col-md-6">
+		<div class="form-group m-2  col-xs-12 col-sm-12 col-md-6">
 			<label for="amount">Payment Amount</label>
 			<input class="form-control" type="number" min="1" name="amount" id="amount" autocomplete="off">
 		</div>
@@ -21,7 +21,7 @@
 	<hr>
 </form>
 
-<div class="legend row m-3">
+<div class="legend row m-1">
 	<div>Legend</div>
 	<div class="col btn btn-sm rounded btn-primary m-1">Past Months</div> 
 	<div class="col btn btn-sm rounded btn-success m-1">Full Paiyment</div> 
@@ -38,18 +38,18 @@
 		<div class="visualise">
 			<div class="year row">
 				<div id="year"></div>
-				<div class="rounded month jan p-3 m-3 bg-primary col">Jan</div>
-				<div class="rounded month feb p-3 m-3 bg-primary col">Feb</div>
-				<div class="rounded month mar p-3 m-3 bg-primary col">Mar</div>
-				<div class="rounded month apr p-3 m-3 bg-primary col">Apr</div>
-				<div class="rounded month may p-3 m-3 bg-primary col">May</div>
-				<div class="rounded month jun p-3 m-3 bg-primary col">Jun</div>
-				<div class="rounded month jul p-3 m-3 bg-primary col">Jul</div>
-				<div class="rounded month aug p-3 m-3 bg-primary col">Aug</div>
-				<div class="rounded month sep p-3 m-3 bg-primary col">Sep</div>
-				<div class="rounded month oct p-3 m-3 bg-primary col">Oct</div>
-				<div class="rounded month nov p-3 m-3 bg-primary col">Nov</div>
-				<div class="rounded month dec p-3 m-3 bg-primary col">Dec</div>
+				<div class="rounded month jan  m-1 btn btn-primary col">Jan</div>
+				<div class="rounded month feb  m-1 btn btn-primary col">Feb</div>
+				<div class="rounded month mar  m-1 btn btn-primary col">Mar</div>
+				<div class="rounded month apr  m-1 btn btn-primary col">Apr</div>
+				<div class="rounded month may  m-1 btn btn-primary col">May</div>
+				<div class="rounded month jun  m-1 btn btn-primary col">Jun</div>
+				<div class="rounded month jul  m-1 btn btn-primary col">Jul</div>
+				<div class="rounded month aug  m-1 btn btn-primary col">Aug</div>
+				<div class="rounded month sep  m-1 btn btn-primary col">Sep</div>
+				<div class="rounded month oct  m-1 btn btn-primary col">Oct</div>
+				<div class="rounded month nov  m-1 btn btn-primary col">Nov</div>
+				<div class="rounded month dec  m-1 btn btn-primary col">Dec</div>
 			</div>
 		</div>
 	</div>
