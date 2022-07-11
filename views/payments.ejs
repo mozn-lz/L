@@ -8,7 +8,7 @@
 		<div class="col"><%=user.name%></div>
 		<div class="col"><%=user.surname%></div>
 		<div class="col"><%=user.national_id%></div>
-		<div class="col"><%=lastPayment.date%></div>
+		<div class="col"><%=userPayment.payment_exp%></div>
 	</div>
 	<hr>
 	<div class="row">
@@ -57,7 +57,14 @@
 		
 	</div>
 </div>
-
+<script>
+	let policy = '';
+	!isNaN('<%= user.policy_payment %>') ?  
+		policy = Number('<%= user.policy_payment %>'): policy = 0;
+	const lastMonthbalance = Number('<%= userPayment.balance %>');
+	const lastPayDate = '<%= userPayment.payment_exp %>';
+	const lastPayAmount = Number('<%= userPayment.amount %>');
+</script>
 <script src="/javascripts/payment.js"></script>
 </div>
 <%- include('./frame/footer.ejs') %>
