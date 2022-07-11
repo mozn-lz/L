@@ -189,10 +189,10 @@ router.post('/register', (req, res, next) => {
 		req.body.cell1 			? new_user.cell_1 			= req.body.cell1				: new_user.cell_1				= null;
 		req.body.cell2 			? new_user.cell_2 			= req.body.cell2				: new_user.cell_2				= null;
 
-		new_user.policy				= '',
-		new_user.beneficiary	= '',
-		new_user.members			= '[]',
-		new_user.payments			= '[]',
+		new_user.policy					= '',
+		new_user.beneficiary		= '',
+		new_user.members				= '[]',
+		new_user.policy_payment	= 0,
 
 		console.log('1');
 		(req.body.title == 'mrs' ||
