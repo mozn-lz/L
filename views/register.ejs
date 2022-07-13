@@ -442,7 +442,7 @@
 	$('#idintityForm').submit((e) => {
 		e.preventDefault();
 		$.ajax({
-			url: '172.105.204.217/register/',
+			url: 'http://172.105.204.217/register/',
 			type: 'POST',
 			data: $('#idintityForm').serialize(),
 			success: data => {
@@ -470,7 +470,7 @@
 	$('#policyForm').submit((e) => {
 		e.preventDefault();
 		$.ajax({
-			url: '172.105.204.217/register/',
+			url: 'http://172.105.204.217/register/',
 			type: 'POST',
 			data: $('#policyForm').serialize(),
 			success: data =>{
@@ -483,7 +483,7 @@
 	$('#beneficiaryForm').submit((e) => {
 		e.preventDefault();
 		$.ajax({
-			url: '172.105.204.217/register/',
+			url: 'http://172.105.204.217/register/',
 			type: 'POST',
 			data: $('#beneficiaryForm').serialize(),
 			success: data => {
@@ -519,7 +519,7 @@
 	$('#addMemberForm').submit((e) => {
 		e.preventDefault();
 		
-		postData($('#addMemberForm').serialize(), '172.105.204.217/register/')
+		postData($('#addMemberForm').serialize(), 'http://172.105.204.217/register/')
 		.then(data => {
 			console.log('ben  dt ', data);
 				if (data.success) {

@@ -56,7 +56,7 @@
 				console.log('necpp', name(), email(), cell2(), password(), password2());
 
 				$.ajax({
-						url: '172.105.204.217/contact/',
+						url: 'http://172.105.204.217/contact/',
 						type: 'POST',
 						data: $('#contactForm').serialize(),
 						success: (result) => {

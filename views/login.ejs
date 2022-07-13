@@ -36,7 +36,7 @@
 	$('#loginForm').submit((e) => {
 		e.preventDefault();
 		$.ajax({
-			url: '172.105.204.217/users/',
+			url: 'http://172.105.204.217/users/',
 			type: 'POST',
 			data: $('#loginForm').serialize(),
 			success: (result) => {

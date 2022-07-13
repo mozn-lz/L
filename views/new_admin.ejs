@@ -72,7 +72,7 @@
 		console.log('necpp', name(), email(), password(), password2());
 
 		$.ajax({
-			url: '172.105.204.217/users/',
+			url: 'http://172.105.204.217/users/',
 			type: 'POST',
 			data: $('#registerForm').serialize(),
 			success: (result) => {
