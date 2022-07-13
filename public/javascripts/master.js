@@ -27,7 +27,7 @@ $('#search').keyup(() => {
 	console.log(' Search ');
 	if ($('#search').val().length > 0) {
 		$.ajax({
-			url: 'http://localhost:3000/search/',
+			url: '172.105.204.217/search/',
 			type: 'POST',
 			data: { searchString: $('#search').val() },
 			success: (result) => {
@@ -63,7 +63,7 @@ let fetch_data = (cat) => {
 	console.log('  ', {category, sort, order})
 	retrive = false;
 	$.ajax({
-		url: 'http://localhost:3000/filter-users/',
+		url: '172.105.204.217/filter-users/',
 		type: 'GET',
 		data: { category, sort, order, scrollCounter },
 		success: (result) => {
