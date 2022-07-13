@@ -3,17 +3,13 @@ const mysql = require('mysql2');
 let conn;
 
 // create the connection to database
-if (mysql.createConnection({host: 'localhost',user: 'root',port: 3306,password: 'admin',database: 'library_records'})) {
-	conn = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		port: 3306,
-		password: 'admin',
-		database: 'library_records'
-	});
-} else {
-}
-
+conn = mysql.createConnection({
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	port: process.env.DB_port,
+	password: process.env.DB_PASSWORD,
+	database: process.env.DB_DATABASE
+});
 
 let db_create = (table, new_data, cb) => {
 		console.log( `___ - CREATE ${table} - ___\n`);
