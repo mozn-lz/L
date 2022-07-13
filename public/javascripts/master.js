@@ -5,17 +5,17 @@ fn_display_results = (result) => {
 		const user = result[i];
 		result_arr.push(`
 		<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<div class="card">
-				<div class="card-header">
-					<a href="profile/${ user._id }">${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }</a>
-				</div>
-				<a href="profile/${ user._id }">
-					<div class="card-body">
-						<div class="card-title">${ user.cell_1 }</div>
-						<p class="card-text">${ user.cell_2 }</p>
+			<a href="profile/${ user._id }">
+				<div class="card">
+					<div class="card-header">
+						${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }
 					</div>
-				</a>
-			</div>
+					<div class="card-body">
+						<div class="card-title"></div>
+						<p class="card-text">${ user.cell_1 } ${ user.cell_2 }</p>
+					</div>
+				</div>
+			</a>
 		</div>`);
 		// result_arr = [...result_arr, result];
 	}
@@ -76,19 +76,18 @@ let fetch_data = (cat) => {
 				for (let i = 0; i < result.users.length; i++) {
 					const user = result.users[i];
 					result_arr.push(`
-						<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+						<a href="profile/${ user._id }">
 							<div class="card">
 								<div class="card-header">
-									<a href="profile/${ user._id }">${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }</a>
+									${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }
 								</div>
-								<a href="profile/${ user._id }">
-									<div class="card-body">
-										<div class="card-title">${ user.cell_1 }</div>
-										<p class="card-text">${ user.cell_2 }<br/>${ user.email }</p>
-									</div>
-								</a>
+								<div class="card-body">
+									<p class="card-text">${ user.cell_1 } &nbsp; ${ user.cell_2 } &nbsp; ${ user.email }</p>
+								</div>
 							</div>
-						</div>`);
+						</a>
+					</div>`);
 				}
 				retrive = true;
 				$('#results').append(result_arr);
