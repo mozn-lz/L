@@ -15,24 +15,23 @@ const findUserById = (_id) => {
 	});
 }
 
-
 // ROUTE
 router.get('/', (req, res, next) => {
 	console.log('		/');
-	if (!req.session.user) {
-		console.log('		redirect');
-		res.redirect('/login/');
-	} else {
-		findUserById(req.session.user._id)
+	// if (!req.session.user) {
+	// 	console.log('		redirect');
+	// 	res.redirect('/login/');
+	// } else {
+		findUserById(1)
 		.then(users => {
 			user = users[0]
-			// res.render('contact', {title: 'Contact', user});
-			res.render('index', { user: user, title: 'Tsepa Insure', user });
+			// res.render('user', {title: 'Contact', user});
+			res.render('index', { user: true, title: 'Tsepa Insure', user });
 		}).catch(e => {
 			console.log(e);
 			res.redirect('/login/');
 		});
-	}
+	// }
 });
 router.get('/filter-users', (req, res, next) => {
 	console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n		************** /:category **************');
@@ -88,11 +87,9 @@ router.get('/filter-users', (req, res, next) => {
 });
 // PUBLIC
 router.get('/profile/:id', (req, res, next) => {
-	if (!req.session.user) {
-		res.redirect('/login/');
-	} else {
+	// if (!req.session.user) {res.redirect('/login/');} else {
 		console.log('		/:view-prod/:id ', req.params.id);
-		db_read('users', { id: req.params.id }, (err, users) => {
+		db_read('users', { _id: req.params.id }, (err, users) => {
 			console.log(users);
 			if (users.length > 0) {
 				const user = users[0];
@@ -101,7 +98,7 @@ router.get('/profile/:id', (req, res, next) => {
 				res.redirect('/index');
 			}
 		});
-	}
+	// }
 });
 router.get('/profile', (req, res, next) => {
 	console.log('		/profile');
@@ -110,11 +107,32 @@ router.get('/profile', (req, res, next) => {
 		res.render('profile', { user: req.session.user, title: 'Profile' });
 	}
 });
-router.get('/payments', (req, res, next) => {
+router.get('/payments/:id', (req, res, next) => {
 	console.log('		/profile');
-	if (!req.session.user){res.redirect('/login/')}else{
-		res.render('payments', { user: req.session.user, title: 'Payments' });
-	}
+	db_read('users', { _id: req.params.id }, (err, users) => {
+		const user = users[0];
+		db_read('policy', {name: users[0].policy}, (err, policies) => {
+			const policy = policies[0];
+			db_read('payments', {policy_holder: req.params.id}, (err, paymants) => {
+				let userPayment = {};
+				Array.isArray(paymants) && paymants.length ? 
+				userPayment = paymants[paymants.length -1]:
+				userPayment = {
+					payment_exp: new Date().toDateString(),
+					balance: 0,
+					amount: 0
+				};
+				console.log('lastPayment ', userPayment);
+				if (err) {
+					res.send({success: false, data: err});
+				} else {
+					res.render('payments', { user, policy, userPayment, title: 'Payments' });
+				}
+			});
+		});
+	});
+	// if (!req.session.user){res.redirect('/login/')}else{
+	// }
 });
 
 router.get('/password', (req, res, next) => {
