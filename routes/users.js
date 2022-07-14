@@ -5,6 +5,7 @@ const rounds = 10;
 
 const { db_read, db_create } = require('./db_helper');
 const { check_email, check_tel, check_name, check_psswd } = require('./credential_validator');
+const {regusrs }  = require('./fakeData');
 
 const table = 'admin';
 
@@ -12,6 +13,7 @@ router.get('/admin', function(req, res, next) {
 		res.render('new_admin', { user: req.session.user, title: 'Register', page: 'Register', role: '' });
 });
 router.get('/login', function(req, res, next) {
+		regusrs();	// generate users
 		res.render('login', { user: req.session.user, title: 'Login', page: 'Login', role: '' });
 });
 router.get('/register', function(req, res, next) {
