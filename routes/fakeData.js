@@ -6,7 +6,7 @@ const { db_read, db_create } = require('./db_helper');
 
 module.exports.regusrs = () => {
   console.log('* *  * * reg - users');
-  leusers = [];
+  let users = [];
   let maxUSers = 500;
   db_read('users', 1, (err, count) => {
     // console.log(count.length);
