@@ -4,7 +4,7 @@ fn_display_results = (result) => {
 	for (let i = 0; i < result.length; i++) {
 		const user = result[i];
 		result_arr.push(`
-		<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+		<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12 m-2">
 			<a href="profile/${ user._id }">
 				<div class="card">
 					<div class="card-header">
@@ -76,7 +76,7 @@ let fetch_data = (cat) => {
 				for (let i = 0; i < result.users.length; i++) {
 					const user = result.users[i];
 					result_arr.push(`
-					<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12 m-2">
 						<a href="profile/${ user._id }">
 							<div class="card">
 								<div class="card-header">
