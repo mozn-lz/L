@@ -8,13 +8,16 @@
 		<div class="col"><%=user.name%></div>
 		<div class="col"><%=user.surname%></div>
 		<div class="col"><%=user.national_id%></div>
-		<div class="col"><%=userPayment.payment_exp%></div>
+		<div class="col">Payment Exp: <%=userPayment.payment_exp%></div>
 	</div>
 	<hr>
 	<div class="row">
 		<div class="form-group m-2  col-xs-12 col-sm-12 col-md-6">
 			<label for="amount">Payment Amount</label>
 			<input class="form-control" type="number" min="1" name="amount" id="amount" autocomplete="off">
+		</div>
+		<div class="form-group m-2  col-xs-12 col-sm-12 col-md-6">
+			Premium: <%= user.policy_payment%>
 		</div>
 	</div>
 	
