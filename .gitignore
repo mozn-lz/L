@@ -115,3 +115,7 @@ routes/test.js
 
 views/frame/header.ejs
 views/frame/footer.ejs
+views/contact.ejs
+views/login.ejs
+views/passwors.ejs
+views/register.ejs
