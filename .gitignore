@@ -102,17 +102,16 @@ typings/
 # Mac System dir file
 DS_Store
 
-uploads/
-views/test.hbs
-routes/test.js
 
 
 #Personal files
 todo
-template
-db Template
-db_config.js
-matcha_db_setup.sql
-matcha mysql.users able query
-public/images
-# author
+test.html
+test.js
+
+uploads/
+views/test.hbs
+routes/test.js
+
+views/frame/header.ejs
+views/frame/footer.ejs
