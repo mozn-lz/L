@@ -24,9 +24,9 @@ router.get('/', (req, res, next) => {
 	// } else {
 		findUserById(1)
 		.then(users => {
-			user = users[0]
+			const user = users[0]
 			// res.render('user', {title: 'Contact', user});
-			res.render('index', { user: true, title: 'Tsepa Insure', user });
+			res.render('index', { title: 'Tsepa Insure', user });
 		}).catch(e => {
 			console.log(e);
 			res.redirect('/login/');
