@@ -4,15 +4,15 @@ fn_display_results = (result) => {
 	for (let i = 0; i < result.length; i++) {
 		const user = result[i];
 		result_arr.push(`
-		<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12 m-2">
+		<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<a href="profile/${ user._id }">
-				<div class="card">
-					<div class="card-header">
+				<div class="card shadow">
+					<div class="card-header text-uppercase">
 						${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }
 					</div>
 					<div class="card-body">
 						<div class="card-title"></div>
-						<p class="card-text">${ user.cell_1 } ${ user.cell_2 }</p>
+						<p class="card-text">${ user.cell_1 } | ${ user.cell_2 }</p>
 					</div>
 				</div>
 			</a>
@@ -76,14 +76,14 @@ let fetch_data = (cat) => {
 				for (let i = 0; i < result.users.length; i++) {
 					const user = result.users[i];
 					result_arr.push(`
-					<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12 m-2">
+					<div class="user col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
 						<a href="profile/${ user._id }">
-							<div class="card">
-								<div class="card-header">
+							<div class="card shadow">
+								<div class="card-header text-uppercase">
 									${ user.title } &nbsp; ${ user.name } &nbsp; ${ user.alt_Surname} &nbsp; ${ user.surname }
 								</div>
 								<div class="card-body">
-									<p class="card-text">${ user.cell_1 } &nbsp; ${ user.cell_2 } &nbsp; ${ user.email }</p>
+									<p class="card-text">${ user.cell_1 } | ${ user.cell_2 } &nbsp; ${ user.email }</p>
 								</div>
 							</div>
 						</a>
