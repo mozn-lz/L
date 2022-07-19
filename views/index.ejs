@@ -1,8 +1,20 @@
 <%- include('./frame/header.ejs') %>
 <!-- SHOW ALL userS -->
 <%- include('./frame/menu.ejs') %>
+<style>
+	.user {
+		margin-bottom: 20px;
+		height: 100px;
+		overflow: hidden;
+	}
+	.user :hover {
+		height: 100px;
+		background-color: rgba(7, 73, 1, 0.9);
+		color: aliceblue;
+	}
+</style>
 <div id="main">
-	<h1 class="text-center">Tseap Insure</h1>
+	<h1 class="text-center">Tsepa Insure</h1>
 
 	<div>
 		<%- include('./frame/search.ejs') %>
