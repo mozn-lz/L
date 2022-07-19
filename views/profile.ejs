@@ -8,15 +8,15 @@
 
 <div id="main" class="p-2">
 	<div class="row">
-		<div class="h4 col-md-10"><%= user.title %> <%= user.name %> <%= user.surname %> (<%= user.alt_Surname %>)</div>
+		<div class="h4 col-md-10 text-uppercase"><%= user.title %> <%= user.name %> <%= user.surname %> (<%= user.alt_Surname %>)</div>
 		<div class="col-md-2">
-			<a href="/payments/<%=user._id%>"><button class="btn btn-primary">Payment</button></a>
+			<a href="/payments/<%=user._id%>"><button class="btn btn-success">Payment</button></a>
 		</div>
 	</div>
 	<div class="row m-2">
-		<div class="col-md-4 col-auto"><label class="visually-hidden" for="national_id">national_id</label><div class="input-group"><div class="input-group-text">national_id</div><input type="text" class="form-control" id="national_id"  disabled value="<%if(user.national_id){%> <%= user.national_id %><%}else{%> n/a <%}%>"></div></div>
-		<div class="col-md-4 col-auto"><label class="visually-hidden" for="cell_1">cell_1</label><div class="input-group"><div class="input-group-text">cell_1</div><input type="text" class="form-control" id="cell_1"  disabled value="<%if(user.cell_1){%> <%= user.cell_1 %><%}else{%> n/a <%}%>"></div></div>
-		<div class="col-md-4 col-auto"><label class="visually-hidden" for="cell_2">cell_2</label><div class="input-group"><div class="input-group-text">cell_2</div><input type="text" class="form-control" id="cell_2"  disabled value="<%if(user.cell_2){%> <%= user.cell_2 %><%}else{%> n/a <%}%>"></div></div>
+		<div class="col-md-4 col-auto"><label class="visually-hidden" for="national_id">national_id</label><div class="input-group"><div class="input-group-text">ID &nbsp;</div><input type="text" class="form-control" id="national_id"  disabled value="<%if(user.national_id){%> <%= user.national_id %><%}else{%> n/a <%}%>"></div></div>
+		<div class="col-md-4 col-auto"><label class="visually-hidden" for="cell_1">cell_1</label><div class="input-group"><div class="input-group-text">Cell</div><input type="text" class="form-control" id="cell_1"  disabled value="<%if(user.cell_1){%> <%= user.cell_1 %><%}else{%> n/a <%}%>"></div></div>
+		<div class="col-md-4 col-auto"><label class="visually-hidden" for="cell_2">cell_2</label><div class="input-group"><div class="input-group-text">Cell</div><input type="text" class="form-control" id="cell_2"  disabled value="<%if(user.cell_2){%> <%= user.cell_2 %><%}else{%> n/a <%}%>"></div></div>
 	</div>
 	<hr>
 	<div id="payments" class="row">
