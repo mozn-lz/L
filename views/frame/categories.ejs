@@ -1,0 +1,34 @@
+<div id="categoryList">
+	<% if (categories) { %>
+		<% categories.forEach(function(category) { %>
+				<div class="category text-center" onclick="cat_hendle('<%= category.category %>')">
+					<div class="catImage ">
+						<img src="<%= category.img %>" alt="" width="50px" height="50px" class="rounded-circle border border-2">
+					</div>
+					<div class="catName shadow">
+						<%= category.category %>
+					</div>
+				</div>
+		<% }); %>
+	<% } %>
+</div>
+
+<style>	
+	#categoryList {
+		white-space: nowrap;
+		overflow-x: scroll;
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	#categoryList::-webkit-scrollbar {
+		display: none;
+	}
+	#categoryList .category {
+		display: inline-block;
+		padding: 15px;
+	}
+	.catName {
+		max-width: 120px;
+		white-space: normal;
+	}
+</style>
