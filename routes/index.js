@@ -107,33 +107,6 @@ router.get('/profile', (req, res, next) => {
 		res.render('profile', { user: req.session.user, title: 'Profile' });
 	}
 });
-router.get('/payments/:id', (req, res, next) => {
-	console.log('		/profile');
-	db_read('users', { _id: req.params.id }, (err, users) => {
-		const user = users[0];
-		db_read('policy', {name: users[0].policy}, (err, policies) => {
-			const policy = policies[0];
-			db_read('payments', {policy_holder: req.params.id}, (err, paymants) => {
-				let userPayment = {};
-				Array.isArray(paymants) && paymants.length ? 
-				userPayment = paymants[paymants.length -1]:
-				userPayment = {
-					payment_exp: new Date().toDateString(),
-					balance: 0,
-					amount: 0
-				};
-				console.log('lastPayment ', userPayment);
-				if (err) {
-					res.send({success: false, data: err});
-				} else {
-					res.render('payments', { user, policy, userPayment, title: 'Payments' });
-				}
-			});
-		});
-	});
-	// if (!req.session.user){res.redirect('/login/')}else{
-	// }
-});
 
 router.get('/password', (req, res, next) => {
 	if (!Object.keys(req.session.user).length) {
