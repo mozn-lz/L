@@ -3,7 +3,7 @@
 
 <div id="main" class="p-2">
 <h1 class="text-center">Payment Processing</h1>
-<form action="" class="p-1">
+<form action="http://172.105.204.217/payments/" method="post" class="p-1">
 	<div class="row">
 		<div class="col"><%=user.name%></div>
 		<div class="col"><%=user.surname%></div>
@@ -16,11 +16,12 @@
 			<label for="amount">Payment Amount</label>
 			<input class="form-control" type="number" min="1" name="amount" id="amount" autocomplete="off">
 		</div>
+		<button type="submit" class="btn btn-success">Save</button>
 		<div class="form-group m-2  col-xs-12 col-sm-12 col-md-6">
 			Premium: <%= user.policy_payment%>
 		</div>
+		<input type="hidden" name="id" value="<%=user._id%>">
 	</div>
-	
 	<hr>
 </form>
 
