@@ -9,6 +9,7 @@ require('dotenv').config({path: './.env'});
 
 const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
+const paymentRouter = require('./routes/payment');
 const usersRouter = require('./routes/users');
 const searchRouter = require('./routes/search');
 
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.use('/', indexRouter);
+app.use('/', paymentRouter);
 app.use('/', registerRouter);
 app.use('/', usersRouter);
 app.use('/', searchRouter);
