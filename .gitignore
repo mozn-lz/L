@@ -114,11 +114,11 @@ test.js
 uploads/
 routes/test.js
 
-# views/frame/header.ejs
-# views/frame/footer.ejs
+views/frame/header.ejs
+views/frame/footer.ejs
 views/contact.ejs
-# views/login.ejs
-# views/passwors.ejs
-# views/register.ejs
+views/login.ejs
+views/passwors.ejs
+views/register.ejs
 routes/library_records.sql
 routes/upload.js
