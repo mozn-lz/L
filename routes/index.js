@@ -1,19 +1,8 @@
 const express = require('express');
-const { authUser, authRole, ROLE } = require('./auth');
 const router = express.Router();
-const { db_read, db_read_products, db_read_promos, db_update, db_advanced_read, db_gen_advanced_read } = require('./db_helper');
-
-const findUserById = (_id) => {
-	return new Promise((res, rej) => {
-		db_read('admin', {_id}, (err, user) => {
-			console.log(user, '\n', user.length);
-			if (user.length == 1){
-				res(user);
-			}else{
-				rej('user not found');}
-		});
-	});
-}
+const { db_update, db_advanced_read } = require('./db_helper');
+const { findUserById } = require('./gen_helper');
+const { authUser, authRole, ROLE } = require('./auth');
 
 // ROUTE
 router.get('/', (req, res, next) => {
@@ -23,8 +12,7 @@ router.get('/', (req, res, next) => {
 	// 	res.redirect('/login/');
 	// } else {
 		findUserById(1)
-		.then(users => {
-			const user = users[0]
+		.then(user => {
 			// res.render('user', {title: 'Contact', user});
 			res.render('index', { title: 'Tsepa Insure', user });
 		}).catch(e => {
@@ -89,14 +77,11 @@ router.get('/filter-users', (req, res, next) => {
 router.get('/profile/:id', (req, res, next) => {
 	// if (!req.session.user) {res.redirect('/login/');} else {
 		console.log('		/:view-prod/:id ', req.params.id);
-		db_read('users', { _id: req.params.id }, (err, users) => {
-			console.log(users);
-			if (users.length > 0) {
-				const user = users[0];
-				res.render('profile', { user: req.session.user, title: user.name, user });
-			} else {
-				res.redirect('/index');
-			}
+		findUserById(req.params.id).then(user => {
+			console.log(user);
+			res.render('profile', { user: req.session.user, title: user.name, user });
+		}).catch(e => {
+			res.redirect('/index');
 		});
 	// }
 });
