@@ -1,9 +1,16 @@
-module.exports = findUserById = (_id) => {
+const { db_read } = require("./db_helper");
+
+let findAdminById = (_id) => {
+  return new Promise((res, rej) => {
+    db_read('admin', { _id }, (err, users) => { (err || users.length != 1) ? rej(err) : res(users[0]); });
+  });
+}
+let findUserById = (_id) => {
   return new Promise((res, rej) => {
     db_read('users', { _id }, (err, users) => { (err || users.length != 1) ? rej(err) : res(users[0]); });
   });
 }
-module.exports = gen_db_read = (table, query) => {
+let gen_db_read = (table, query) => {
   return new Promise((res, rej) => {
     db_read(table, query, (err, results) => {
       // console.log(table, ': err, results ', err, results);
@@ -12,7 +19,7 @@ module.exports = gen_db_read = (table, query) => {
   });
 }
 // POLICY PAYMENT CALCULATOR
-module.exports = ft_calculatePayment = async (amount, user, userPayment) => {
+let ft_calculatePayment = async (amount, user, userPayment) => {
 	return new Promise((res, rej) => {
 		(!amount || amount == 0 || !user ||!userPayment) ? rej('invalid data'):0;
 		let policy = '';
@@ -93,3 +100,9 @@ module.exports = ft_calculatePayment = async (amount, user, userPayment) => {
 		}
 	});
 }
+module.exports = {
+	findAdminById,
+	findUserById,
+	gen_db_read,
+	ft_calculatePayment
+};
