@@ -2,7 +2,7 @@
 <%- include('./frame/menu.ejs') %>
 <style>
 	.border {
-		background-color: rgb(219, 219, 219);
+		/* background-color: rgb(219, 219, 219); */
 	}
 </style>
 
@@ -23,42 +23,64 @@
 		<div class="column col-md-4 p-2 border border-2">
 			<div class="text-center h5"><u>Payment History</u></div>
 			<ol id="payment_record">
-				<li class="row">
-					<div></div>
-					<div class="col date fw-bold">
-						<!-- <%= user.reg_date %> -->
-						1 June 2022
-					</div>
-					<div class="col amount fw-bold"> M 140.00</div>
-					<!-- <div class="col premium">3</div> -->
-				</li>
-				<li class="row">
-					<div></div>
-					<div class="col date fw-bold">
-						<!-- <%= user.reg_date %> -->
-						1 June 2022
-					</div>
-					<div class="col amount fw-bold"> M 140.00</div>
-					<!-- <div class="col premium">3</div> -->
-				</li>
-				<li class="row">
-					<div></div>
-					<div class="col date fw-bold">
-						<!-- <%= user.reg_date %> -->
-						1 June 2022
-					</div>
-					<div class="col amount fw-bold"> M 140.00</div>
-					<!-- <div class="col premium">3</div> -->
-				</li>
+				<% for (let i = 0; i < payments.length; i++) { %>
+						<% const pay = payments[i]; %>
+						<li class="row" onclick="fn_display('<%=i%>')">
+							<div></div>
+							<div class="col date fw-bold p-1">
+								<!-- <%= user.reg_date %> -->
+								<%= new Date(pay.time).toLocaleDateString()%> <%= new Date(pay.time).toLocaleTimeString()%>
+							</div>
+							<div class="col amount fw-bold"> M <%= pay.amount%>.00</div>
+							<!-- <div class="col premium">3</div> -->
+						</li>
+				<% } %>
 			</ol>
 		</div>
 
 		<div class="column col-md-8 p-2 border">
 			<div class="text-center h5"><u>Viasualisation</u></div>
 			<div id="visualisation">
-				
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<!-- <th>_id</th> -->
+							<!-- <th>policy_holder</th> -->
+							<th scope="col">Amount</th>
+							<th scope="col">Balance</th>
+							<th scope="col">Payment_Exp</th>
+							<th scope="col">All_Monts_Paid</th>
+							<th scope="col">Premium</th>
+							<th scope="col">Date</th>
+							<!-- <th scope="col">Cell</th> -->
+							<th scope="col">Reference</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for (let i = 0; i < payments.length; i++) { %>
+							<% const pay = payments[i]; %>
+							<tr>
+								<!-- <td><%= pay._id%></td>
+								<td><%= pay.policy_holder%></td> -->
+								<td><%= pay.amount%></td>
+								<td><%= pay.balance%></td>
+								<td><%= pay.payment_exp%></td>
+								<td><%= pay.all_Monts_Paid%></td>
+								<td>M <%= pay.policy%>.00</td>
+								<td><%= pay.time%></td>
+								<!-- <td><%= pay.cell%></td> -->
+								<td><%= pay.reference%></td>
+							</tr>
+						<% } %>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+	let fn_display = (i)=> {
+		alert(i);
+	}
+</script>
 <%- include('./frame/footer.ejs') %>

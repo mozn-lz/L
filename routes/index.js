@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { db_update, db_advanced_read } = require('./db_helper');
-const { findUserById } = require('./gen_helper');
+const { findAdminById, findUserById, gen_db_read } = require('./gen_helper');
 const { authUser, authRole, ROLE } = require('./auth');
 
 // ROUTE
@@ -11,8 +11,9 @@ router.get('/', (req, res, next) => {
 	// 	console.log('		redirect');
 	// 	res.redirect('/login/');
 	// } else {
-		findUserById(1)
+		findAdminById(1)
 		.then(user => {
+			console.log('/ ', user)
 			// res.render('user', {title: 'Contact', user});
 			res.render('index', { title: 'Tsepa Insure', user });
 		}).catch(e => {
@@ -77,9 +78,14 @@ router.get('/filter-users', (req, res, next) => {
 router.get('/profile/:id', (req, res, next) => {
 	// if (!req.session.user) {res.redirect('/login/');} else {
 		console.log('		/:view-prod/:id ', req.params.id);
-		findUserById(req.params.id).then(user => {
-			console.log(user);
-			res.render('profile', { user: req.session.user, title: user.name, user });
+		const paymantsPr = gen_db_read('payments', { policy_holder: req.params.id });
+		const userPr = findUserById(req.params.id);
+		Promise.all([userPr, paymantsPr]).then(result => {
+			const user = result[0];
+			const payments = result[1] ? result[1].reverse(): result[1];
+
+			console.log('user, payments ', user, payments);
+			res.render('profile', { user: req.session.user, title: user.name, user, payments });
 		}).catch(e => {
 			res.redirect('/index');
 		});
