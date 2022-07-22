@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { db_create } = require("./db_helper");
-const { gen_db_read, findUserById } = require("./gen_helper");
+const { gen_db_read, findUserById, ft_calculatePayment } = require("./gen_helper");
 
 
-const defaultPayment = { payment_exp: new Date().toDateString(), balance: 20, amount: 0 };
+const defaultPayment = { payment_exp: new Date().toDateString(), balance: 0, amount: 0 };
 
 router.get('/payments/:id', (req, res, next) => {
 	let user = {};
@@ -57,17 +57,19 @@ router.post('/payments', (req, res, next) => {
 			balance: procesedPayment.balance,
 			payment_exp: procesedPayment.payment_exp,
 			all_Monts_Paid: procesedPayment.monthsPaid,
-			policy: user.policy,
-			time: procesedPayment.date,
+			policy: user.policy_payment,
+			time: new Date(),
 			cell: '',
 			reference: ''
 		};
 		db_create('payments', newPayment, (err, data) => {
+			console.log('make payment0 ', (err, data))
 			res.redirect('/profile/'+ user._id);
 			// res.render('profile', { user: req.session.user, title: user.name, user });
 		})
 	})
 	.catch(e => {
+		console.log('e', e);
 		res.send({ success: false, msg: e });
 	});
 });
