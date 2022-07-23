@@ -18,7 +18,8 @@
 		</div>
 		<button type="submit" class="btn btn-success">Save</button>
 		<div class="form-group m-2  col-xs-12 col-sm-12 col-md-6">
-			Premium: <%= user.policy_payment%>
+			<b>Premium:</b> M <%= user.policy_payment%>.00 
+			&nbsp; &nbsp; <b>Balance:</b> M <%= userPayment.balance%>
 		</div>
 		<input type="hidden" name="id" value="<%=user._id%>">
 	</div>
