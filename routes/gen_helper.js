@@ -2,19 +2,19 @@ const { db_read } = require("./db_helper");
 
 let findAdminById = (_id) => {
   return new Promise((res, rej) => {
-    db_read('admin', { _id }, (err, users) => { (err || users.length != 1) ? rej(err) : res(users[0]); });
+    db_read('admin', { _id }, (err, users) => { (err || users.length != 1) ? rej('User not found') : res(users[0]); });
   });
 }
 let findUserById = (_id) => {
   return new Promise((res, rej) => {
-    db_read('users', { _id }, (err, users) => { (err || users.length != 1) ? rej(err) : res(users[0]); });
+    db_read('users', { _id }, (err, users) => { (err || users.length != 1) ? rej('User not found') : res(users[0]); });
   });
 }
 let gen_db_read = (table, query) => {
   return new Promise((res, rej) => {
     db_read(table, query, (err, results) => {
       // console.log(table, ': err, results ', err, results);
-      err ? rej(err) : res(results);
+      err ? rej('Information not found') : res(results);
     });
   });
 }
