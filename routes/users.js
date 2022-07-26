@@ -3,9 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const rounds = 10;
 
-const { db_read, db_create } = require('./db_helper');
+const { db_read, db_create, db_update } = require('./db_helper');
 const { check_email, check_tel, check_name, check_psswd } = require('./credential_validator');
 const {regusrs }  = require('./fakeData');
+const { findAdminById } = require('./gen_helper');
 
 const table = 'admin';
 
@@ -25,7 +26,7 @@ router.get('/register', function(req, res, next) {
 });
 
 let fn_register = (user) => {
-		console.log('**   fn_register **');
+		console.log('**   fn_register **', user);
 		return new Promise((resolve, reject) => {
 				bcrypt.hash(user.password, rounds, function(err, hash) {
 						console.log('**   hashing **');
@@ -45,17 +46,40 @@ let fn_findUser = (user) => {
 				console.log('cellUser1 ', cellUser1);
 				db_read(table, { email: user.email }, (err, emailUser) => {
 					console.log('emailUser ', emailUser);
-					if (cellUser[0]) {
-						resolve(cellUser);
-					} else if (cellUser1[0]) {
-						resolve(cellUser1);
-					} else if (emailUser[0]) {
-						resolve(emailUser);
-					} else {
-						reject(false);
-					}
+					db_read(table, { username: user.username }, (err, username) => {
+						console.log('username ', username);
+						if (user.cell_1 && cellUser[0]) {
+							resolve(cellUser[0].cell_1);
+						} else if (user.cell_2 && cellUser1[0]) {
+							resolve(cellUser1[0].cell_2);
+						} else if (user.email && emailUser[0]) {
+							resolve(emailUser[0].email);
+						} else if (user.username && username[0]) {
+							resolve(username[0].username);
+						} else {
+							reject(false);
+						}
+					});
 				});
 			});
+		});
+	});
+}
+let removeUser = (_id, active) => {
+	return new Promise((res, rej) => {
+		db_update(table, {_id}, {active}, (err, data) => {
+			console.log('\n update admin ', err, data);
+			err ? rej(err): res(data);
+		});
+	});
+}
+let editAdmin = (_id, userEdit) => {
+	console.log('fn_edit data ');
+	return new Promise((res, rej) => {
+		console.log('fn_edit data ');
+		db_update(table, {_id}, userEdit, (err, data) => {
+			console.log('\n edit admin ', err, data);
+			err ? rej(err): res(data);
 		});
 	});
 }
@@ -66,28 +90,34 @@ router.post('/users', (req, res, next) => {
 		if (req.body.register) {
 				console.log('REGISTER');
 				let new_user = {
-						name: req.body.name.trim(),
-						surname: req.body.surname.trim(),
+						username: req.body.username.trim().toUpperCase(),
+						name: req.body.name.trim().toUpperCase(),
+						surname: req.body.surname.trim().toUpperCase(),
 						email: req.body.email.trim().split(' ').join(''),
 						cell_1: req.body.cell1.trim().split(' ').join(''),
 						cell_2: req.body.cell2.trim().split(' ').join(''),
-						password: req.body.password
+						password: req.body.password,
+						active: true,
+						rights: '[]'
 				};
-
-				console.log('1 name ', !check_name(new_user.name) );
-				console.log('2 surname ', !check_name(new_user.surname) );
+				new_user.password = 'ZZzz!!11';
+				req.body.confirmPassword = 'ZZzz!!11';
+				console.log('*0 username ', !check_name(new_user.username),new_user.username );
+				console.log('*1 name ', !check_name(new_user.name),new_user.name );
+				console.log('*2 surname ', !check_name(new_user.surname),new_user.surname );
 				console.log('3 email ', !check_email(new_user.email) );
 				// console.log('4 cell_1 ', !check_tel(new_user.cell_1) );
 				// console.log('5 cell_2 ', !check_tel(new_user.cell_2) );
-				console.log('6 password ', !check_psswd(new_user.password));
-				console.log('7 Match  ', new_user.password !== req.body.confirmPassword);
+				console.log('*6 password ', !check_psswd(new_user.password), new_user.password);
+				console.log('*7 Match  ', new_user.password !== req.body.confirmPassword, new_user.password ,req.body.confirmPassword);
 				
 				// !check_tel(new_user.cell_2) || 
 				// !check_tel(new_user.cell_1) || 
+				// !check_email(new_user.email) || 
 				if (
+							!check_name(new_user.username) || 
 							!check_name(new_user.name) || 
 							!check_name(new_user.surname) || 
-							!check_email(new_user.email) || 
 							!check_psswd(new_user.password) ||
 							new_user.password != req.body.confirmPassword
 						) {
@@ -96,7 +126,7 @@ router.post('/users', (req, res, next) => {
 						res.send({ success: false, msg: 'missing information' });
 				} else {
 						fn_findUser(new_user).then(user => {
-								res.send({ sucess: false, msg: 'Email or Cell no. already in use' });
+								res.send({ sucess: false, msg: `'<b>${user}</b>' already in use` });
 						}).catch(e => {
 								fn_register(new_user).then(registered => {
 										console.log('**\t98registerd: ' + registered);
@@ -109,16 +139,43 @@ router.post('/users', (req, res, next) => {
 						});
 				}
 		} else if (req.body.upadteUser) {
-
+			const id = req.body.id;
+			console.log('\tEdit admin ', id);
+			findAdminById(id).then(admin => {
+				console.log('\tEdit admin ', admin);
+				let updateData = {};
+	
+				req.body.username ?	updateData.username	= req.body.username	: 0;
+				req.body.name ? 		updateData.name 		= req.body.name			: 0;
+				req.body.surname ?	updateData.surname	= req.body.surname	: 0;
+				req.body.email ?		updateData.email		= req.body.email		: 0;
+				req.body.cell1 ?		updateData.cell_1		= req.body.cell1		: 0;
+				req.body.cell2 ?		updateData.cell_2		= req.body.cell2		: 0;
+				req.body.rights ? 	updateData.rights 	= req.body.rights		: 0;
+				/**
+				 * might need indepenfdent function
+				 * todo: password change
+				 * todo: forgot password
+				 *  */
+				req.body.password ? updateData.password = req.body.password	: 0;
+	
+				console.log('updateData ', updateData);
+				editAdmin(id, updateData).then(success => {
+					console.log('\nedit admin ', success);
+					res.send({ success: true, msg: admin.anme + '\'s details changed'});
+				}).catch(e => res.send({ success: false,msg: 'Error changing user details'}))
+			}).catch(e => res.send({ success: false, msg: e}));
 		} else if (req.body.login) {
 			console.log('LOGIN');
 				const user = {
 						cell_1: req.body.cell,
 						cell_2: req.body.cell,
+						username: req.body.cell.toUpperCase(),
 						email: req.body.cell,
 						password: req.body.password
 				};
 				fn_findUser(user).then(db_user => {
+					console.log('user.password. ', user.password, db_user[0].password);
 						bcrypt.compare(user.password, db_user[0].password, function(err, passwordMatch) {
 								console.log('PM: ', passwordMatch);
 								if (err || !passwordMatch) {
@@ -140,9 +197,22 @@ router.post('/users', (req, res, next) => {
 						});
 				}).catch((e) => {
 						// fuck off
-						console.log('** pass no match\n', e);
+						console.log('** 195 pass no match\n', e);
 						res.send({ success: false, msg: 'User not found' });
 				});
+		} else 
+		if (req.body.remove) {
+			const id = req.body.id;
+			findAdminById(id).then(admin => {
+				// Todo: check if user is not removing them-self
+				console.log('\t Remove admin ', admin);
+				// active = oposite of curents users status 
+				const active = admin.active ? false: true; 
+				removeUser(id, active).then(success => {
+					console.log('remove admin ', success);
+					res.send({ success: true, msg: admin.anme + '\'s removed'});
+				}).catch(e => res.send({ success: false,msg: e}));
+			}).catch(e => res.send({ success: false, msg: e}));
 		} else {
 				console.log('nEnd of the Line');
 				res.redirect('/');

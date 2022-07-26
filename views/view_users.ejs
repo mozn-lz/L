@@ -46,10 +46,16 @@
 	<script>
 		let  changeStatus = (id) => {
 			$.ajax({
-				url: 'http://172.105.204.217/edit-admin',
+				url: 'http://172.105.204.217/users',
 				type: 'POST',
-				data: {id, operation:'remove'},
-				success: data => {console.log('data: ' + data)},
+				data: {id, remove: 'true'},
+				success: data => {
+					console.log('data: ' + data);
+					console.log(data)
+					if (data.success) {
+						location.reload();
+					}
+				},
 				error: e => {console.log('e: ' + e)}
 			});
 		}
