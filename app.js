@@ -7,6 +7,7 @@ const logger = require('morgan');
 var expressSession = require('express-session');
 require('dotenv').config({path: './.env'});
 
+const adminRouter = require('./routes/admin');
 const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
 const paymentRouter = require('./routes/payment');
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
+app.use('/', adminRouter);
 app.use('/', indexRouter);
 app.use('/', paymentRouter);
 app.use('/', registerRouter);

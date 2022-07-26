@@ -1,0 +1,58 @@
+<%- include('./frame/header.ejs') %>
+<%- include('./frame/menu.ejs') %>
+
+<div id="main">
+	<h2>Users</h2>
+	
+	<a href="edit-admin" class="btn btn-primary">New User <i class="bi bi-person-plus"></i></a>
+	<table class="table">
+		<thead>
+			<th>
+				<td></td>
+				<td>name</td>
+				<td>surname</td>
+				<td>cell_1</td>
+				<td>cell_2</td>
+				<td>email</td>
+				<td>active</td>
+				<td></td>
+			</th>
+		</thead>
+		<tbody>
+			<% users.forEach(user => { %>
+					<tr class="user">
+						<% if (user.active) { %> 
+							<td><button onclick=changeStatus(<%= user._id %>) class="btn btn-danger">Disable <i class="bi bi-person-dash"></i></button></td>
+						<% }else { %>
+							<td><button onclick=changeStatus(<%= user._id %>) class="btn btn-success">Enable <i class="bi bi-person-plus"></i></button></td>
+						<% } %>
+						<td><%= user._id %></td>
+						<td><%= user.name %></td>
+						<td><%= user.surname %></td>
+						<td><%= user.cell_1 %></td>
+						<td><%= user.cell_2 %></td>
+						<td><%= user.email %></td>
+						<td><%= user.active %></td>
+						<% if (user.active) { %>
+							<td><a href="edit-admin/<%= user._id %>" class="btn btn-primary">Edit <i class="bi bi-pencil-square"></i></a></td>
+						<% } else { %> 
+							<td><button href="edit-admin/<%= user._id %>" class="btn btn-primary" disabled>Edit <i class="bi bi-pencil-square"></i></button></td>
+						<% } %>
+					</tr>
+			<% }); %>
+		</tbody>
+	</table>
+
+	<script>
+		let  changeStatus = (id) => {
+			$.ajax({
+				url: 'http://172.105.204.217/edit-admin',
+				type: 'POST',
+				data: {id, operation:'remove'},
+				success: data => {console.log('data: ' + data)},
+				error: e => {console.log('e: ' + e)}
+			});
+		}
+	</script>
+</div>
+<%- include('./frame/footer.ejs') %>
