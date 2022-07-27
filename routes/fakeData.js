@@ -1,5 +1,6 @@
 const faker =  require('@faker-js/faker');
 const { db_read, db_create } = require('./db_helper');
+const bcrypt = require('bcrypt');
 
 
 
@@ -49,6 +50,41 @@ module.exports.regusrs = () => {
       }, 1000);
     } else {
       // console.log(`Users past ${maxUSers}`)
+    }
+  });
+
+  db_read('admin', 1, (err, count) => {
+    let admin = [];
+    const maxadmin = 10;
+    if (count.length < maxadmin) {
+    // console.log(`looping`);
+    let password = "!!11QQqq";
+    bcrypt.hash(password, 10, function(err, hash) {
+      password = hash;
+    });
+      for (let i = 0; i < maxadmin; i++) {
+        // console.log(`looping ${i} ${maxUSers}`);
+				let newUser = {
+						username: faker.faker.name.firstName()+faker.faker.name.lastName(),
+						name: faker.faker.name.firstName(),
+						surname: faker.faker.name.firstName(),
+						email: faker.faker.helpers.arrayElement(['', faker.faker.internet.email()]),
+						cell_1: faker.faker.helpers.arrayElement(['', faker.faker.random.numeric(8)]),
+						cell_2: faker.faker.helpers.arrayElement(['', faker.faker.random.numeric(10)]),
+						password: password,
+						active: true,
+						rights: '[]'
+				};
+        admin.push(newUser);
+      }
+      setTimeout(() => {
+        // console.log(`timed out `);
+        for (let i = 0; i < maxadmin; i++) {
+          console.log(`looping ${i} `);
+          db_create('admin', admin[i], (err, res_arr) => { console.log('\t\t', i, ' admin created') });
+          // console.log(`${i + 1}.${admin[i].usr_user} ${admin[i].usr_email}`);
+        }
+      }, 1000)
     }
   });
 }
