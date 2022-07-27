@@ -12,7 +12,9 @@ const table = 'admin';
 
 router.get('/login', function(req, res, next) {
 		regusrs();	// generate users
-		res.render('login', { user: req.session.user, title: 'Login', page: 'Login', role: '' });
+		gen_db_read(table, '').then(users => {	//	for sample data
+			res.render('login', { user: req.session.user, users, title: 'Login', page: 'Login', role: '' });
+		});
 });
 
 // new policy holders

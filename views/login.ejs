@@ -27,6 +27,17 @@
 		<button class="btn btn-primary" type="submit">Login</button>
 	</form>
 
+	<% if (users) { %>
+		Sample login credentials
+		<div class="row">
+			<% users.forEach(admin => { %>
+				<div class="col-3 m-2 shadow border">
+					<div class="m-1">name:  <b><%= admin.username %></b></div>
+					<div class="m-1">Password:  <b>!!11QQqq</b></div>
+				</div>
+			<% }); %>
+		</div>
+	<% } %>
 </div>
 
 <script>
