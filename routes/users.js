@@ -38,6 +38,21 @@ router.get('/login', function(req, res, next) {
 			res.render('login', { user: req.session.user, users, title: 'Login', page: 'Login', role: '' });
 		});
 });
+// admin Rights && Authority
+router.get('/permision/:id', (req, res) => {
+	const id = req.params.id;
+	findAdminById(id).then(a_user => {
+		console.log(a_user);
+		const user1 = {
+			id: a_user._id,
+			name: a_user.name,
+			surname: a_user.surname,
+			rights: a_user.rights
+		};
+			console.log(a_user);
+			res.render('permision', { user: req.session.user, user1, title: 'Rights & permistions', page: 'Permistions', role: '' });
+	})
+});
 
 let fn_register = (user) => {
 		console.log('**   fn_register **', user);
@@ -90,6 +105,28 @@ let editAdmin = (_id, userEdit) => {
 	});
 }
 
+router.post('/edit-admin', (req, res) => {
+	console.log(req.body);
+	const _id = req.body.id;
+	findAdminById(_id).then(user => {
+		let rights = {};
+		req.body.readusers? rights.readusers = true :0;
+		req.body.createusers? rights.createusers = true :0;
+		req.body.updateusers? rights.updateusers = true :0;
+		req.body.deleteusers? rights.deleteusers = true :0;
+		req.body.readclients? rights.readclients = true :0;
+		req.body.createclients? rights.createclients = true :0;
+		req.body.updateclients? rights.updateclients = true :0;
+		req.body.deleteclients? rights.deleteclients = true :0;
+		req.body.readpayments? rights.readpayments = true :0;
+		req.body.createpayments? rights.createpayments = true :0;
+		req.body.updatepayments? rights.updatepayments = true :0;
+		req.body.deletepayments? rights.deletepayments = true :0;
+		db_update(table, {_id}, {rights}, (err, daua) => {
+			err? res.send({success: false, meg: 'Error updating user rights'}):res.send({success: true});
+		})
+	}).catch(e => { console.log(e); res.send({success:false, msg:'User not foun; ' + e})})
+});
 router.post('/login', (req, res, next) => {
 	console.log("\n ** ** ** ** ** ** MESSAGE RECIEVED ** ** ** ** ** ** * \n", req.body, '\n');
 	if (req.body.login) {
