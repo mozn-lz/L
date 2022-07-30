@@ -53,7 +53,7 @@ router.post('/payments', (req, res, next) => {
 
 		const newPayment = {
 			policy_holder: _id,
-			amount: procesedPayment.amount,
+			amount: amount,
 			balance: procesedPayment.balance,
 			payment_exp: procesedPayment.payment_exp,
 			all_Monts_Paid: procesedPayment.monthsPaid,
