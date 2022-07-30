@@ -6,7 +6,7 @@ const rounds = 10;
 const { db_read, db_create, db_update } = require('./db_helper');
 const { check_email, check_tel, check_name, check_psswd } = require('./credential_validator');
 const {regusrs }  = require('./fakeData');
-const { findAdminById, findUserById, gen_db_read } = require('./gen_helper');
+const { findAdminById } = require('./gen_helper');
 
 const table = 'admin';
 
@@ -15,23 +15,6 @@ router.get('/login', function(req, res, next) {
 		gen_db_read(table, '').then(users => {	//	for sample data
 			res.render('login', { user: req.session.user, users, title: 'Login', page: 'Login', role: '' });
 		});
-});
-
-// new policy holders
-router.get('/register', function(req, res, next) {
-	res.render('register', { user: req.session.user, polyicyHldr: null, members: null , title: 'Register', page: 'Register', role: '' });
-});
-
-// edit policies
-router.get('/register/:id', function(req, res, next) {
-	const _id = req.params.id;
-
-	Promise.all([findUserById(_id), gen_db_read('members', { policy_holder: _id })])
-	.then ((data) => {
-		const polyicyHldr = data[0];
-		const members = data[1];
-		res.render('register', { user: req.session.user, polyicyHldr, members, title: 'Register', page: 'Register', role: '' });
-	}).catch(e => res.redirect('/'))
 });
 
 let fn_register = (user) => {

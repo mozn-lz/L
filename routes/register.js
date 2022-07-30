@@ -1,6 +1,7 @@
 
 const express = require("express");
 const { db_create, db_update, db_read, db_delete } = require("./db_helper");
+const { findUserById, gen_db_read } = require("./gen_helper");
 const router = express.Router();
 
 function selectPolicy(userp) {
@@ -42,6 +43,23 @@ function selectPolicy(userp) {
 	console.log(`Policy ${policy}`);
 	return policy;
 }
+
+// new policy holders
+router.get('/register', function(req, res, next) {
+	res.render('register', { user: req.session.user, polyicyHldr: null, members: null , title: 'Register', page: 'Register', role: '' });
+});
+
+// edit policies
+router.get('/register/:id', function(req, res, next) {
+	const _id = req.params.id;
+
+	Promise.all([findUserById(_id), gen_db_read('members', { policy_holder: _id })])
+	.then ((data) => {
+		const polyicyHldr = data[0];
+		const members = data[1];
+		res.render('register', { user: req.session.user, polyicyHldr, members, title: 'Register', page: 'Register', role: '' });
+	}).catch(e => res.redirect('/'))
+});
 
 router.post('/register', (req, res, next) => {
 	console.log('** REGISTER **\n', req.body);
