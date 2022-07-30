@@ -3,30 +3,7 @@ const router  = require('express').Router();
 const { db_read, db_create, db_update } = require('./db_helper');
 const { findAdminById } = require('./gen_helper');
 
-
 const table = 'admin';
-// view admin
-router.get('/view-admin', (req, res) => {
-	db_read(table, '', (err, users) => {
-		console.log(users);
-		// users[0].active = false;
-		res.render('view_users', {users, title: 'view users', user: users[0]});
-	});
-});
-router.get('/edit-admin/:id', (req, res) => {
-	findAdminById(req.params.id).then(a_user => {
-		console.log(a_user);
-		// users[0].active = false;
-		res.render('new_admin', { user: a_user, title: 'Edit ' + a_user.name, a_user });
-	}).catch(e => res.redirect('view-admin'));
-});
-router.get('/edit-admin', (req, res) => {
-	db_read(table, '', (err, users) => {
-		console.log(err, users);
-		// users[0].active = false;
-		res.render('new_admin', {user: users[0], title: 'view users', a_user: false});
-	});
-});
 
 let removeAdmin = (_id, active) => {
 	return new Promise((res, rej) => {
