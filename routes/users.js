@@ -58,13 +58,13 @@ let fn_findUser = (user) => {
 					db_read(table, { username: user.username }, (err, username) => {
 						console.log('username ', username);
 						if (user.cell_1 && cellUser[0]) {
-							resolve(cellUser[0].cell_1);
+							resolve(cellUser[0]);
 						} else if (user.cell_2 && cellUser1[0]) {
-							resolve(cellUser1[0].cell_2);
+							resolve(cellUser1[0]);
 						} else if (user.email && emailUser[0]) {
-							resolve(emailUser[0].email);
+							resolve(emailUser[0]);
 						} else if (user.username && username[0]) {
-							resolve(username[0].username);
+							resolve(username[0]);
 						} else {
 							reject(false);
 						}
@@ -184,8 +184,8 @@ router.post('/users', (req, res, next) => {
 						password: req.body.password
 				};
 				fn_findUser(user).then(db_user => {
-					console.log('user.password. ', user.password, db_user[0].password);
-						bcrypt.compare(user.password, db_user[0].password, function(err, passwordMatch) {
+					console.log('user.password. ', user.password, db_user, db_user.password);
+						bcrypt.compare(user.password, db_user.password, function(err, passwordMatch) {
 								console.log('PM: ', passwordMatch);
 								if (err || !passwordMatch) {
 										// password isfucked
@@ -195,13 +195,13 @@ router.post('/users', (req, res, next) => {
 										// successfully loggedin
 										console.log('** lets login');
 										req.session.user = {};
-										req.session.user.email = db_user[0].email;
-										req.session.user.cell = db_user[0].cell;
-										req.session.user.name = db_user[0].name;
-										req.session.user = db_user[0];
+										req.session.user.email = db_user.email;
+										req.session.user.cell = db_user.cell;
+										req.session.user.name = db_user.name;
+										req.session.user = db_user;
 
 										// re-fucken-spond
-										res.send({ success: true, msg: 'logged in successfully', id: db_user[0].id });
+										res.send({ success: true, msg: 'logged in successfully', id: db_user._id });
 								}
 						});
 				}).catch((e) => {
