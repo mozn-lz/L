@@ -89,7 +89,11 @@
 		const showMessage = $('#showMessage');
 		if (name() && surname() && username()) {
 			$.ajax({
-				url: 'http://172.105.204.217/users',
+				<% if (a_user) { %>
+					url: 'http://172.105.204.217/update',
+				<% } else { %>
+					url: 'http://172.105.204.217/adminregister',
+				<% }  %>
 				type: 'POST',
 				data: $('#registerForm').serialize(),
 				success: (result) => {

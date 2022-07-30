@@ -46,7 +46,7 @@
 	<script>
 		let  changeStatus = (id) => {
 			$.ajax({
-				url: 'http://172.105.204.217/users',
+				url: 'http://172.105.204.217/remove',
 				type: 'POST',
 				data: {id, remove: 'true'},
 				success: data => {

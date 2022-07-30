@@ -105,7 +105,7 @@ let editAdmin = (_id, userEdit) => {
 	});
 }
 
-router.post('/edit-admin', (req, res) => {
+router.post('/permision', (req, res) => {
 	console.log(req.body);
 	const _id = req.body.id;
 	findAdminById(_id).then(user => {
@@ -170,7 +170,7 @@ router.post('/login', (req, res, next) => {
 		res.redirect('/');
 	}
 });
-router.post('/register', (req, res, next) => {
+router.post('/adminregister', (req, res, next) => {
 	console.log("\n ** ** ** ** ** ** MESSAGE RECIEVED ** ** ** ** ** ** * \n", req.body, '\n');
 	if (req.body.register) {
 		console.log('REGISTER');
