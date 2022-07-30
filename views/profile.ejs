@@ -47,10 +47,10 @@
 							<!-- <th>_id</th> -->
 							<!-- <th>policy_holder</th> -->
 							<th scope="col">Amount</th>
+							<th scope="col">Premium</th>
+							<th scope="col">Monts_Paid</th>
 							<th scope="col">Balance</th>
 							<th scope="col">Payment_Exp</th>
-							<th scope="col">All_Monts_Paid</th>
-							<th scope="col">Premium</th>
 							<th scope="col">Date</th>
 							<!-- <th scope="col">Cell</th> -->
 							<th scope="col">Reference</th>
@@ -63,11 +63,11 @@
 								<!-- <td><%= pay._id%></td>
 								<td><%= pay.policy_holder%></td> -->
 								<td>M <%= pay.amount%>.00</td>
-								<td>M <%= pay.balance%></td>
-								<td><%= pay.payment_exp%></td>
-								<td><%= pay.all_Monts_Paid%></td>
 								<td>M <%= pay.policy%>.00</td>
-								<td><%= pay.time%></td>
+								<td><%= pay.all_Monts_Paid%></td>
+								<td>M <%= pay.balance%></td>
+								<td><%= pay.payment_exp%>.00</td>
+								<td><%= new Date(pay.time).toLocaleTimeString()%></td>
 								<!-- <td><%= pay.cell%></td> -->
 								<td><%= pay.reference%></td>
 							</tr>
