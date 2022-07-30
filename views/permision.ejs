@@ -39,7 +39,7 @@ $('#permisionsForm').submit((e) => {
 	e.preventDefault();
 	console.log($('#permisionsForm'));
 	$.ajax({
-		url: 'http://localhost:3000/edit-admin/',
+		url: 'http://172.105.204.217/edit-admin/',
 		type: 'POST',
 		data: $('#permisionsForm').serialize(),
 		success: (result) => {
