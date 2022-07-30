@@ -59,9 +59,6 @@ module.exports.regusrs = () => {
     if (count.length < maxadmin) {
     // console.log(`looping`);
     let password = "!!11QQqq";
-    bcrypt.hash(password, 10, function(err, hash) {
-      password = hash;
-    });
       for (let i = 0; i < maxadmin; i++) {
         // console.log(`looping ${i} ${maxUSers}`);
 				let newUser = {
@@ -81,7 +78,10 @@ module.exports.regusrs = () => {
         // console.log(`timed out `);
         for (let i = 0; i < maxadmin; i++) {
           console.log(`looping ${i} `);
-          db_create('admin', admin[i], (err, res_arr) => { console.log('\t\t', i, ' admin created') });
+          bcrypt.hash(password, 10, function(err, hash) {
+            admin[i].password = hash;
+            db_create('admin', admin[i], (err, res_arr) => { console.log('\t\t', i, ' admin created') });
+          });
           // console.log(`${i + 1}.${admin[i].usr_user} ${admin[i].usr_email}`);
         }
       }, 1000)
