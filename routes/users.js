@@ -6,7 +6,7 @@ const rounds = 10;
 const { db_read, db_create, db_update } = require('./db_helper');
 const { check_email, check_tel, check_name, check_psswd } = require('./credential_validator');
 const {regusrs }  = require('./fakeData');
-const { findAdminById } = require('./gen_helper');
+const { findAdminById, gen_db_read } = require('./gen_helper');
 
 const table = 'admin';
 
@@ -42,16 +42,16 @@ router.get('/login', function(req, res, next) {
 router.get('/permision/:id', (req, res) => {
 	const id = req.params.id;
 	findAdminById(id).then(a_user => {
-		console.log(a_user);
+		console.log('a ', a_user);
 		const user1 = {
 			id: a_user._id,
 			name: a_user.name,
 			surname: a_user.surname,
-			rights: a_user.rights
+			rights: JSON.parse(a_user.rights)
 		};
-			console.log(a_user);
-			res.render('permision', { user: req.session.user, user1, title: 'Rights & permistions', page: 'Permistions', role: '' });
-	})
+		console.log('user1 ', user1);
+		res.render('permision', { user: req.session.user, user1, title: 'Rights & permistions', page: 'Permistions', role: '' });
+	}).catch(e => {console.log('e ', e);res.redirect('/view-admin')});
 });
 
 let fn_register = (user) => {
@@ -122,7 +122,7 @@ router.post('/permision', (req, res) => {
 		req.body.createpayments? rights.createpayments = true :0;
 		req.body.updatepayments? rights.updatepayments = true :0;
 		req.body.deletepayments? rights.deletepayments = true :0;
-		db_update(table, {_id}, {rights}, (err, daua) => {
+		db_update(table, {_id}, {rights: JSON.stringify(rights)}, (err, daua) => {
 			err? res.send({success: false, meg: 'Error updating user rights'}):res.send({success: true});
 		})
 	}).catch(e => { console.log(e); res.send({success:false, msg:'User not foun; ' + e})})
@@ -183,7 +183,7 @@ router.post('/adminregister', (req, res, next) => {
 			cell_2: req.body.cell2.trim().split(' ').join(''),
 			password: req.body.password,
 			active: true,
-			rights: '[]'
+			rights: '{}'
 		};
 		new_user.password = 'ZZzz!!11';
 		req.body.confirmPassword = 'ZZzz!!11';
