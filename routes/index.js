@@ -17,24 +17,17 @@ router.get('/home', authUser, (req, res, next) => {
 	});
 });
 
-router.get('/', (req, res, next) => {
+router.get('/', authUser, (req, res, next) => {
 	console.log('		/');
-	// if (!req.session.user) {
-	// 	console.log('		redirect');
-	// 	res.redirect('/login/');
-	// } else {
-		findAdminById(1)
+		findAdminById(req.session.user._id)
 		.then(user => {
 			console.log('/ ', user)
-			// res.render('user', {title: 'Contact', user});
 			res.render('index', { title: 'Tsepa Insure', user });
 		}).catch(e => {
-			console.log(e);
-			res.redirect('/login/');
+			res.redirect('/home/');
 		});
-	// }
 });
-router.get('/filter-users', (req, res, next) => {
+router.get('/filter-users', authUser, (req, res, next) => {
 	console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n		************** /:category **************');
 	console.log('/:category', req.body, req.query);
 	const limit = 20;
