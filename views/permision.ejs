@@ -7,29 +7,29 @@
 		<div class="fs-5"><%=user1.name%> <%=user1.surname%></div>
 		<div id="users" class="col-md-4 p-2">
 			<h4>Users</h4>
-			<div class="m-2"><div class="form-check"><input <% if(user1.readusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="readusers" value="readusers" id="readusers"><label class="form-check-label" for="readusers">View users</label></div><small class="descreption text-muted">Basic access to user deails. The user can only view users</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.createusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="createusers" value="createusers" id="createusers"><label class="form-check-label" for="createusers">Create users</label></div><small class="descreption text-muted">User can create a new user.</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.updateusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="updateusers" value="updateusers" id="updateusers"><label class="form-check-label" for="updateusers">Update users</label></div><small class="descreption text-muted">User can modify user details</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.deleteusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="deleteusers" value="deleteusers" id="deleteusers"><label class="form-check-label" for="deleteusers">Delete users</label></div><small class="descreption text-muted">The user can suspend users</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.readusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="readusers" value="readusers" id="readusers"><label class="form-check-label" for="readusers">View users</label></div><small class="descreption text-muted">Basic access to user deails. The user can only view users</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.createusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="createusers" value="createusers" id="createusers"><label class="form-check-label" for="createusers">Create users</label></div><small class="descreption text-muted">User can create a new user.</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.updateusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="updateusers" value="updateusers" id="updateusers"><label class="form-check-label" for="updateusers">Update users</label></div><small class="descreption text-muted">User can modify user details</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.deleteusers) {%> checked <%}%> class="form-check-input" type="checkbox" name="deleteusers" value="deleteusers" id="deleteusers"><label class="form-check-label" for="deleteusers">Delete users</label></div><small class="descreption text-muted">The user can suspend users</small></div>
 		</div>
 		<div id="clients" class="col-md-4 p-2">
 			<h4>Clients</h4>
-			<div class="m-2"><div class="form-check"><input <% if(user1.readclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="readclients" value="readclients" id="readclients"><label class="form-check-label" for="readclients">View clients</label></div><small class="descreption text-muted">Basic access to client deails. The user can only view clients</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.createclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="createclients" value="createclients" id="createclients"><label class="form-check-label" for="createclients">Create clients</label></div><small class="descreption text-muted">User can create a new client.</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.updateclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="updateclients" value="updateclients" id="updateclients"><label class="form-check-label" for="updateclients">Update clients</label></div><small class="descreption text-muted">User can modify client details after they have been made</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.deleteclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="deleteclients" value="deleteclients" id="deleteclients"><label class="form-check-label" for="deleteclients">Delete clients</label></div><small class="descreption text-muted">The user can delete clients</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.readclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="readclients" value="readclients" id="readclients"><label class="form-check-label" for="readclients">View clients</label></div><small class="descreption text-muted">Basic access to client deails. The user can only view clients</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.createclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="createclients" value="createclients" id="createclients"><label class="form-check-label" for="createclients">Create clients</label></div><small class="descreption text-muted">User can create a new client.</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.updateclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="updateclients" value="updateclients" id="updateclients"><label class="form-check-label" for="updateclients">Update clients</label></div><small class="descreption text-muted">User can modify client details after they have been made</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.deleteclients) {%> checked <%}%> class="form-check-input" type="checkbox" name="deleteclients" value="deleteclients" id="deleteclients"><label class="form-check-label" for="deleteclients">Delete clients</label></div><small class="descreption text-muted">The user can delete clients</small></div>
 		</div>
 		<div id="payments" class="col-md-4 p-2">
 			<h4>Payments</h4>
-			<div class="m-2"><div class="form-check"><input <% if(user1.readpayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="readpayments" value="readpayments" id="readpayments"><label class="form-check-label" for="readpayments">View payments</label></div><small class="descreption text-muted">Basic access to payment deails. The user can only view payments</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.createpayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="createpayments" value="createpayments" id="createpayments"><label class="form-check-label" for="createpayments">Create payments</label></div><small class="descreption text-muted">User can create a new payment.</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.updatepayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="updatepayments" value="updatepayments" id="updatepayments"><label class="form-check-label" for="updatepayments">Update payments</label></div><small class="descreption text-muted">User can modify payment details after they have been made</small></div>
-			<div class="m-2"><div class="form-check"><input <% if(user1.deletepayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="deletepayments" value="deletepayments" id="deletepayments"><label class="form-check-label" for="deletepayments">Delete payments</label></div><small class="descreption text-muted">The user can delete payments</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.readpayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="readpayments" value="readpayments" id="readpayments"><label class="form-check-label" for="readpayments">View payments</label></div><small class="descreption text-muted">Basic access to payment deails. The user can only view payments</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.createpayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="createpayments" value="createpayments" id="createpayments"><label class="form-check-label" for="createpayments">Create payments</label></div><small class="descreption text-muted">User can create a new payment.</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.updatepayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="updatepayments" value="updatepayments" id="updatepayments"><label class="form-check-label" for="updatepayments">Update payments</label></div><small class="descreption text-muted">User can modify payment details after they have been made</small></div>
+			<div class="m-2"><div class="form-check"><input <% if(user1.rights.deletepayments) {%> checked <%}%> class="form-check-input" type="checkbox" name="deletepayments" value="deletepayments" id="deletepayments"><label class="form-check-label" for="deletepayments">Delete payments</label></div><small class="descreption text-muted">The user can delete payments</small></div>
 		</div>
 
 		<div class="text-center p-3">
 			<input type="hidden" name="id" value="<%= user1.id %>">
-			<button class="btn btn-primary" type="submit">Login</button>
+			<button class="btn btn-primary" type="submit">Save</button>
 		</div>
 	</form>
 </div>
@@ -46,14 +46,14 @@ $('#permisionsForm').submit((e) => {
 			// console.log('result ', result);
 			const showMessage = $('#showMessage');
 			if (result.success) {
-				setTimeout(() => { $(location).attr('href', '/'); }, 2500);
-				showMessage.html(`
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						<div>Welcome...</div>
-					</div>`);
+				setTimeout(() => { $(location).attr('href', '/view-admin'); }, 500);
+				// showMessage.html(`
+				// 	<div class="alert alert-success alert-dismissible fade show" role="alert">
+				// 		<div>Welcome...</div>
+				// 	</div>`);
 			} else {
 				let msg = '';
-				result.msg ? msg = msg = result.msg : msg = 'Invalid credentials';
+				result.msg ? msg = result.msg : msg = 'Invalid credentials';
 				showMessage.html(`
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
 						<div">${msg}</div>
