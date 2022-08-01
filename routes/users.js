@@ -150,7 +150,7 @@ router.post('/login', (req, res, next) => {
 							// successfully loggedin
 							console.log('** lets login');
 							req.session.user = {
-								id: db_user._id,
+								_id: db_user._id,
 								email: db_user.email,
 								cell: db_user.cell,
 								name: db_user.name,
