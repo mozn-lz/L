@@ -154,7 +154,8 @@ router.post('/login', (req, res, next) => {
 								email: db_user.email,
 								cell: db_user.cell,
 								name: db_user.name,
-								surname: db_user.surname
+								surname: db_user.surname,
+								rights: db_user.rights
 							};
 							// re-fucken-spond
 							res.send({ success: true, msg: 'logged in successfully', id: db_user._id });
