@@ -5,6 +5,18 @@ const { findAdminById, findUserById, gen_db_read } = require('./gen_helper');
 const { authUser, authRole, ROLE } = require('./auth');
 
 // ROUTE
+router.get('/home', authUser, (req, res, next) => {
+	findAdminById(req.session.user._id)
+	.then(user => {
+		console.log('/ ', user)
+		// res.render('user', {title: 'Contact', user});
+		res.render('home', { title: 'Tsepa Insure', user });
+	}).catch(e => {
+		console.log(e);
+		res.redirect('/login/');
+	});
+});
+
 router.get('/', (req, res, next) => {
 	console.log('		/');
 	// if (!req.session.user) {
