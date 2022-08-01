@@ -70,7 +70,7 @@ module.exports.regusrs = () => {
 						cell_2: faker.faker.helpers.arrayElement(['', faker.faker.random.numeric(10)]),
 						password: password,
 						active: true,
-						rights: '[]'
+						rights: '{}'
 				};
         admin.push(newUser);
       }
