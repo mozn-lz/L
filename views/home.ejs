@@ -3,10 +3,12 @@
 <%- include('./frame/menu.ejs') %>
 <div id="main" class="row">
 	<h1>Welcome</h1>
-	<a href=""><div class="col-sm-3">Personal</div></a>
-	<a href=""><div class="col-sm-3">New Client</div></a>
-	<a href=""><div class="col-sm-3">Payments</div></a>
-	<a href=""><div class="col-sm-3">Manage Users</div></a>
-	<a href=""><div class="col-sm-3">Reports</div></a>
+	<div class="row">
+		<!-- <a class="border m-3 col-sm-3 col-md-3 col-xs-3 btn btn-secondary" href="/personal">Personal</a> -->
+		<!-- <a class="border m-3 col-sm-3 col-md-3 col-xs-3 btn btn-secondary" href="/register">New Client</a> -->
+		<a class="border m-3 col-sm-3 col-md-3 col-xs-3 btn btn-secondary" href="/">Clients</a>
+		<a class="border m-3 col-sm-3 col-md-3 col-xs-3 btn btn-secondary" href="/view-admin">Manage Users</a>
+		<a class="border m-3 col-sm-3 col-md-3 col-xs-3 btn btn-secondary" href="/reports">Reports</a>
+	</div>
 </div>
 <%- include('./frame/footer.ejs') %>
