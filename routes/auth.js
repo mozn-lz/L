@@ -1,27 +1,43 @@
-const ROLE = {
-	LOGGEDIN: 'user',
-	ADMIN: 'admin'
-}
 let authUser = (req, res, next) => {
-	if (req.session.user == null) {
-		res.status(403);
-		res.redirect('/login');
-	}
-	next();
+	(req.session.user) ? next() : res.redirect('/login');
 }
 
-let authRole = (role) => {
-	return (req, res, next) => {
-		if (!req.session.user || req.session.user.role !== role) {
-			res.status(401);
-			return res.send('Not allowed');
-		}
-		next();
-	}
+let authAdmin = {
+	view: 	() => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('readusers')) ? next() : res.redirect('/home');}},
+	create: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('createusers')) ? next() : res.redirect('/view-admin');}},
+	update: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('updateusers')) ? next() : res.redirect('/view-admin');}},
+	remove: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('deleteusers')) ? next() : res.redirect('/view-admin');}}
+}
+let authRights = {
+	view: 	() => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('readusers')) ? next() : res.redirect('/home');}},
+	create: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('createusers')) ? next() : res.redirect('/view-admin');}},
+	update: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('updateusers')) ? next() : res.redirect('/view-admin');}},
+	remove: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('deleteusers')) ? next() : res.redirect('/view-admin');}}
+}
+let authClents = {
+	view: 	() => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('readclients')) ? next() : res.redirect('/home');}},
+	create: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('createclients')) ? next() : res.redirect('/');}},
+	update: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('updateclients')) ? next() : res.redirect('/');}},
+	remove: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('deleteclients')) ? next() : res.redirect('/');}}
+}
+let authPayments = {
+	view: 	() => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('readpayments')) ? next() : res.redirect('/home');}},
+	create: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('createpayments')) ? next() : res.redirect('/');}},
+	update: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('updatepayments')) ? next() : res.redirect('/');}},
+	remove: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('deletepayments')) ? next() : res.redirect('/');}}
+}
+let authReports = {
+	view: 	() => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('readreports')) ? next() : res.redirect('/home');}},
+	create: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('createreports')) ? next() : res.redirect('/reports');}},
+	update: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('updatereports')) ? next() : res.redirect('/reports');}},
+	remove: () => {return (req, res, next) => {(req.session.user && req.session.user.rights.hasOwnProperty('deletereports')) ? next() : res.redirect('/reports');}}
 }
 
 module.exports = {
-	ROLE,
 	authUser,
-	authRole
+	authAdmin,
+	authRights,
+	authClents,
+	authPayments,
+	authReports
 }
