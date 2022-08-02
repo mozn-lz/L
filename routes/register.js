@@ -1,5 +1,6 @@
 
 const express = require("express");
+const { authUser, authClents } = require("./auth");
 const { db_create, db_update, db_read, db_delete } = require("./db_helper");
 const { findUserById, gen_db_read } = require("./gen_helper");
 const router = express.Router();
@@ -45,23 +46,24 @@ function selectPolicy(userp) {
 }
 
 // new policy holders
-router.get('/register', function(req, res, next) {
+router.get('/register', authUser, authClents.create(), function(req, res, next) {
 	res.render('register', { user: req.session.user, polyicyHldr: null, members: null , title: 'Register', page: 'Register', role: '' });
 });
 
 // edit policies
-router.get('/register/:id', function(req, res, next) {
+router.get('/register/:id', authUser, authClents.update(), function(req, res, next) {
 	const _id = req.params.id;
 
 	Promise.all([findUserById(_id), gen_db_read('members', { policy_holder: _id })])
 	.then ((data) => {
 		const polyicyHldr = data[0];
 		const members = data[1];
+		console.log(polyicyHldr);
 		res.render('register', { user: req.session.user, polyicyHldr, members, title: 'Register', page: 'Register', role: '' });
 	}).catch(e => res.redirect('/'))
 });
 
-router.post('/register', (req, res, next) => {
+router.post('/register', authUser, authClents.create(), (req, res, next) => {
 	console.log('** REGISTER **\n', req.body);
 	(req.body.idintityForm) ? console.log('** 42 idintityForm **'): console.log('** NOOOOOOOOO **');
 	if (req.body.tmp_reg_id) {
@@ -180,20 +182,6 @@ router.post('/register', (req, res, next) => {
 		}
 	} else
 	if (req.body.idintityForm) {
-		console.log('0__');
-		console.log(`title: ${req.body.title}`);
-		console.log(`name: ${req.body.name}`);
-		console.log(`surname: ${req.body.surname}`);
-		console.log(`altsurname: ${req.body.altsurname}`);
-		console.log(`nat_id: ${req.body.nat_id}`);
-		console.log(`birth: ${req.body.birth}`);
-		console.log(`gender: ${req.body.gender}`);
-		console.log(`address: ${req.body.address}`);
-		console.log(`status: ${req.body.status}`);
-		console.log(`email: ${req.body.email}`);
-		console.log(`cell1: ${req.body.cell1}`);
-		console.log(`cell2: ${req.body.cell2}`);
-		console.log('** idintityForm **')
 		let new_user = {};
 
 		console.log('0');
@@ -239,6 +227,46 @@ router.post('/register', (req, res, next) => {
 				res.send({success: false, msg: 'Error registering user'});
 			});
 		}
+	}
+	else {
+		console.log('no err');
+		res.status(404);
+	}
+});
+router.post('/update-client', authUser, authClents.update(), (req, res) => {
+	console.log('update-client ', req.body);
+	if (req.body.idintityForm) {
+		const _id = req.body.tmp_reg_id;
+		let update_user = {};
+
+		req.body.altsurname ? update_user.alt_Surname 	= req.body.altsurname.toUpperCase()		: 0;
+		req.body.name 			? update_user.name 				= req.body.name.toUpperCase()					: 0;
+		req.body.surname 		? update_user.surname 			= req.body.surname.toUpperCase()			: 0;
+		req.body.address		? update_user.address 			= req.body.address.toUpperCase()			: 0;
+		req.body.nat_id 		? update_user.national_id 	= req.body.nat_id				: 0;
+		req.body.birth 			? update_user.birth 				= req.body.birth				: 0;
+		req.body.email 			? update_user.email 				= req.body.email				: 0;
+		req.body.cell1 			? update_user.cell_1 			= req.body.cell1				: 0;
+		req.body.cell2 			? update_user.cell_2 			= req.body.cell2				: 0;
+
+		(req.body.title == 'mrs' ||
+		req.body.title == 'ms' ||
+		req.body.title == 'mr') ? update_user.title = req.body.title.toUpperCase()	: 0;
+		(req.body.gender == 'm' ||
+		req.body.gender == 'f') ? update_user.gender = req.body.gender.toUpperCase(): 0;
+		(req.body.status == "single" ||
+		req.body.status == "married" ||
+		req.body.status == "widow" ||
+		req.body.status == "separated" ||
+		req.body.status == "civil") ? update_user.status = req.body.status:0
+
+		console.log('user:', update_user);
+		db_update('users', {_id}, update_user, (err, data) => {
+			console.log('New User > \n\t\tdata: ', data);
+			data ?
+			res.send({success: true, data, msg: 'User regidered'}):
+			res.send({success: false, msg: 'Error registering user'});
+		});
 	}
 	else {
 		console.log('no err');

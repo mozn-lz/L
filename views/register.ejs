@@ -408,8 +408,8 @@
 			$('#cell2').val(user.cell_2)
 			// select title
 			user.title.toLowerCase() == 'mr' ? $('#mr').prop('selected', true): 0;
-			user.title.toLowerCase() == 'ms' ? $('#mr').prop('selected', true): 0;
-			user.title.toLowerCase() == 'mrs' ? $('#mr').prop('selected', true): 0;
+			user.title.toLowerCase() == 'ms' ? $('#ms').prop('selected', true): 0;
+			user.title.toLowerCase() == 'mrs' ? $('#mrs').prop('selected', true): 0;
 			// select gender
 			user.gender.toLowerCase() == 'm' ? $('#m').prop('selected', true): $('#f').prop('selected', true);
 			// select user status
@@ -464,8 +464,10 @@
 	}
 	$('#idintityForm').submit((e) => {
 		e.preventDefault();
+		let url = '';
+		($('#client_id')) ? url = 'http://172.105.204.217/update-client/': url = 'http://172.105.204.217/register/';
 		$.ajax({
-			url: 'http://172.105.204.217/register/',
+			url,
 			type: 'POST',
 			data: $('#idintityForm').serialize(),
 			success: data => {
@@ -479,9 +481,6 @@
 					$('#policyForm').append(user_id);
 					$('#beneficiaryForm').append(user_id);
 					$('#policy-tab').click();
-					alert('y ',data, user_id, !isNaN(data))
-				} else {
-					alert('n', data, user_id,!isNaN(data));
 				}
 				if (data.user) {
 					loadUser(data.user);
@@ -599,7 +598,7 @@
 				if (!isNaN(testUser)) {
 					const user_id = `<input type="text" name="tmp_reg_id" value="${testUser}">`;
 					$('#addMemberForm').append(user_id);
-					$('#idintityForm').append(user_id);
+					$('#idintityForm').append(`<input type="hidden" id="client_id" name="tmp_reg_id" value="${testUser}">`);
 					$('#policyForm').append(user_id);
 					$('#beneficiaryForm').append(user_id);
 				} else {
