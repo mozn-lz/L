@@ -7,25 +7,26 @@ const { db_read, db_create, db_update } = require('./db_helper');
 const { check_email, check_tel, check_name, check_psswd } = require('./credential_validator');
 const {regusrs }  = require('./fakeData');
 const { findAdminById, gen_db_read } = require('./gen_helper');
+const { authUser, authAdmin, authRights } = require('./auth');
 
 const table = 'admin';
 
 // view admin
-router.get('/view-admin', (req, res) => {
+router.get('/view-admin', authUser, authAdmin.view(), (req, res) => {
 	db_read(table, '', (err, users) => {
 		console.log(users);
 		// users[0].active = false;
 		res.render('view_users', {users, title: 'view users', user: users[0]});
 	});
 });
-router.get('/edit-admin/:id', (req, res) => {
+router.get('/edit-admin/:id', authUser, authAdmin.update(), (req, res) => {
 	findAdminById(req.params.id).then(a_user => {
 		console.log(a_user);
 		// users[0].active = false;
 		res.render('new_admin', { user: a_user, title: 'Edit ' + a_user.name, a_user });
 	}).catch(e => res.redirect('view-admin'));
 });
-router.get('/edit-admin', (req, res) => {
+router.get('/edit-admin', authUser, authAdmin.create(), (req, res) => {
 	db_read(table, '', (err, users) => {
 		console.log(err, users);
 		// users[0].active = false;
@@ -39,7 +40,7 @@ router.get('/login', function(req, res, next) {
 		});
 });
 // admin Rights && Authority
-router.get('/permision/:id', (req, res) => {
+router.get('/permision/:id', authUser, authRights.update(), (req, res) => {
 	const id = req.params.id;
 	findAdminById(id).then(a_user => {
 		console.log('a ', a_user);
@@ -105,7 +106,7 @@ let editAdmin = (_id, userEdit) => {
 	});
 }
 
-router.post('/permision', (req, res) => {
+router.post('/permision', authUser, authRights.update(), (req, res) => {
 	console.log(req.body);
 	const _id = req.body.id;
 	findAdminById(_id).then(user => {
@@ -155,8 +156,9 @@ router.post('/login', (req, res, next) => {
 								cell: db_user.cell,
 								name: db_user.name,
 								surname: db_user.surname,
-								rights: db_user.rights
+								rights: JSON.parse(db_user.rights)
 							};
+							console.log('authclin view', req.session.user, req.session.user.rights.hasOwnProperty('readclients'), (req.session.user && req.session.user.rights.hasOwnProperty('readclients'))); 
 							// re-fucken-spond
 							res.send({ success: true, msg: 'logged in successfully', id: db_user._id });
 						}
@@ -171,7 +173,7 @@ router.post('/login', (req, res, next) => {
 		res.redirect('/');
 	}
 });
-router.post('/adminregister', (req, res, next) => {
+router.post('/adminregister', authUser, authAdmin.create(), (req, res, next) => {
 	console.log("\n ** ** ** ** ** ** MESSAGE RECIEVED ** ** ** ** ** ** * \n", req.body, '\n');
 	if (req.body.register) {
 		console.log('REGISTER');
@@ -227,7 +229,7 @@ router.post('/adminregister', (req, res, next) => {
 		res.redirect('/');
 	}
 });
-router.post('/remove', (req, res, next) => {
+router.post('/remove', authUser, authAdmin.remove(), (req, res, next) => {
 	console.log("\n ** ** ** ** ** ** MESSAGE RECIEVED ** ** ** ** ** ** * \n", req.body, '\n');
 	if (req.body.remove) {
 		const id = req.body.id;
@@ -246,7 +248,7 @@ router.post('/remove', (req, res, next) => {
 		res.redirect('/');
 	}
 });
-router.post('/update', (req, res, next) => {
+router.post('/update', authUser, authAdmin.update, (req, res, next) => {
 	console.log("\n ** ** ** ** ** ** MESSAGE RECIEVED ** ** ** ** ** ** * \n", req.body, '\n');
 	if (req.body.upadteUser) {
 		const id = req.body.id;

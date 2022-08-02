@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { db_update, db_advanced_read } = require('./db_helper');
 const { findAdminById, findUserById, gen_db_read } = require('./gen_helper');
-const { authUser, authRole, ROLE } = require('./auth');
+const { authUser, authAdmin, authClents } = require('./auth');
 
 // ROUTE
 router.get('/home', authUser, (req, res, next) => {
@@ -17,7 +17,7 @@ router.get('/home', authUser, (req, res, next) => {
 	});
 });
 
-router.get('/', authUser, (req, res, next) => {
+router.get('/', authUser, authClents.view(), (req, res, next) => {
 	console.log('		/');
 		findAdminById(req.session.user._id)
 		.then(user => {
@@ -27,7 +27,7 @@ router.get('/', authUser, (req, res, next) => {
 			res.redirect('/home/');
 		});
 });
-router.get('/filter-users', authUser, (req, res, next) => {
+router.get('/filter-users', authUser, authClents.view(), (req, res, next) => {
 	console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n		************** /:category **************');
 	console.log('/:category', req.body, req.query);
 	const limit = 20;
@@ -80,7 +80,7 @@ router.get('/filter-users', authUser, (req, res, next) => {
 	});
 });
 // PUBLIC
-router.get('/profile/:id', (req, res, next) => {
+router.get('/profile/:id', authUser, authClents.view(), (req, res, next) => {
 	// if (!req.session.user) {res.redirect('/login/');} else {
 		console.log('		/:view-prod/:id ', req.params.id);
 		const paymantsPr = gen_db_read('payments', { policy_holder: req.params.id });
@@ -151,7 +151,7 @@ router.post('/password', (req, res, next) => {
 	}
 });
 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', authUser, (req, res, next) => {
 		req.session.destroy();
 		res.redirect('/login/');
 });

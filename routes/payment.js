@@ -1,4 +1,5 @@
 const express = require("express");
+const { authUser, authPayments } = require("./auth");
 const router = express.Router();
 const { db_create } = require("./db_helper");
 const { gen_db_read, findUserById, ft_calculatePayment } = require("./gen_helper");
@@ -6,7 +7,7 @@ const { gen_db_read, findUserById, ft_calculatePayment } = require("./gen_helper
 
 const defaultPayment = { payment_exp: new Date().toDateString(), balance: 0, amount: 0 };
 
-router.get('/payments/:id', (req, res, next) => {
+router.get('/payments/:id', authUser, authPayments.view, (req, res, next) => {
 	let user = {};
 	findUserById(req.params.id)
 	.then((usr) => {
@@ -26,7 +27,7 @@ router.get('/payments/:id', (req, res, next) => {
 	}).catch(e => { res.send({ success: false, data: e })});
 });
 
-router.post('/payments', (req, res, next) => {
+router.post('/payments', authUser, authPayments.create, (req, res, next) => {
 	const _id = req.body.id;
 	const amount = req.body.amount;
 	let user = '';
