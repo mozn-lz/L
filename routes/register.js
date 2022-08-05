@@ -5,45 +5,60 @@ const { db_create, db_update, db_read, db_delete } = require("./db_helper");
 const { findUserById, gen_db_read } = require("./gen_helper");
 const router = express.Router();
 
-function selectPolicy(userp) {
-	let policy = null;
-	switch (userp) {
-		case 'op1': policy = { name:'individual1',members:1, code:'op1'}; break;
-		case 'op2': policy = { name:'individual2',members:1, code:'op2'}; break;
-		case 'op3': policy = { name:'individual3',members:1, code:'op3'}; break;
-		case 'op4': policy = { name:'individual4',members:1, code:'op4'}; break;
-		case 'fp1': policy = { name:'family1',members:8, code:'fp1'}; break;
-		case 'fp2': policy = { name:'family2',members:8, code:'fp2'}; break;
-		case 'fp3': policy = { name:'family3',members:8, code:'fp3'}; break;
-		case 'fp4': policy = { name:'family4',members:8, code:'fp4'}; break;
-		case 'pntU65_1': policy = { name:'parent Under 65_1',members:6, code:'pntU65_1'}; break;
-		case 'pntU65_2': policy = { name:'parent Under 65_2',members:6, code:'pntU65_2'}; break;
-		case 'pntU65_3': policy = { name:'parent Under 65_3',members:6, code:'pntU65_3'}; break;
-		case 'pntU65_4': policy = { name:'parent Under 65_4',members:6, code:'pntU65_4'}; break;
-		case 'pntO65_1': policy = { name:'parent Over 65_1',members:6, code:'pntO65_1'}; break;
-		case 'pntO65_2': policy = { name:'parent Over 65_2',members:6, code:'pntO65_2'}; break;
-		case 'pntO65_3': policy = { name:'parent Over 65_3',members:6, code:'pntO65_3'}; break;
-		case 'pntO65_4': policy = { name:'parent Over 65_4',members:6, code:'pntO65_4'}; break;
-		case 'xf1': policy = { name:'extended family1',members:6, code:'xf1'}; break;
-		case 'xf2': policy = { name:'extended family2',members:6, code:'xf2'}; break;
-		case 'xf3': policy = { name:'extended family3',members:6, code:'xf3'}; break;
-		case 'xf4': policy = { name:'extended family4',members:6, code:'xf4'}; break;
-		case 'rep1': policy = { name:'repatriation members only 1',members:2, code:'rep1'}; break;
-		case 'rep2': policy = { name:'repatriation members only 2',members:2, code:'rep2'}; break;
-		case 'rep3': policy = { name:'repatriation members only 3',members:2, code:'rep3'}; break;
-		case 'rep4': policy = { name:'repatriation members only 4',members:2, code:'rep4'}; break;
-		case 'repSp1': policy = { name:'repatriation inc spouse  1',members:2, code:'repSp1'}; break;
-		case 'repSp2': policy = { name:'repatriation inc spouse  2',members:2, code:'repSp2'}; break;
-		case 'repSp3': policy = { name:'repatriation inc spouse  3',members:2, code:'repSp3'}; break;
-		case 'repSp4': policy = { name:'repatriation inc spouse  4',members:2, code:'repSp4'}; break;
-
-		default:
-			policy = null;
-			break;
-	}
-	console.log(`Policy ${policy}`);
-	return policy;
+let selectPolicy = (findPolicy) => {
+	console.log('select Policy ', findPolicy);
+	return new Promise((res, rej) => {
+		switch (findPolicy) {
+			case 'op1': res('op1');
+			case 'op2': res('op2');
+			case 'op3': res('op3');
+			case 'op4': res('op4');
+			case 'fp1': res('fp1');
+			case 'fp2': res('fp2');
+			case 'fp3': res('fp3');
+			case 'fp4': res('fp4');
+			case 'pntU65_1': res('pntU65_1');
+			case 'pntU65_2': res('pntU65_2');
+			case 'pntU65_3': res('pntU65_3');
+			case 'pntU65_4': res('pntU65_4');
+			case 'pntO65_1': res('pntO65_1');
+			case 'pntO65_2': res('pntO65_2');
+			case 'pntO65_3': res('pntO65_3');
+			case 'pntO65_4': res('pntO65_4');
+			case 'xf1': res('xf1');
+			case 'xf2': res('xf2');
+			case 'xf3': res('xf3');
+			case 'xf4': res('xf4');
+			case 'rep1': res('rep1');
+			case 'rep2': res('rep2');
+			case 'rep3': res('rep3');
+			case 'rep4': res('rep4');
+			case 'repSp1': res('repSp1');
+			case 'repSp2': res('repSp2');
+			case 'repSp3': res('repSp3');
+			case 'repSp4': res('repSp4');
+	
+			default: rej(null);
+		}
+	});
 }
+
+let validatePolicy = (policies => {
+	const policyArr = Object.values(policies);
+	const maxArray  = policyArr.length - 2;
+	let policys = [];
+
+	return new Promise((res, rej) => {
+		for (let i = 0; i < maxArray; i++) {
+			const findPolicy = policyArr[i];
+			const err = `Policy code: "${findPolicy}" is invalid`
+			selectPolicy(findPolicy).then(validPolicy => {
+				!validPolicy ? rej(err) : policys.push(validPolicy);
+				i+1 == maxArray ? res(JSON.stringify(policys)) : 0;
+			}).catch(e => rej(err));
+		}
+	});
+});
 
 // new policy holders
 router.get('/register', authUser, authClents.create(), function(req, res, next) {
@@ -58,6 +73,7 @@ router.get('/register/:id', authUser, authClents.update(), function(req, res, ne
 	.then ((data) => {
 		const polyicyHldr = data[0];
 		const members = data[1];
+		polyicyHldr.policy = JSON.parse(polyicyHldr.policy);
 		console.log(polyicyHldr);
 		res.render('register', { user: req.session.user, polyicyHldr, members, title: 'Register', page: 'Register', role: '' });
 	}).catch(e => res.redirect('/'))
@@ -71,25 +87,26 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 		console.log('** id found ** :\t', _id);
 		if (req.body.policyForm) {
 			console.log('** policyForm **');
-			const policy = selectPolicy(req.body.policy);
-			if (policy) {
-				console.log('policy found');
-				db_update('users', { _id }, { policy }, (err, data) => {
-					const policy_obj = {
-						name: 'Family Cover (max. 5 children)',
-						members: 5,
-						price: 20,
-						Repatriation: {
-							Repatriation: true,
-							price: 20
-						}
-					};
-					res.send({ success: true, data: {policy: policy_obj}, meg: 'Policy updated' });
-				});
-			} else {
-				console.log('No policy');
-				res.send({ success: false, meg: 'Selected policy seams invalid' });
-			}
+			validatePolicy(req.body).then(policy => {
+				if (policy) {
+					console.log('policy found', policy);
+					db_update('users', { _id }, { policy }, (err, data) => {
+						const policy_obj = {
+							name: 'Family Cover (max. 5 children)',
+							members: 5,
+							price: 20,
+							Repatriation: {
+								Repatriation: true,
+								price: 20
+							}
+						};
+						res.send({ success: true, data: {policy: policy_obj}, meg: 'Policy updated' });
+					});
+				} else {
+					console.log('No policy');
+					res.send({ success: false, meg: 'No policies found' });
+				}
+			}).catch(e => { res.send({success: false, msg: 'Policy retreval issue'})})
 		} else if (req.body.beneficiaryForm) {
 			if (req.body.benficiary) {
 				const beneficiary = req.body.benficiary;
@@ -230,7 +247,8 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 	}
 	else {
 		console.log('no err');
-		res.status(404);
+		// res.status(404);
+		res.send({ success: false, message: 'Invalid request'});
 	}
 });
 router.post('/update-client', authUser, authClents.update(), (req, res) => {
