@@ -75,6 +75,9 @@ router.get('/register/:id', authUser, authClents.update(), function(req, res, ne
 		const members = data[1];
 		polyicyHldr.policy = JSON.parse(polyicyHldr.policy);
 		console.log(polyicyHldr);
+		console.log('members ', typeof(members), Array.isArray(members), members);
+		console.table(members)
+		console.table(members[0])
 		res.render('register', { user: req.session.user, polyicyHldr, members, title: 'Register', page: 'Register', role: '' });
 	}).catch(e => res.redirect('/'))
 });
@@ -126,7 +129,7 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 			}
 		} else if (req.body.addMemberForm) {
 			console.log('\n\n** Menmber form **)\n', req.body); 
-			const new_member = {};
+			let new_member = {};
 			req.body.memberTitle		? new_member.title					= req.body.memberTitle.toUpperCase()		:new_member.title = null;
 			req.body.memberName			? new_member.name						= req.body.memberName.toUpperCase()			:new_member.name = null;
 			req.body.memberSurname	? new_member.surname				= req.body.memberSurname.toUpperCase()	:new_member.surname = null;
@@ -134,34 +137,29 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 			req.body.memberBirth		? new_member.birth					= req.body.memberBirth		:new_member.birth = null;
 			req.body.relationship		? new_member.relationship		= req.body.relationship		:new_member.relationship = null;
 			req.body.phone					? new_member.phone					= req.body.phone					:new_member.phone = null;
+			req.body.policy					? new_member.policy					= req.body.policy					:new_member.policy = null;
 			req.body.tmp_reg_id			? new_member.policy_holder	= req.body.tmp_reg_id 		:new_member.policy_holder = null;
 
-			if (new_member.title && new_member.name && new_member.surname && new_member.initials && 
+			if (new_member.title && new_member.name && new_member.surname && new_member.initials && new_member.policy &&
 					new_member.birth && new_member.relationship && new_member.phone && new_member.policy_holder) {
 
 				// console.log('ner Member: ', new_member);
 
-				db_read('users', {_id: new_member.policy_holder}, (err, user) => {
-					if (!user) {
-						res.send({success: false, msg: 'Cannot find policy'});
-					} else {
-						user = user[0];
-						user.members = JSON.parse(user.members);
+				findUserById(new_member.policy_holder).then(policyHolder => {
+					// user.members = JSON.parse(user.members);
 
-						db_create('members',new_member, (err, data) => {
-							if (!data) {
-								res.send({success: false, msg: 'Cannot find policy'});
-							} else {
-								let members = JSON.stringify([...user.members, data]);
-								db_read('members', {policy_holder: new_member.policy_holder}, (err, members) => {
-									members ?
-									res.send({success: true, data: members, msg: 'User saved'}):
-									res.send({success: false, msg: 'could not save new policy member'});
-								});
-							}
-						});
-					}
-				});
+					db_create('members',new_member, (err, data) => {
+						if (!data) {
+							res.send({success: false, msg: 'Cannot find policy'});
+						} else {
+							db_read('members', {policy_holder: new_member.policy_holder}, (err, members) => {
+								members ?
+								res.send({success: true, data: members, policy: policyHolder.policy, msg: 'User saved'}):
+								res.send({success: false, msg: 'could not save new policy member'});
+							});
+						}
+					});
+				}).catch(e => {res.send({success: false, msg: 'Policy holder not found'});});
 			} else {
 				res.send('Missing/Invalid information');
 			}
