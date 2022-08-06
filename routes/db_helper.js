@@ -6,7 +6,15 @@ const conn = mysql.createConnection({
 	user: process.env.DB_USER,
 	port: process.env.DB_PORT,
 	password: process.env.DB_PASSWORD,
-	database: process.env.DB_DATABASE
+	database: process.env.DB_DATABASE,
+	connectTimeout: 30000
+});
+
+conn.connect((err) => {
+	(err) ?
+	console.log('db FAILED TO CONNECT'):
+	console.log('Database Connected');
+	throw (err);
 });
 
 let db_create = (table, new_data, cb) => {
