@@ -12,9 +12,8 @@ const conn = mysql.createConnection({
 
 conn.connect((err) => {
 	(err) ?
-	console.log('db FAILED TO CONNECT'):
+	console.log('db FAILED TO CONNECT ' + err):
 	console.log('Database Connected');
-	throw (err);
 });
 
 let db_create = (table, new_data, cb) => {
