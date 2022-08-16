@@ -149,7 +149,7 @@
 							<tbody>
 								<tr>
 									<td><b>Individual premium p/m</b></td>
-									<td><input type="checkbox" class="btn-check" name="policy0" id="op1" value="op1" autocomplete="off" checked><label class="btn btn-outline-success" for="op1">15.00</label></td>
+									<td><input type="checkbox" class="btn-check" name="policy0" id="op1" value="op1" autocomplete="off"><label class="btn btn-outline-success" for="op1">15.00</label></td>
 									<td><input type="checkbox" class="btn-check" name="policy0" id="op2" value="op2" autocomplete="off"><label class="btn btn-outline-success" for="op2">25.00</label></td>
 									<td><input type="checkbox" class="btn-check" name="policy0" id="op3" value="op3" autocomplete="off"><label class="btn btn-outline-success" for="op3">30.00</label></td>
 									<td><input type="checkbox" class="btn-check" name="policy0" id="op4" value="op4" autocomplete="off"><label class="btn btn-outline-success" for="op4">45.00</label></td>
@@ -357,7 +357,7 @@
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingOne">
 						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-							${user.title} ${user.name} ${user.surname} ${user.policy}
+							${user.title} ${user.name} ${user.surname} &nbsp;&nbsp;  (${user.policy})
 						</button>
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#userInfo-accordionFlush">
@@ -413,7 +413,7 @@
 		console.error('set policy ', policy);
 		$('#add-personLabel').text(`Add Person ${policy}`);
 		$('#memberPolicy').val(`${policy}`);
-}
+	}
 
 	let displayPolicy = (policies) => {
 		// console.log('loadPolicy_policies ', policies);
@@ -499,10 +499,11 @@
 			});
 		}
 	}
+	let client = false;
 	$('#idintityForm').submit((e) => {
 		e.preventDefault();
 		let url = '';
-		($('#client_id')) ? url = 'http://172.105.204.217/update-client/': url = 'http://172.105.204.217/register/';
+		(client) ? url = 'http://172.105.204.217/update-client/': url = 'http://172.105.204.217/register/';
 		$.ajax({
 			url,
 			type: 'POST',
@@ -513,6 +514,7 @@
 				// save data
 				if (!isNaN(data.data)) {
 					const user_id = `<input type="text" name="tmp_reg_id" value="${data.data}">`;
+					window.location.href =('/register/' + data.data);
 					$('#addMemberForm').append(user_id);
 					$('#idintityForm').append(user_id);
 					$('#policyForm').append(user_id);
@@ -537,7 +539,9 @@
 				const showMessage = $('#showMessage');
 				let msg = '';
 				if (result.success) {
-					setTimeout(() => { $('#persons-cover-tab').click(); }, 2500);
+					setTimeout(() => { $('#persons-cover-tab').click();
+					location.reload(); 
+				}, 2500);
 					result.msg ? msg = msg = result.msg : msg = 'Policies saved to database';
 					showMessage.html(`
 						<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -617,6 +621,7 @@
 					console.log('#addMemeber policy: ', members, policy);
 					policy = policy.split(',');
 					console.log('#addMemeber policy: ', members, policy);
+					setPolicy(policy);
 					loadMembers(members, policy);
 				} else {
 					console.log('member failed')
@@ -686,6 +691,7 @@
 					const user_id = `<input type="hidden" name="tmp_reg_id" value="${user._id}">`;
 					$('#addMemberForm').append(user_id);
 					$('#idintityForm').append(`<input type="hidden" id="client_id" name="tmp_reg_id" value="${user._id}">`);
+					client = true;
 					$('#policyForm').append(user_id);
 					$('#beneficiaryForm').append(user_id);
 				}
