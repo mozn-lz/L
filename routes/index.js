@@ -90,7 +90,7 @@ router.get('/profile/:id', authUser, authClents.view(), (req, res, next) => {
 			const payments = result[1] ? result[1].reverse(): result[1];
 
 			console.log('user, payments ', user, payments);
-			res.render('profile', { user: req.session.user, title: user.name, user, payments });
+			res.render('profile', { user: req.session.user, title: user.name, userA: user, payments });
 		}).catch(e => {
 			res.redirect('/index');
 		});
