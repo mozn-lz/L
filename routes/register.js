@@ -203,15 +203,15 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 		let new_user = {};
 
 		console.log('0');
-		req.body.altsurname ? new_user.alt_Surname 	= req.body.altsurname.toUpperCase()		: new_user.alt_Surname	= '';
-		req.body.name 			? new_user.name 				= req.body.name.toUpperCase()					: new_user.name					= null;
-		req.body.surname 		? new_user.surname 			= req.body.surname.toUpperCase()			: new_user.surname			= null;
-		req.body.address		? new_user.address 			= req.body.address.toUpperCase()			: new_user.address			= null;
-		req.body.nat_id 		? new_user.national_id 	= req.body.nat_id				: new_user.national_id	= null;
-		req.body.birth 			? new_user.birth 				= req.body.birth				: new_user.birth				= null;
-		req.body.email 			? new_user.email 				= req.body.email				: new_user.email				= null;
-		req.body.cell1 			? new_user.cell_1 			= req.body.cell1				: new_user.cell_1				= null;
-		req.body.cell2 			? new_user.cell_2 			= req.body.cell2				: new_user.cell_2				= '';
+		req.body.altsurname ? new_user.alt_Surname 	= req.body.altsurname.trim().toUpperCase()		: new_user.alt_Surname	= '';
+		req.body.name 			? new_user.name 				= req.body.name.trim().toUpperCase()					: new_user.name					= null;
+		req.body.surname 		? new_user.surname 			= req.body.surname.trim().toUpperCase()				: new_user.surname			= null;
+		req.body.address		? new_user.address 			= req.body.address.trim().toUpperCase()				: new_user.address			= null;
+		req.body.nat_id 		? new_user.national_id 	= req.body.nat_id.trim()				: new_user.national_id	= null;
+		req.body.birth 			? new_user.birth 				= req.body.birth.trim()					: new_user.birth				= null;
+		req.body.email 			? new_user.email 				= req.body.email.trim()					: new_user.email				= '';
+		req.body.cell1 			? new_user.cell_1 			= req.body.cell1.trim()					: new_user.cell_1				= '';
+		req.body.cell2 			? new_user.cell_2 			= req.body.cell2.trim()					: new_user.cell_2				= '';
 
 		new_user.policy					= '',
 		new_user.beneficiary		= '',
@@ -235,25 +235,27 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 		console.log('4 new_user', new_user);
 		if (!new_user.title || !new_user.name || !new_user.surname || 
 			!new_user.national_id || !new_user.birth || !new_user.gender || !new_user.address || 
-			!new_user.status || !new_user.email || !new_user.cell_1) {
+			!new_user.status
+			//  || !new_user.email || !new_user.cell_1
+			) {
 				console.log('F user:');
-				console.log('\ntitle ', !new_user.title, new_user.title);
-				console.log('\nname ', !new_user.name, new_user.name );
-				console.log('\nsurname ', !new_user.surname, new_user.surname  );
-				console.log('\nnat_id ', !new_user.national_id, new_user.national_id );
-				console.log('\nbirth ', !new_user.birth, new_user.birth);
-				console.log('\ngender ', !new_user.gender, new_user.gender );
-				console.log('\naddress ', !new_user.address, new_user.address );
-				console.log('\nstatus ', !new_user.status, new_user.status );
-				console.log('\nemail ', !new_user.email, new_user.email);
-				console.log('\ncell_1 ', !new_user.cell_1, new_user.cell_1);
-			res.status(404);
+				console.log('\ntitle ', !(!new_user.title), new_user.title);
+				console.log('\nname ', !(!new_user.name), new_user.name );
+				console.log('\nsurname ', !(!new_user.surname), new_user.surname  );
+				console.log('\nnat_id ', !(!new_user.national_id), new_user.national_id );
+				console.log('\nbirth ', !(!new_user.birth), new_user.birth);
+				console.log('\ngender ', !(!new_user.gender), new_user.gender );
+				console.log('\naddress ', !(!new_user.address), new_user.address );
+				console.log('\nstatus ', !(!new_user.status), new_user.status );
+				console.log('\nemail ', !(!new_user.email), new_user.email);
+				console.log('\ncell_1 ', !(!new_user.cell_1), new_user.cell_1);
+				res.send({success: false, msg: 'One or more missing Important fields'});
 		} else {
 			console.log('S user:', new_user);
 			db_create('users', new_user, (err, data) => {
 				console.log('New User > \n\t\tdata: ', data);
 				data ?
-				res.send({success: true, data: data.insertId, msg: 'User regidered'}):
+				res.send({success: true, data: data.insertId, msg: 'User registered'}):
 				res.send({success: false, msg: 'Error registering user'});
 			});
 		}
@@ -295,7 +297,7 @@ router.post('/update-client', authUser, authClents.update(), (req, res) => {
 		db_update('users', {_id}, update_user, (err, data) => {
 			console.log('New User > \n\t\tdata: ', data);
 			data ?
-			res.send({success: true, data, msg: 'User regidered'}):
+			res.send({success: true, data, msg: 'User information updataed'}):
 			res.send({success: false, msg: 'Error registering user'});
 		});
 	}
