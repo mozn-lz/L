@@ -120,10 +120,12 @@ $('#order, #sort').change((e) => {
 	fetch_data('');
 });
 
-$(document).ready(() => fetch_data(''));
+$(document).ready(() => {
+	fetch_data('')
+	($(document).height() - $(document).scrollTop() < 2000 & retrive) ? fetch_data(''):0;
+});
 
 $(document).scroll(() => {
-	if ($(document).height() - $(document).scrollTop() < 2000 & retrive) {
-		fetch_data('');
-	}
+	($(document).height() - $(document).scrollTop() < 2000 & retrive) ? fetch_data(''): 0;
+	($('#results').height() < $('#main').height() && retrive) ? fetch_data(''):0;
 });
