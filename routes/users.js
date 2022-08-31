@@ -248,7 +248,7 @@ router.post('/remove', authUser, authAdmin.remove(), (req, res, next) => {
 		res.redirect('/');
 	}
 });
-router.post('/update', authUser, authAdmin.update, (req, res, next) => {
+router.post('/update', authUser, authAdmin.update(), (req, res, next) => {
 	console.log("\n ** ** ** ** ** ** MESSAGE RECIEVED ** ** ** ** ** ** * \n", req.body, '\n');
 	if (req.body.upadteUser) {
 		const id = req.body.id;
