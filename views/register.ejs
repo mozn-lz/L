@@ -80,7 +80,7 @@
 								</div>
 								<div class="form-group">
 									<label for="addres">Physical Addres *</label>
-									<textarea name="address" id="address" cols="30" rows="3" placeholder="Physical Address" class="form-control" required></textarea>
+									<textarea name="address" id="address" cols="30" rows="3" placeholder="Physical Address" class="form-control"></textarea>
 								</div>
 							</div>
 							<div class="">
@@ -134,7 +134,7 @@
 			</div>
 			<div class="tab-pane fade" id="policy" role="tabpanel" aria-labelledby="policy-tab">
 				<form id="policyForm">
-					<fieldset class="row p-3">
+					<div class="row p-3">
 						<legend>Policy</legend>
 						<table class="table">
 							<thead>
@@ -198,7 +198,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</fieldset>
+					</div>
 					<div class="row">
 						<!-- <button class="btn btn-primary col-sm-5 p-2 active" id="personal-details-tab" data-bs-toggle="tab" data-bs-target="#personal-details" type="button" role="tab" aria-controls="personal-details" aria-selected="true">< Back</button> -->
 						<!-- <div class="col-sm-2"></div> -->
@@ -211,7 +211,7 @@
 			</div>
 			<div class="tab-pane fade" id="persons-cover" role="tabpanel" aria-labelledby="persons-cover-tab">
 				<form id="beneficiaryForm">
-					<fieldset class="row p-3">
+					<div class="row p-3">
 						<legend>PERSONS ON COVER</legend>
 						<!-- Button trigger modal -->
 						<!-- <a href=""><button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#add-person">Add</button></a> -->
@@ -270,7 +270,7 @@
 								</table>
 							</div>
 						</div>
-					</fieldset>
+					</div>
 					<div class="row">
 						<!-- <button class="btn btn-primary col-sm-5 p-2 m-2"  type="button">< Policy</button> -->
 						<div class="col-sm-5 p-2 m-2">
@@ -350,6 +350,7 @@
 		</form>
 	</div>
 	<script>
+	const showMessage = $('#showMessage');
 	let loadUser = (user) => {
 		if (user.name) {
 		$('#userboard').html(
@@ -508,22 +509,36 @@
 			url,
 			type: 'POST',
 			data: $('#idintityForm').serialize(),
-			success: data => {
-				console.log('data: ', data);
-				console.log('data: ', data.data, !isNaN(data.data));
+			success: result => {
+				console.log('data: ', result);
+				console.log('data: ', result.data, !isNaN(result.data));
 				// save data
-				if (!isNaN(data.data)) {
-					const user_id = `<input type="text" name="tmp_reg_id" value="${data.data}">`;
-					window.location.href =('/register/' + data.data);
-					$('#addMemberForm').append(user_id);
-					$('#idintityForm').append(user_id);
-					$('#policyForm').append(user_id);
-					$('#beneficiaryForm').append(user_id);
-					$('#policy-tab').click();
+				let msg = '';
+				if (result.success) {
+					result.msg ? msg = msg = result.msg : msg = 'Policies saved to database';
+					if (!isNaN(result.data)) {
+						const user_id = `<input type="text" name="tmp_reg_id" value="${result.data}">`;
+						window.location.href =('/register/' + result.data);
+						$('#addMemberForm').append(user_id);
+						$('#idintityForm').append(user_id);
+						$('#policyForm').append(user_id);
+						$('#beneficiaryForm').append(user_id);
+					}
+					(result.user) ? loadUser(result.user): 0;
+
+					showMessage.html(`
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<div>${msg}</div>
+						</div>`);
+				} else {
+					result.msg ? msg = msg = result.msg : msg = 'Invalid credentials';
+					showMessage.html(`
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<div">${msg}</div>
+						</div>`);
 				}
-				if (data.user) {
-					loadUser(data.user);
-				}
+				showMessage.show( 2000 );
+				setTimeout(() => { showMessage.hide(2000); }, 2500);
 			},
 			error: e=> console.log('Personal Details Error: \n', e)
 		});
@@ -536,10 +551,9 @@
 			data: $('#policyForm').serialize(),
 			success: result =>{
 				console.log('#policyForm: ', result);
-				const showMessage = $('#showMessage');
 				let msg = '';
 				if (result.success) {
-					setTimeout(() => { $('#persons-cover-tab').click();
+					setTimeout(() => {
 					location.reload(); 
 				}, 2500);
 					result.msg ? msg = msg = result.msg : msg = 'Policies saved to database';
@@ -568,6 +582,20 @@
 			data: $('#beneficiaryForm').serialize(),
 			success: data => {
 				console.log(`#beneficiaryForm: `, data);
+				if (data.success) {
+					window.location.href =('/' + data.data);
+				} else {
+					let msg = '';
+					data.msg ? msg = msg = data.msg : msg = 'Invalid credentials';
+					showMessage.html(`
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<div">${msg}</div>
+						</div>`);
+				}
+				showMessage.show( 2000 );
+				setTimeout(() => {
+					showMessage.hide(2000);
+				}, 2500);
 			},
 			error: e=> console.log('Persons on Cover Error: ', e)
 		});
@@ -683,10 +711,6 @@
 				// loadPersonsOnCover(policy);
 				loadUser(user);
 				
-				
-				displayPolicy(policy)
-				loadMembers(members, policy);
-	
 				if (!isNaN(user._id)) {
 					const user_id = `<input type="hidden" name="tmp_reg_id" value="${user._id}">`;
 					$('#addMemberForm').append(user_id);
@@ -695,6 +719,16 @@
 					$('#policyForm').append(user_id);
 					$('#beneficiaryForm').append(user_id);
 				}
+				if (policy && policy.length) {
+					console.log(true);
+					displayPolicy(policy);
+					members && members.length ? loadMembers(members, policy) : $('#persons-cover-tab').click();
+				} else {
+					console.log(false);
+					$('#policy-tab').click();
+				}
+
+	
 			'<% } %>'
 		});
 </script>
