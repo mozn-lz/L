@@ -24,23 +24,23 @@
 	<div id="userboard"></div>
 	<form id="registerForm" class="row p-3" autocomplete="off">
 		<div class="form-group col-md-6">
-			<label for="name">name</label>
+			<label for="name">name *</label>
 			<input class="form-control" type="text" name="name" id="name" placeholder="name" value="<%= a_user.name %>">
 		</div>
 		<div class="form-group col-md-6">
-			<label for="surname">surname</label>
+			<label for="surname">surname *</label>
 			<input class="form-control" type="text" name="surname" id="surname" placeholder="surname" value="<%= a_user.surname %>">
 		</div>
 		<div class="col-12 row text-center">
 			<div class="form-group col-md-3"></div>
 			<div class="form-group col-md-6">
-				<label for="username">Username</label>
+				<label for="username">Username *</label>
 				<input class="form-control" type="text" name="username" id="username" placeholder="Username" value="<%= a_user.username %>">
 			</div>
 			<div class="form-group col-md-3"></div>
 		</div>
 		<div class="form-group col-md-4">
-			<label for="cell_1">cell_1</label>
+			<label for="cell_1">cell_1 *</label>
 			<input class="form-control" type="text" name="cell1" id="cell1" placeholder="cell_1" value="<%= a_user.cell_1 %>">
 		</div>
 		<div class="form-group col-md-4">
@@ -60,18 +60,17 @@
 			<input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="confirmPassword">
 		</div>
 		<% if (a_user) { %>
-			<input type="hidden" name="id" value="<%= a_user._id %>">
+			<input type="hidden" id="userId" name="id" value="<%= a_user._id %>">
 			<input type="hidden" id="upadteUser" name="upadteUser" value="true">
-			<div class="text-center"><button class="btn btn-primary">Update</button></div>
+			<div class="text-center"><button type="submit" class="btn btn-primary">Update</button></div>
 		<% } else { %>
 			<input type="hidden" id="register" name="register" value="true">
-			<div class="text-center"><button class="btn btn-primary">Register</button></div>
+			<div class="text-center"><button type="submit" class="btn btn-primary">Register</button></div>
 		<% } %>
 	</form>
 </div>
 
 <script>
-	let user = {}
 	let username= () => /^[a-zA-Z]{2,20}\w$/.test($('#username').val().trim());
 	let name = () => /^[a-zA-Z]{2,14}\w$/.test($('#name').val().trim());
 	let surname = () => /^[a-zA-Z]{2,14}\w$/.test($('#surname').val().trim());
@@ -84,16 +83,16 @@
 	$('#registerForm').submit((e) => {
 		e.preventDefault();
 
-		console.log('necpp', name(), email(), password(), password2());
+		console.log('necpp',  name(), surname(), username());
 
 		const showMessage = $('#showMessage');
 		if (name() && surname() && username()) {
-			$.ajax({
-				<% if (a_user) { %>
-					url: 'http://172.105.204.217/update',
-				<% } else { %>
-					url: 'http://172.105.204.217/adminregister',
-				<% }  %>
+			let url='';
+
+				$('#userId')? url = 'http://localhost:3000/update' : url = 'http://localhost:3000/adminregister';
+
+				$.ajax({
+				url,
 				type: 'POST',
 				data: $('#registerForm').serialize(),
 				success: (result) => {
