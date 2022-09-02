@@ -209,9 +209,9 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 		req.body.address		? new_user.address 			= req.body.address.trim().toUpperCase()				: new_user.address			= null;
 		req.body.nat_id 		? new_user.national_id 	= req.body.nat_id.trim()				: new_user.national_id	= null;
 		req.body.birth 			? new_user.birth 				= req.body.birth.trim()					: new_user.birth				= null;
-		req.body.email 			? new_user.email 				= req.body.email.trim()					: new_user.email				= '';
-		req.body.cell1 			? new_user.cell_1 			= req.body.cell1.trim()					: new_user.cell_1				= '';
-		req.body.cell2 			? new_user.cell_2 			= req.body.cell2.trim()					: new_user.cell_2				= '';
+		req.body.email 			? new_user.email 				= req.body.email.trim()					: new_user.email				= null;
+		req.body.cell1 			? new_user.cell_1 			= req.body.cell1.trim()					: new_user.cell_1				= null;
+		req.body.cell2 			? new_user.cell_2 			= req.body.cell2.trim()					: new_user.cell_2				= null;
 
 		new_user.policy					= '',
 		new_user.beneficiary		= '',
