@@ -36,17 +36,7 @@ router.get('/edit-admin', authUser, authAdmin.create(), (req, res) => {
 router.get('/login', function(req, res, next) {
 		regusrs();	// generate users
 		gen_db_read(table, '').then(users => {	//	for sample data
-			users = [
-				users[0],
-				users[1],
-				users[2],
-				users[3],
-				users[4],
-				users[5],
-				users[6],
-				users[7],
-				users[8],
-			]
+			users.length = 9;
 			res.render('login', { user: req.session.user, users, title: 'Login', page: 'Login', role: '' });
 		});
 });
