@@ -28,3 +28,6 @@ form div {
   position: fixed;
   z-index: 30000;
 }
+.form-group {
+  padding-bottom: 10px;
+}
