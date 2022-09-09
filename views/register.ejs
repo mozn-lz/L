@@ -2,25 +2,15 @@
 <%- include('./frame/menu.ejs') %>
 
 <style>
-	form {
-		display: grid;
-		place-items: center;
-		padding-bottom: 30px;
-	}
-		
-	.form-group {
-		margin-bottom: 15px;
-	}
-		
-	fieldset {
-		padding-bottom: 20px;
-	}
-	label {
-		padding: 3px;
-	}
 </style>
 <div id="main">
-	<h2 class="text-center">Register</h2>
+	<div>
+		<a href="http://172.105.204.217" class="icon button btn text-center">
+			<i class="bi bi-backspace-fill"></i>
+			<div class="label">Back</div>
+		</a>
+		<div class="text-center fs-2">Register</div>
+	</div>
 	<div id="userboard"></div>
 	<!-- <form id="registerForm"> -->
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -239,8 +229,8 @@
 					</div>
 					<div class="row">
 						<!-- <button class="btn btn-primary col-sm-5 p-2 m-2"  type="button">< Policy</button> -->
-						<div class="col-sm-5 p-2 m-2">
-							<button type="submit" class="btn btn-success ">Save</button>
+						<div class="col-sm-5 p-2 m-3">
+							<button type="submit" href="http://172.105.204.217" class="btn btn-success p-2 ">Done</button>
 						</div>
 					</div>
 					<input type="hidden" value="t" name="beneficiaryForm">
