@@ -12,11 +12,8 @@
 					<td>Name</td>
 					<td>Code</td>
 					<td>Description</td>
-					<td>Premium 1</td>
-					<td>Premium 2</td>
-					<td>Premium 3</td>
-					<td>Premium 4</td>
 					<td>Memebers</td>
+					<td>Premium</td>
 				</tr>
 			</thead>
 			<tbody class="policy">
@@ -26,11 +23,8 @@
 						<td><%= policy.name %></td>
 						<td><%= policy.code %></td>
 						<td><%= policy.description %></td>
-						<td><%= policy.option1 %></td>
-						<td><%= policy.option2 %></td>
-						<td><%= policy.option3 %></td>
-						<td><%= policy.option4 %></td>
 						<td><%= policy.members %></td>
+						<td><%= policy.premium %></td>
 					</tr>
 				<% }) %>
 			</tbody>
@@ -115,11 +109,8 @@
 							<td>${policy.name}</td>
 							<td>${policy.code}</td>
 							<td>${policy.description}</td>
-							<td>${policy.option1}</td>
-							<td>${policy.option2}</td>
-							<td>${policy.option3}</td>
-							<td>${policy.option4}</td>
 							<td>${policy.members}</td>
+							<td>${policy.premium}</td>
 						</tr>`);
 						});
 						// const policy = result.data[i]

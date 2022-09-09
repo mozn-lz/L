@@ -5,56 +5,24 @@ const { db_create, db_update, db_read, db_delete } = require("./db_helper");
 const { findUserById, gen_db_read } = require("./gen_helper");
 const router = express.Router();
 
-let selectPolicy = (findPolicy) => {
-	console.log('select Policy ', findPolicy);
-	return new Promise((res, rej) => {
-		switch (findPolicy) {
-			case 'op1': res('op1');
-			case 'op2': res('op2');
-			case 'op3': res('op3');
-			case 'op4': res('op4');
-			case 'fp1': res('fp1');
-			case 'fp2': res('fp2');
-			case 'fp3': res('fp3');
-			case 'fp4': res('fp4');
-			case 'pntU65_1': res('pntU65_1');
-			case 'pntU65_2': res('pntU65_2');
-			case 'pntU65_3': res('pntU65_3');
-			case 'pntU65_4': res('pntU65_4');
-			case 'pntO65_1': res('pntO65_1');
-			case 'pntO65_2': res('pntO65_2');
-			case 'pntO65_3': res('pntO65_3');
-			case 'pntO65_4': res('pntO65_4');
-			case 'xf1': res('xf1');
-			case 'xf2': res('xf2');
-			case 'xf3': res('xf3');
-			case 'xf4': res('xf4');
-			case 'rep1': res('rep1');
-			case 'rep2': res('rep2');
-			case 'rep3': res('rep3');
-			case 'rep4': res('rep4');
-			case 'repSp1': res('repSp1');
-			case 'repSp2': res('repSp2');
-			case 'repSp3': res('repSp3');
-			case 'repSp4': res('repSp4');
-	
-			default: rej(null);
-		}
-	});
-}
-
 let validatePolicy = (policies => {
 	const policyArr = Object.values(policies);
-	const maxArray  = policyArr.length - 2;
+	const maxArray  = policyArr.length-2;
 	let policys = [];
+	let policyOb = [];
 
 	return new Promise((res, rej) => {
 		for (let i = 0; i < maxArray; i++) {
 			const findPolicy = policyArr[i];
-			const err = `Policy code: "${findPolicy}" is invalid`
-			selectPolicy(findPolicy).then(validPolicy => {
-				!validPolicy ? rej(err) : policys.push(validPolicy);
-				i+1 == maxArray ? res(JSON.stringify(policys)) : 0;
+			const err = `Policy code: "${findPolicy}" is invalid`;
+
+			console.log(findPolicy)
+			gen_db_read('policy', {code:findPolicy}).then(validPolicy => {
+				validPolicy= validPolicy[0];
+				console.log(i, maxArray, `' validPolicy '${validPolicy.premium} `, validPolicy.code);
+				!validPolicy ? rej(err) : policys.push(validPolicy.code);
+				!validPolicy ? rej(err) : policyOb.push(validPolicy);
+				i+1 == maxArray ? res([ (policys), (policyOb) ]) : 0;
 			}).catch(e => rej(err));
 		}
 	});
@@ -62,7 +30,10 @@ let validatePolicy = (policies => {
 
 // new policy holders
 router.get('/register', authUser, authClents.create(), function(req, res, next) {
-	res.render('register', { user: req.session.user, polyicyHldr: null, members: null , title: 'Register', page: 'Register', role: '' });
+	gen_db_read('policy', '').then(policyList => {
+		res.render('register', { user: req.session.user, polyicyHldr: null, policyList, members: null , title: 'Register', page: 'Register', role: '' });
+	})
+	.catch(e => null)
 });
 
 // edit policies
@@ -70,17 +41,19 @@ router.get('/register/:id', authUser, authClents.update(), function(req, res, ne
 	const _id = req.params.id;
 
 	console.log('register/:id ' + _id);
-	Promise.all([findUserById(_id), gen_db_read('members', { policy_holder: _id })])
+	Promise.all([findUserById(_id), gen_db_read('members', { policy_holder: _id }), gen_db_read('policy', '')])
 	.then ((data) => {
 		let polyicyHldr = data[0];
 		let members = data[1];
+		let policyList = data[2];
+		console.log('policies: ', policyList);
 		console.log(polyicyHldr, polyicyHldr.policy);
 		polyicyHldr.policy ? polyicyHldr.policy = JSON.parse(polyicyHldr.policy): polyicyHldr.policy = [];
 		console.log(polyicyHldr);
 		console.log('members ', typeof(members), Array.isArray(members), members);
 		console.table(members)
 		console.table(members[0])
-		res.render('register', { user: req.session.user, polyicyHldr, members, title: 'Register', page: 'Register', role: '' });
+		res.render('register', { user: req.session.user, polyicyHldr, members, policyList, title: 'Register', page: 'Register', role: '' });
 	}).catch(e => {console.log(e);res.redirect('/')})
 });
 
@@ -94,18 +67,13 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 			console.log('** policyForm **');
 			validatePolicy(req.body).then(policy => {
 				if (policy) {
+					let policy_payment = 0;
+					poicyOB = policy[1];
+					poicyOB.forEach(ob => { console.log(policy_payment, ob.premium); policy_payment+= Number(ob.premium);  console.log(policy_payment, ob.premium);});
+
 					console.log('policy found', policy);
-					db_update('users', { _id }, { policy }, (err, data) => {
-						const policy_obj = {
-							name: 'Family Cover (max. 5 children)',
-							members: 5,
-							price: 20,
-							Repatriation: {
-								Repatriation: true,
-								price: 20
-							}
-						};
-						res.send({ success: true, data: {policy: policy_obj}, meg: 'Policy updated' });
+					db_update('users', { _id }, { policy: JSON.stringify(policy[0]), 	policy_payment }, (err, data) => {
+						res.send({ success: true, data: {policy: policy[1]}, meg: 'Policy updated' });
 					});
 				} else {
 					console.log('No policy');
@@ -144,27 +112,37 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 			new_member.beneficiary = false;
 
 			if (new_member.title && new_member.name && new_member.surname && new_member.initials && new_member.policy &&
-					new_member.birth && new_member.relationship && new_member.phone && new_member.policy_holder) {
-
+				// new_member.birth && 
+				// new_member.relationship && new_member.phone && 
+				new_member.policy_holder) {
+					
 				// console.log('ner Member: ', new_member);
 
-				findUserById(new_member.policy_holder).then(policyHolder => {
+				Promise.all([
+					gen_db_read('policy', {code: new_member.policy}), 
+					gen_db_read('members', {policy: new_member.policy, policy_holder: new_member.policy_holder}), 
+					findUserById(new_member.policy_holder)
+				]).then(result => {
+					const policy = result[0][0];
+					const members = result[1];
+					const user = result[2];
 					// user.members = JSON.parse(user.members);
 
+					if (policy.memebers < members.length)
 					db_create('members',new_member, (err, data) => {
 						if (!data) {
 							res.send({success: false, msg: 'Cannot find policy'});
 						} else {
 							db_read('members', {policy_holder: new_member.policy_holder}, (err, members) => {
 								members ?
-								res.send({success: true, data: members, policy: policyHolder.policy, msg: 'User saved'}):
+								res.send({success: true, data: members, policy: user.policy, msg: 'User saved'}):
 								res.send({success: false, msg: 'could not save new policy member'});
 							});
 						}
 					});
 				}).catch(e => {res.send({success: false, msg: 'Policy holder not found'});});
 			} else {
-				res.send('Missing/Invalid information');
+				res.send({success: false, msg:'Missing/Invalid information'});
 			}
 		} 
 		else if (req.body.editMember || req.body.deleteMember) {
