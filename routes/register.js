@@ -120,26 +120,28 @@ router.post('/register', authUser, authClents.create(), (req, res, next) => {
 
 				Promise.all([
 					gen_db_read('policy', {code: new_member.policy}), 
-					gen_db_read('members', {policy: new_member.policy, policy_holder: new_member.policy_holder}), 
+					gen_db_read('members', [{policy: new_member.policy}, {policy_holder: new_member.policy_holder}]), 
 					findUserById(new_member.policy_holder)
 				]).then(result => {
 					const policy = result[0][0];
 					const members = result[1];
 					const user = result[2];
-					// user.members = JSON.parse(user.members);
 
-					if (policy.memebers < members.length)
-					db_create('members',new_member, (err, data) => {
-						if (!data) {
-							res.send({success: false, msg: 'Cannot find policy'});
-						} else {
-							db_read('members', {policy_holder: new_member.policy_holder}, (err, members) => {
-								members ?
-								res.send({success: true, data: members, policy: user.policy, msg: 'User saved'}):
-								res.send({success: false, msg: 'could not save new policy member'});
-							});
-						}
-					});
+					if (policy.members > members.length) {
+						db_create('members',new_member, (err, data) => {
+							if (!data) {
+								res.send({success: false, msg: 'Cannot find policy'});
+							} else {
+								db_read('members', {policy_holder: new_member.policy_holder}, (err, members) => {
+									members ?
+									res.send({success: true, data: members, policy: user.policy, msg: 'User saved'}):
+									res.send({success: false, msg: 'could not save new policy member'});
+								});
+							}
+						});
+					} else {
+						res.send({success: false, msg: 'Maximum users reached'});
+					}
 				}).catch(e => {res.send({success: false, msg: 'Policy holder not found'});});
 			} else {
 				res.send({success: false, msg:'Missing/Invalid information'});
