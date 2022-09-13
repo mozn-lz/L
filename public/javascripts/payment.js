@@ -189,7 +189,7 @@ $('#amount').keyup(() => {
 	paid = $('#amount').val();
 	const valid_pay = () => !isNaN(paid);
 
-	if (valid_pay() && paid > 0) {
+	if (valid_pay() && paid > 0 && policy > 0) {
 		newPayment.amount = Number(paid);
 		$('#amount').css('border', '#198754 solid 2px');
 		ft_calculatePayment();
