@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 module.exports.regusrs = () => {
   console.log('* *  * * reg - users');
   let users = [];
-  let maxUSers = 500;
+  let maxUSers = 10;
   db_read('users', 1, (err, count) => {
     // console.log(count.length);
     if (count.length < maxUSers) {
@@ -34,8 +34,8 @@ module.exports.regusrs = () => {
           policy: faker.faker.helpers.arrayElement([
             '["op1"]', '["op2"]', '["op3"]', '["op4"]', 
             '["fp1"]', '["fp2"]', '["fp3"]', '["fp4"]', 
-            '["pntU65_1"]', '["pntU65_2"]', '["pntU65_3"]', '["pntU65_4"]', 
-            '["pntO65_1"]', '["pntO65_2"]', '["pntO65_3"]', '["pntO65_4"]', 
+            '["pntU651"]', '["pntU652"]', '["pntU653"]', '["pntU654"]', 
+            '["pntO651"]', '["pntO652"]', '["pntO653"]', '["pntO654"]', 
             '["xf1"]', '["xf2"]', '["xf3"]', '["xf4"]', 
             '["rep1"]', '["rep2"]', '["rep3"]', '["rep4"]', 
             '["repSp1"]', '["repSp2"]', '["repSp3"]', '["repSp4"]']),
