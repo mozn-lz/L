@@ -140,7 +140,12 @@
 								<% let k = 0%>
 								<% for(let i = 0; i < 7;i++){ %>
 									<tr>
-										<td><b><%= policyList[k].name %></td>
+										<td>
+											<b><%= policyList[k].name %>
+												<br>
+												<small class="text-muted"><%= policyList[k].description %> (<%= policyList[k].members %>)</small>
+											</b>
+										</td>
 											<% for(let j = 0; j < 4;j++){ %>
 												<% let policy = policyList[k]; %>
 												<%if (policy.premium){ %>
@@ -256,7 +261,7 @@
 							<div class="row">
 									<div class="row">
 											<div class="form-group col-md-2">
-													<label for="memberTitle">Title</label>
+													<label for="memberTitle">Title *</label>
 													<!-- <input class="form-control" type="text" id="memberTitle" name="memberTitle" placeholder="Title"> -->
 													<select class="form-select" name="memberTitle" id="memberTitle" aria-label="Title" required>
 														<option selected disabled value="">Select Tittle</option>
@@ -266,26 +271,26 @@
 													</select>
 											</div>
 											<div class="form-group col-md-4">
-													<label for="memberSurname">Surname</label>
-													<input class="form-control" type="text" id="memberSurname" name="memberSurname" placeholder="Surname">
+													<label for="memberSurname">Surname *</label>
+													<input class="form-control" type="text" id="memberSurname" name="memberSurname" placeholder="Surname" required>
 											</div>
 											<div class="form-group col-md-4">
-													<label for="memberName">First Name</label>
-													<input class="form-control" type="text" id="memberName" name="memberName" placeholder="Name">
+													<label for="memberName">First Name *</label>
+													<input class="form-control" type="text" id="memberName" name="memberName" placeholder="Name" required>
 											</div>
 											<div class="form-group col-md-2">
-													<label for="memberInitials">Initials</label>
-													<input class="form-control" type="text" id="memberInitials" name="memberInitials" placeholder="Initials">
+													<label for="memberInitials">Initials *</label>
+													<input class="form-control" type="text" id="memberInitials" name="memberInitials" placeholder="Initials" required>
 											</div>
 									</div>
 									<div class="form-group col">
-											<label for="relationship">Relationship to Member</label>
-											<input class="form-control" type="text" id="relationship" name="relationship" placeholder="Relationship">
+											<label for="relationship">Relationship to Member *</label>
+											<input class="form-control" type="text" id="relationship" name="relationship" placeholder="Relationship" required>
 									</div>
 									<div class="row">
 											<div class="form-group col-12">
-													<label for="memberBirth">Date of Birth</label>
-													<input class="form-control" type="date" id="memberBirth" name="memberBirth" placeholder="Date">
+													<label for="memberBirth">Date of Birth *</label>
+													<input class="form-control" type="date" id="memberBirth" name="memberBirth" placeholder="Date" required>
 											</div>
 											<div class="form-group col-12">
 													<label for="Phone">Phone Number</label>
